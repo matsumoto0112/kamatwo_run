@@ -16,6 +16,5 @@ public class Enemy : WrappableObject
     // Update is called once per frame
     void Update()
     {
-        this.transform.position += new Vector3(0, 0, -10) * Time.deltaTime;
     }
 }

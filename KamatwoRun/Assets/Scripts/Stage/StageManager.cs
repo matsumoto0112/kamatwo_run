@@ -29,10 +29,7 @@ public class StageManager : MonoBehaviour
 
         for (int i = 0; i < 3; i++)
         {
-            SubStage prevStage = subStages.Last();
-            Vector3 spawnPosition = prevStage.transform.position + new Vector3(0, 0, SubStageUnit);
-            GameObject newObject = Instantiate(subStagePrefabs[0], spawnPosition, Quaternion.identity);
-            subStages.Add(newObject.GetComponent<SubStage>());
+            SpawnNextSubStage();
         }
     }
 
@@ -67,7 +64,9 @@ public class StageManager : MonoBehaviour
         SubStage prevStage = subStages.Last();
         Vector3 spawnPosition = prevStage.transform.position + new Vector3(0, 0, SubStageUnit);
         GameObject newObject = Instantiate(subStagePrefabs[0], spawnPosition, Quaternion.identity);
-        subStages.Add(newObject.GetComponent<SubStage>());
+        SubStage newSubStage = newObject.GetComponent<SubStage>();
+        newSubStage.SpawnObjects(5);
+        subStages.Add(newSubStage);
     }
 
     public Vector3 GetForegroundDirection(Vector3 checkPosition)

@@ -38,6 +38,8 @@ public class SubStage : MonoBehaviour
 
     //コリジョン
     private BoxCollider boxCollider;
+    //レーン配列
+    private List<Lane> lanes;
 
 
     /// <summary>
@@ -64,26 +66,49 @@ public class SubStage : MonoBehaviour
     }
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         boxCollider = GetComponent<BoxCollider>();
         spawnedObjects = new List<GameObject>();
+        lanes = new List<Lane>();
+        foreach (var lane in GetComponentsInChildren<Lane>())
+        {
+            lanes.Add(lane);
+        };
 
-        //ランダムな数、敵を生成する
-        int spawnNum = Random.Range(1, 2);
+        Assert.IsNotNull(boxCollider, "BoxColliderがアタッチされていません");
+    }
+
+    /// <summary>
+    /// オブジェクトをスポーンする
+    /// </summary>
+    /// <param name="spawnNum"></param>
+    public void SpawnObjects(int spawnNum)
+    {
         for (int i = 0; i < spawnNum; i++)
         {
             //ランダムなレーン番号を取得する
-            int laneNum = Random.Range(0, 3);
-            Vector3 basePosition = this.transform.position + new Vector3(0.0f, 1.0f, 0.0f);
-            Vector3 laneOffset = (laneNum - (stageParameter.laneNum / 2)) * new Vector3(stageParameter.stageWidth / 4.0f, 0, 0);
-            Vector3 spawnPosition = basePosition + laneOffset;
+            int laneNum = Random.Range(0, lanes.Count);
 
-            GameObject obj = Instantiate(stageObjects[0], spawnPosition, Quaternion.identity, this.transform);
-            spawnedObjects.Add(obj);
+            //そのレーンで生成可能な座標を取得する
+            Vector3 spawnPosition = lanes[laneNum].GetRandomSpawnPoint();
+            //敵が立つことを考えて少し上にずらす
+            Vector3 enemyStandPosition = spawnPosition + Vector3.up;
+
+            //同じ座標に生成しないようにテストする
+            bool spawnTestSucceeded = true;
+            foreach (var spawned in spawnedObjects)
+            {
+                //同じ座標値なら失敗とする
+                if (Vector3.Distance(spawned.transform.position, enemyStandPosition) < Mathf.Epsilon) { spawnTestSucceeded = false; }
+            }
+            if (spawnTestSucceeded)
+            {
+                int spawnType = Random.Range(0, stageObjects.Count);
+                GameObject obj = Instantiate(stageObjects[spawnType], enemyStandPosition, Quaternion.identity, this.transform);
+                spawnedObjects.Add(obj);
+            }
         }
-
-        Assert.IsNotNull(boxCollider, "BoxColliderがアタッチされていません");
     }
 
     // Update is called once per frame

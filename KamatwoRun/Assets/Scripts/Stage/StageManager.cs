@@ -8,12 +8,14 @@ public class StageManager : MonoBehaviour
     [SerializeField]
     private List<GameObject> subStagePrefabs;
 
+    //ゲーム速度管理
     private GameSpeed gameSpeed;
 
     //生成されたサブステージ群
     private List<SubStage> subStages;
 
-    private readonly float SubStageUnit = 50.0f;
+    //サブステージの正方形の一辺の長さ
+    private static readonly float SubStageUnit = 50.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -27,13 +29,14 @@ public class StageManager : MonoBehaviour
             subStages.Add(newObject.GetComponent<SubStage>());
         }
 
-        for (int i = 0; i < 3; i++)
+        //事前作成ステージ数
+        const int preSpawnSubStageNum = 3;
+        for (int i = 0; i < preSpawnSubStageNum; i++)
         {
             SpawnNextSubStage();
         }
     }
 
-    // Update is called once per frame
     void Update()
     {
         Vector3 scrollDirection = GetForegroundDirection(Vector3.zero);

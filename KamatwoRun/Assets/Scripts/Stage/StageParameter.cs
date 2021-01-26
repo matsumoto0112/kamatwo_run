@@ -13,4 +13,10 @@ public class StageParameter : ScriptableObject
 
     //デフォルトでの移動速度
     public float defaultStageMoveSpeed = 15.0f;
+
+    //地面の高さ
+    public float groundPosition_Y = 1.0f;
+
+    //空中の高さ
+    public float skyPosition_Y = 10.0f;
 }

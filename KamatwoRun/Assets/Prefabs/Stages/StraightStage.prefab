@@ -47,9 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddb68d16b93e1974897c90d80fd20b84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stageObjects:
-  - {fileID: 6843755663737543983, guid: e0aea68dd039f044f970b57c2bd31856, type: 3}
-  - {fileID: 4217905819163920664, guid: e48c2017aa36a104c9dcc51cb49fa57e, type: 3}
+  stageObjects: {fileID: 11400000, guid: 8a08514fa789049429cc47b9fa13df86, type: 2}
   stageParameter: {fileID: 11400000, guid: b6a389dc0f68e4648a089d8e62d60045, type: 2}
   entranceType: 1
   exitType: 0

@@ -9,11 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ea1b54089852d5b44a0cf29ef82da4d0, type: 3}
-  m_Name: StageParameter
-  m_EditorClassIdentifier: 
-  laneNum: 3
-  stageWidth: 6
-  defaultStageMoveSpeed: 15
-  groundPosition_Y: 1
-  skyPosition_Y: 3
+  m_Script: {fileID: 11500000, guid: bdc4ccf11a460c646a3328a95580c7e7, type: 3}
+  m_Name: ScoreObjectParameter
+  m_EditorClassIdentifier: Assembly-CSharp::ScoreObjectInfo
+  score: 100

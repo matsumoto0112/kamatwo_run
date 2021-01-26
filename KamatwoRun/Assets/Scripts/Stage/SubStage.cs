@@ -21,7 +21,7 @@ public class SubStage : MonoBehaviour
     }
 
     [SerializeField, Tooltip("配置可能なオブジェクトリスト")]
-    private List<GameObject> stageObjects;
+    private SpawnObjectsParameter stageObjects;
 
     //生成済みオブジェクト
     private List<GameObject> spawnedObjects;
@@ -40,7 +40,6 @@ public class SubStage : MonoBehaviour
     private BoxCollider boxCollider;
     //レーン配列
     private List<Lane> lanes;
-
 
     /// <summary>
     /// カメラの範囲内かどうか
@@ -79,6 +78,30 @@ public class SubStage : MonoBehaviour
         Assert.IsNotNull(boxCollider, "BoxColliderがアタッチされていません");
     }
 
+    private float GetYOffset(PlacementType type)
+    {
+        switch (type)
+        {
+            case PlacementType.OnlyGround:
+                return stageParameter.groundPosition_Y;
+            case PlacementType.OnlySky:
+                return stageParameter.skyPosition_Y;
+            case PlacementType.GroundOrSky:
+                {
+                    if (Random.Range(0.0f, 1.0f) < 0.5f)
+                    {
+                        return stageParameter.groundPosition_Y;
+                    }
+                    else
+                    {
+                        return stageParameter.skyPosition_Y;
+                    }
+                }
+            default:
+                return 0.0f;
+        }
+    }
+
     /// <summary>
     /// オブジェクトをスポーンする
     /// </summary>
@@ -90,22 +113,23 @@ public class SubStage : MonoBehaviour
             //ランダムなレーン番号を取得する
             int laneNum = Random.Range(0, lanes.Count);
 
+            //スポーンする対象に応じて配置座標が異なる場合があるため、それを計算する
+            GameObject spawnPrefab = stageObjects.GetRandomObject();
+            Vector3 offset = new Vector3(0.0f, GetYOffset(spawnPrefab.GetComponent<StageObject>().PlacementType), 0.0f);
+
             //そのレーンで生成可能な座標を取得する
-            Vector3 spawnPosition = lanes[laneNum].GetRandomSpawnPoint();
-            //敵が立つことを考えて少し上にずらす
-            Vector3 enemyStandPosition = spawnPosition + Vector3.up;
+            Vector3 spawnPosition = lanes[laneNum].GetRandomSpawnPoint() + offset;
 
             //同じ座標に生成しないようにテストする
             bool spawnTestSucceeded = true;
             foreach (var spawned in spawnedObjects)
             {
                 //同じ座標値なら失敗とする
-                if (Vector3.Distance(spawned.transform.position, enemyStandPosition) < Mathf.Epsilon) { spawnTestSucceeded = false; }
+                if (Vector3.Distance(spawned.transform.position, spawnPosition) < Mathf.Epsilon) { spawnTestSucceeded = false; }
             }
             if (spawnTestSucceeded)
             {
-                int spawnType = Random.Range(0, stageObjects.Count);
-                GameObject obj = Instantiate(stageObjects[spawnType], enemyStandPosition, Quaternion.identity, this.transform);
+                GameObject obj = Instantiate(spawnPrefab, spawnPosition, Quaternion.identity, this.transform);
                 spawnedObjects.Add(obj);
             }
         }

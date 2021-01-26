@@ -10,17 +10,10 @@ public class ScoreObject : StageObject
     [SerializeField, Tooltip("ÉXÉRÉAèÓïÒ")]
     private ScoreObjectParameter scoreInfo;
 
+    public override PlacementType GetPlacementType()
+    {
+        return scoreInfo.type;
+    }
+
     public ScoreObjectParameter ScoreInfo { get { return scoreInfo; } }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 }

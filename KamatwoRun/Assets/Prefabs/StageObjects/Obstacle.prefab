@@ -109,3 +109,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 787405578326f74408febfc2105d7778, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  placementType: 0
+  obstacleParameter: {fileID: 11400000, guid: 8c3b5422d29d42642884938888aad3dc, type: 2}

@@ -9,8 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bdc4ccf11a460c646a3328a95580c7e7, type: 3}
-  m_Name: ScoreObjectParameter
-  m_EditorClassIdentifier: Assembly-CSharp::ScoreObjectInfo
-  type: 1
+  m_Script: {fileID: 11500000, guid: 5ae4ca5c998757042956cfd353b02d4c, type: 3}
+  m_Name: EnemyParameter
+  m_EditorClassIdentifier: 
+  type: 0
   score: 100
+  damage: 100
+  recover: 100

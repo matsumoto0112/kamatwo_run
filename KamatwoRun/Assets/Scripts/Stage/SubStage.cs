@@ -115,7 +115,8 @@ public class SubStage : MonoBehaviour
 
             //スポーンする対象に応じて配置座標が異なる場合があるため、それを計算する
             GameObject spawnPrefab = stageObjects.GetRandomObject();
-            Vector3 offset = new Vector3(0.0f, GetYOffset(spawnPrefab.GetComponent<StageObject>().PlacementType), 0.0f);
+            Assert.IsNotNull(spawnPrefab.GetComponent<StageObject>(), "配置可能なオブジェクトではありません");
+            Vector3 offset = new Vector3(0.0f, GetYOffset(spawnPrefab.GetComponent<StageObject>().GetPlacementType()), 0.0f);
 
             //そのレーンで生成可能な座標を取得する
             Vector3 spawnPosition = lanes[laneNum].GetRandomSpawnPoint() + offset;

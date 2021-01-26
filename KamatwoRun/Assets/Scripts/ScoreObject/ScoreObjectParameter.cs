@@ -8,6 +8,8 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Parameters/ScoreObject")]
 public class ScoreObjectParameter : ScriptableObject
 {
-    //得点
+    [Tooltip("配置タイプ")]
+    public PlacementType type;
+    [Tooltip("獲得スコア")]
     public int score;
 }

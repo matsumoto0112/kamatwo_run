@@ -18,12 +18,9 @@ public enum PlacementType
 /// <summary>
 /// ステージ内に配置可能なオブジェクト
 /// </summary>
-public class StageObject : MonoBehaviour
+public abstract class StageObject : MonoBehaviour
 {
-    [SerializeField]
-    private PlacementType placementType;
-
-    public PlacementType PlacementType { get { return placementType; } }
+    public abstract PlacementType GetPlacementType();
 
     // Start is called before the first frame update
     void Start()

@@ -149,7 +149,7 @@ public class StageManager : MonoBehaviour
         Vector3 spawnPosition = prevStage.transform.position + SubStageOffset(prevStage.ExitType);
         GameObject newObject = Instantiate(next, spawnPosition, Quaternion.identity);
         SubStage newSubStage = newObject.GetComponent<SubStage>();
-        newSubStage.SpawnObjects(20);
+        newSubStage.SpawnObjects(5);
         subStages.Add(newSubStage);
     }
 

@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 1517326007800649155}
   - component: {fileID: 1603096120218004768}
   - component: {fileID: 7167034313260592988}
-  - component: {fileID: 5910503730528058142}
   - component: {fileID: 3838553003424012901}
+  - component: {fileID: 3687675824425090489}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -83,20 +83,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &5910503730528058142
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6843755663737543983}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!114 &3838553003424012901
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -110,3 +96,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyParameter: {fileID: 11400000, guid: 0e4ab3864c81ba64ab5abd973a27099c, type: 2}
+--- !u!65 &3687675824425090489
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6843755663737543983}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 0.04}
+  m_Center: {x: 0, y: 0, z: 0}

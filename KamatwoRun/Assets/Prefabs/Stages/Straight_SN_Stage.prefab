@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7885488485169283794}
   - component: {fileID: 4526319256919801000}
   m_Layer: 0
-  m_Name: VerticalStraightStage
+  m_Name: Straight_SN_Stage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -49,7 +49,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stageObjects: {fileID: 11400000, guid: 8a08514fa789049429cc47b9fa13df86, type: 2}
-  stageParameter: {fileID: 11400000, guid: b6a389dc0f68e4648a089d8e62d60045, type: 2}
   entranceType: 1
   exitType: 0
 --- !u!65 &7885488485169283794

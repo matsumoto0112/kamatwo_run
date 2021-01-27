@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5464245644964940081}
   - component: {fileID: -7915983145302637634}
   m_Layer: 0
-  m_Name: HorizontalStraightStage
+  m_Name: Straight_WE_Stage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -49,7 +49,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stageObjects: {fileID: 11400000, guid: 8a08514fa789049429cc47b9fa13df86, type: 2}
-  stageParameter: {fileID: 11400000, guid: b6a389dc0f68e4648a089d8e62d60045, type: 2}
   entranceType: 3
   exitType: 2
 --- !u!65 &5464245644964940081
@@ -141,6 +140,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: LeftLane
       objectReference: {fileID: 0}
+    - target: {fileID: 438628554663569691, guid: d15542b7fe17c6049bf977d98943d798, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.45
+      objectReference: {fileID: 0}
+    - target: {fileID: 438628554663569691, guid: d15542b7fe17c6049bf977d98943d798, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1989937991317678988, guid: d15542b7fe17c6049bf977d98943d798, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.45
+      objectReference: {fileID: 0}
+    - target: {fileID: 1989937991317678988, guid: d15542b7fe17c6049bf977d98943d798, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d15542b7fe17c6049bf977d98943d798, type: 3}
 --- !u!4 &584141154741194372 stripped
@@ -211,6 +226,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: RightLane
       objectReference: {fileID: 0}
+    - target: {fileID: 438628554663569691, guid: d15542b7fe17c6049bf977d98943d798, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.45
+      objectReference: {fileID: 0}
+    - target: {fileID: 438628554663569691, guid: d15542b7fe17c6049bf977d98943d798, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1989937991317678988, guid: d15542b7fe17c6049bf977d98943d798, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.45
+      objectReference: {fileID: 0}
+    - target: {fileID: 1989937991317678988, guid: d15542b7fe17c6049bf977d98943d798, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d15542b7fe17c6049bf977d98943d798, type: 3}
 --- !u!4 &3262705832288184043 stripped
@@ -280,6 +311,22 @@ PrefabInstance:
     - target: {fileID: 219739276128783816, guid: d15542b7fe17c6049bf977d98943d798, type: 3}
       propertyPath: m_Name
       value: MiddleLane
+      objectReference: {fileID: 0}
+    - target: {fileID: 438628554663569691, guid: d15542b7fe17c6049bf977d98943d798, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.45
+      objectReference: {fileID: 0}
+    - target: {fileID: 438628554663569691, guid: d15542b7fe17c6049bf977d98943d798, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1989937991317678988, guid: d15542b7fe17c6049bf977d98943d798, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.45
+      objectReference: {fileID: 0}
+    - target: {fileID: 1989937991317678988, guid: d15542b7fe17c6049bf977d98943d798, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d15542b7fe17c6049bf977d98943d798, type: 3}

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4813125909618191121}
   - component: {fileID: 47348508016047450}
   - component: {fileID: 997964865609371510}
+  - component: {fileID: 424993771714300768}
   m_Layer: 0
   m_Name: StageManager
   m_TagString: Untagged
@@ -75,3 +76,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stagePamameter: {fileID: 11400000, guid: b6a389dc0f68e4648a089d8e62d60045, type: 2}
+--- !u!114 &424993771714300768
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1861093861398921962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88b4a0dc098fdd548bd6bf02c6885def, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabs: []

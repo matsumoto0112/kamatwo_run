@@ -44,8 +44,6 @@ public class SubStage : MonoBehaviour
     //生成済みオブジェクト
     private List<GameObject> spawnedObjects;
 
-    [SerializeField]
-    private StageParameter stageParameter;
     [SerializeField, Tooltip("入口の種類")]
     private GatewayType entranceType;
     [SerializeField, Tooltip("出口の種類")]
@@ -61,6 +59,7 @@ public class SubStage : MonoBehaviour
 
     //進行方向を調べるコンポーネント
     private DirectionChecker directionChecker;
+    private StageObjectSpawner spawner;
 
     /// <summary>
     /// カメラの範囲内かどうか
@@ -91,6 +90,7 @@ public class SubStage : MonoBehaviour
         boxCollider = GetComponent<BoxCollider>();
         directionChecker = GetComponent<DirectionChecker>();
         directionChecker.Init(EntranceType, ExitType);
+        spawner = FindObjectOfType<StageObjectSpawner>();
         spawnedObjects = new List<GameObject>();
         lanes = new List<Lane>();
         foreach (var lane in GetComponentsInChildren<Lane>())
@@ -98,35 +98,11 @@ public class SubStage : MonoBehaviour
             lanes.Add(lane);
         };
 
+        Assert.IsNotNull(spawner, "Spawnerが取得できませんでした");
         Assert.IsNotNull(boxCollider, "BoxColliderがアタッチされていません");
     }
 
-    private float GetYOffset(PlacementType type)
-    {
-        switch (type)
-        {
-            case PlacementType.OnlyGround:
-            case PlacementType.Wide:
-                return stageParameter.groundPosition_Y;
-            case PlacementType.OnlySky:
-                return stageParameter.skyPosition_Y;
-            case PlacementType.GroundOrSky:
-                {
-                    if (Random.Range(0.0f, 1.0f) < 0.5f)
-                    {
-                        return stageParameter.groundPosition_Y;
-                    }
-                    else
-                    {
-                        return stageParameter.skyPosition_Y;
-                    }
-                }
-            case PlacementType.High:
-                return stageParameter.groundPosition_Y + 1.0f;
-            default:
-                return 0.0f;
-        }
-    }
+
 
     /// <summary>
     /// オブジェクトをスポーンする
@@ -136,35 +112,19 @@ public class SubStage : MonoBehaviour
     {
         for (int i = 0; i < spawnNum; i++)
         {
-            //スポーンする対象に応じて配置座標が異なる場合があるため、それを計算する
-            GameObject spawnPrefab = stageObjects.GetRandomObject();
-            Assert.IsNotNull(spawnPrefab.GetComponent<StageObject>(), "配置可能なオブジェクトではありません");
-
-            PlacementType placementType = spawnPrefab.GetComponent<StageObject>().GetPlacementType();
-
-            //ランダムなレーン番号を取得する
+            //ランダムなレーンのランダムなスポーン地点を取り出す
             int laneNum = Random.Range(0, lanes.Count);
-            //横幅のあるオブジェクトなら真ん中にしか置けない
-            if (placementType == PlacementType.Wide) { laneNum = lanes.Count / 2; }
-
-            Vector3 offset = new Vector3(0.0f, GetYOffset(placementType), 0.0f);
-
-            //そのレーンで生成可能な座標を取得する
             Vector3? pointOrNull = lanes[laneNum].GetRandomSpawnPoint();
-            if (pointOrNull == null) continue;
-            Vector3 spawnPosition = pointOrNull.Value + offset;
-
-            //同じ座標に生成しないようにテストする
-            bool spawnTestSucceeded = true;
-            foreach (var spawned in spawnedObjects)
+            //有効な値ならそれを使用してスポーン処理をする
+            if (pointOrNull.HasValue)
             {
-                //同じ座標値なら失敗とする
-                if (Vector3.Distance(spawned.transform.position, spawnPosition) < Mathf.Epsilon) { spawnTestSucceeded = false; }
-            }
-            if (spawnTestSucceeded)
-            {
-                GameObject obj = Instantiate(spawnPrefab, spawnPosition, Quaternion.identity, this.transform);
-                spawnedObjects.Add(obj);
+                //スポナーがスポーンに成功したら値が返ってくる
+                GameObject spawned = spawner.SpawnIfSucceed(SpawnObjectTypeExtend.GetRandom(), pointOrNull.Value, laneNum);
+                if (spawned)
+                {
+                    spawned.transform.SetParent(this.transform, true);
+                    spawnedObjects.Add(spawned);
+                }
             }
         }
     }

@@ -3,13 +3,40 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+/// <summary>
+/// サブステージの形状
+/// </summary>
+public enum SubStageShapeType
+{
+    //直線
+    Straight,
+    //L字
+    L_Shape,
+}
+
+/// <summary>
+/// サブステージ情報
+/// </summary>
+[System.Serializable]
+public struct SubStagePrefabInfo
+{
+    public SubStageShapeType type;
+    public GameObject prefab;
+}
+
+/// <summary>
+/// ステージ管理
+/// </summary>
 public class StageManager : MonoBehaviour
 {
     [SerializeField]
-    private List<GameObject> subStagePrefabs;
+    private List<SubStagePrefabInfo> subStagePrefabs;
 
     [SerializeField]
     private GameObject player;
+
+    //次のステージの形状予約(nullの時は指定なし)
+    private SubStageShapeType? reserveNextStageType;
 
     //ゲーム速度管理
     private GameSpeed gameSpeed;
@@ -30,16 +57,18 @@ public class StageManager : MonoBehaviour
         {
             //ちょっとだけ手前にずらす
             Vector3 pos = new Vector3(0, 0, SubStageUnit / 2.0f - 5.0f);
-            GameObject newObject = Instantiate(subStagePrefabs[0], pos, Quaternion.identity);
+            GameObject newObject = Instantiate(subStagePrefabs[0].prefab, pos, Quaternion.identity);
             subStages.Add(newObject.GetComponent<SubStage>());
         }
 
         //事前作成ステージ数
-        const int preSpawnSubStageNum = 5;
+        const int preSpawnSubStageNum = 3;
         for (int i = 0; i < preSpawnSubStageNum; i++)
         {
             SpawnNextSubStage();
         }
+
+        reserveNextStageType = null;
     }
 
     void Update()
@@ -70,11 +99,21 @@ public class StageManager : MonoBehaviour
     /// <returns>入口の種類が一致するステージのプレハブを返す</returns>
     private GameObject GetNextSubStagePrefab(GatewayType type)
     {
-        //typeに一致する入口のプレハブを取り出す
-        var sameTypePrefabs = subStagePrefabs.FindAll(obj => obj.GetComponent<SubStage>().EntranceType == type);
+        List<SubStagePrefabInfo> sameTypePrefabs;
+        //次ステージの種類の予約があればそれを採用する
+        if (reserveNextStageType.HasValue)
+        {
+            sameTypePrefabs = subStagePrefabs.FindAll(obj => obj.type == reserveNextStageType.Value && obj.prefab.GetComponent<SubStage>().EntranceType == type);
+            reserveNextStageType = null;
+        }
+        else
+        {
+            sameTypePrefabs = subStagePrefabs.FindAll(obj => obj.type == SubStageShapeType.Straight && obj.prefab.GetComponent<SubStage>().EntranceType == type);
+        }
+
         //その中から適当なプレハブを選ぶ
         int prefabIndex = Random.Range(0, sameTypePrefabs.Count());
-        GameObject prefab = sameTypePrefabs.ElementAt(prefabIndex);
+        GameObject prefab = sameTypePrefabs.ElementAt(prefabIndex).prefab;
         SubStage prefabSubStage = prefab.GetComponent<SubStage>();
         return prefab;
     }
@@ -104,10 +143,9 @@ public class StageManager : MonoBehaviour
     /// </summary>
     private void SpawnNextSubStage()
     {
-        //現状ではまっすぐのステージのみなので何も考えずに生成する
+        //直前のステージに合致するステージを生成する
         SubStage prevStage = subStages.Last();
         GameObject next = GetNextSubStagePrefab(GatewayTypeExtend.ChainableType(prevStage.ExitType));
-        Debug.Log(next.GetComponent<SubStage>().EntranceType + "" + next.GetComponent<SubStage>().ExitType);
         Vector3 spawnPosition = prevStage.transform.position + SubStageOffset(prevStage.ExitType);
         GameObject newObject = Instantiate(next, spawnPosition, Quaternion.identity);
         SubStage newSubStage = newObject.GetComponent<SubStage>();
@@ -132,5 +170,14 @@ public class StageManager : MonoBehaviour
 
         Debug.Log("調べたい座標が生成済みのステージ内にありません");
         return Vector3.back;
+    }
+
+    /// <summary>
+    /// 次のサブステージの形状を予約する
+    /// </summary>
+    /// <param name="type"></param>
+    public void ReserveNextSubstageShapeType(SubStageShapeType type)
+    {
+        reserveNextStageType = type;
     }
 }

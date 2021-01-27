@@ -45,14 +45,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   subStagePrefabs:
-  - {fileID: 708928877946764755, guid: a376aa79410dc914e91ceaedb22ecbb0, type: 3}
-  - {fileID: 8555259998779183803, guid: 732fa5692bebc1e41b8cb0e26a606ef0, type: 3}
-  - {fileID: 4900311979498853519, guid: ce85196f5a103b245af8fccd433484ef, type: 3}
-  - {fileID: 3417273926787986992, guid: f8501510208d7684c8ddb68c61b07318, type: 3}
-  - {fileID: 3233185797012436709, guid: f3c003fa481381741946846474de29a7, type: 3}
-  - {fileID: 3747905753147181197, guid: 56d16d9a2a76a0b4f98165afb872447c, type: 3}
-  - {fileID: 7915890849639191809, guid: ecd82489be3cd264f89effb102f7091e, type: 3}
-  - {fileID: 5214133245679155932, guid: dc4555ff5dce5d943b51c642592e6aa2, type: 3}
+  - type: 0
+    prefab: {fileID: 708928877946764755, guid: a376aa79410dc914e91ceaedb22ecbb0, type: 3}
+  - type: 0
+    prefab: {fileID: 8555259998779183803, guid: 732fa5692bebc1e41b8cb0e26a606ef0, type: 3}
+  - type: 0
+    prefab: {fileID: 4900311979498853519, guid: ce85196f5a103b245af8fccd433484ef, type: 3}
+  - type: 0
+    prefab: {fileID: 3417273926787986992, guid: f8501510208d7684c8ddb68c61b07318, type: 3}
+  - type: 1
+    prefab: {fileID: 5214133245679155932, guid: dc4555ff5dce5d943b51c642592e6aa2, type: 3}
+  - type: 1
+    prefab: {fileID: 7915890849639191809, guid: ecd82489be3cd264f89effb102f7091e, type: 3}
+  - type: 1
+    prefab: {fileID: 3233185797012436709, guid: f3c003fa481381741946846474de29a7, type: 3}
+  - type: 1
+    prefab: {fileID: 3747905753147181197, guid: 56d16d9a2a76a0b4f98165afb872447c, type: 3}
   player: {fileID: 0}
 --- !u!114 &997964865609371510
 MonoBehaviour:

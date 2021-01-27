@@ -10,6 +10,11 @@ public abstract class DirectionChecker : MonoBehaviour
     protected GatewayType entrance;
     protected GatewayType exit;
 
+    /// <summary>
+    /// サブステージの入口、出口を設定する
+    /// </summary>
+    /// <param name="entrance"></param>
+    /// <param name="exit"></param>
     public void Init(GatewayType entrance, GatewayType exit)
     {
         this.entrance = entrance;

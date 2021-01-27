@@ -308,18 +308,6 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 426388431}
-    - target: {fileID: 47348508016047450, guid: 9deca6e10dd9f0f468f9e1bcf4ae9794, type: 3}
-      propertyPath: subStagePrefabs.Array.size
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 47348508016047450, guid: 9deca6e10dd9f0f468f9e1bcf4ae9794, type: 3}
-      propertyPath: subStagePrefabs.Array.data[6]
-      value: 
-      objectReference: {fileID: 7915890849639191809, guid: ecd82489be3cd264f89effb102f7091e, type: 3}
-    - target: {fileID: 47348508016047450, guid: 9deca6e10dd9f0f468f9e1bcf4ae9794, type: 3}
-      propertyPath: subStagePrefabs.Array.data[7]
-      value: 
-      objectReference: {fileID: 5214133245679155932, guid: dc4555ff5dce5d943b51c642592e6aa2, type: 3}
     - target: {fileID: 1861093861398921962, guid: 9deca6e10dd9f0f468f9e1bcf4ae9794, type: 3}
       propertyPath: m_Name
       value: StageManager

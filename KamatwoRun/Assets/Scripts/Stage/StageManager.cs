@@ -70,20 +70,13 @@ public class StageManager : MonoBehaviour
     /// <returns>入口の種類が一致するステージのプレハブを返す</returns>
     private GameObject GetNextSubStagePrefab(GatewayType type)
     {
-        //100回だけテストする
-        for (int i = 0; i < 10000; i++)
-        {
-            int prefabIndex = Random.Range(0, subStagePrefabs.Count);
-            GameObject prefab = subStagePrefabs[prefabIndex];
-            SubStage prefabSubStage = prefab.GetComponent<SubStage>();
-            if (prefabSubStage.EntranceType == type)
-            {
-                return prefab;
-            }
-        }
-
-        Debug.Log("Failed to GetNextSubStagePrefab. Maybe mismatched GatewayType.");
-        return null;
+        //typeに一致する入口のプレハブを取り出す
+        var sameTypePrefabs = subStagePrefabs.FindAll(obj => obj.GetComponent<SubStage>().EntranceType == type);
+        //その中から適当なプレハブを選ぶ
+        int prefabIndex = Random.Range(0, sameTypePrefabs.Count());
+        GameObject prefab = sameTypePrefabs.ElementAt(prefabIndex);
+        SubStage prefabSubStage = prefab.GetComponent<SubStage>();
+        return prefab;
     }
 
     /// <summary>

@@ -4,16 +4,21 @@ using UnityEngine;
 
 public class L_ShapedDirection : DirectionChecker
 {
+    private float GetAngle(Vector3 dir, Vector3 p)
+    {
+        dir = dir.normalized;
+        Vector3 axis = Vector3.Cross(dir, p);
+        float angle = Vector3.Angle(dir, p) * axis.y < 0 ? -1 : 1;
+        return angle;
+    }
+
     public override Vector3 Directon(Vector3 checkPosition)
     {
-        //“ì‚©‚ç“Œ‚ÉŒü‚©‚¤Žž‚Ì•ûŒü
+        Vector3 p = (this.transform.position - checkPosition);
+        //S->E
         if (entrance == GatewayType.South && exit == GatewayType.East)
         {
-            Vector3 dir = new Vector3(1.0f, 0.0f, -1.0f).normalized;
-            Vector3 p = (this.transform.position - checkPosition);
-            Vector3 axis = Vector3.Cross(dir, p);
-            float angle = Vector3.Angle(dir, p) * axis.y < 0 ? -1 : 1;
-            if (angle <= 0.0f)
+            if (GetAngle(new Vector3(1.0f, 0.0f, -1.0f), p) <= 0.0f)
             {
                 return Vector3.forward;
             }
@@ -22,7 +27,45 @@ public class L_ShapedDirection : DirectionChecker
                 return Vector3.right;
             }
         }
-
-        return Vector3.zero;
+        //W->S
+        else if (entrance == GatewayType.West && exit == GatewayType.South)
+        {
+            if (GetAngle(new Vector3(-1.0f, 0.0f, -1.0f), p) <= 0.0f)
+            {
+                return Vector3.right;
+            }
+            else
+            {
+                return Vector3.back;
+            }
+        }
+        //N->W
+        else if (entrance == GatewayType.North && exit == GatewayType.West)
+        {
+            if (GetAngle(new Vector3(-1.0f, 0.0f, 1.0f), p) <= 0.0f)
+            {
+                return Vector3.back;
+            }
+            else
+            {
+                return Vector3.left;
+            }
+        }
+        //E->N
+        else if (entrance == GatewayType.East && exit == GatewayType.North)
+        {
+            if (GetAngle(new Vector3(1.0f, 0.0f, 1.0f), p) <= 0.0f)
+            {
+                return Vector3.left;
+            }
+            else
+            {
+                return Vector3.forward;
+            }
+        }
+        else
+        {
+            return Vector3.zero;
+        }
     }
 }

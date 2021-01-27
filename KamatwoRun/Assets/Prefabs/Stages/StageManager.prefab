@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4813125909618191121}
   - component: {fileID: 47348508016047450}
+  - component: {fileID: 997964865609371510}
   m_Layer: 0
   m_Name: StageManager
   m_TagString: Untagged
@@ -45,5 +46,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   subStagePrefabs:
   - {fileID: 708928877946764755, guid: a376aa79410dc914e91ceaedb22ecbb0, type: 3}
+  - {fileID: 8555259998779183803, guid: 732fa5692bebc1e41b8cb0e26a606ef0, type: 3}
+  - {fileID: 4900311979498853519, guid: ce85196f5a103b245af8fccd433484ef, type: 3}
   - {fileID: 3417273926787986992, guid: f8501510208d7684c8ddb68c61b07318, type: 3}
   - {fileID: 3233185797012436709, guid: f3c003fa481381741946846474de29a7, type: 3}
+  - {fileID: 3747905753147181197, guid: 56d16d9a2a76a0b4f98165afb872447c, type: 3}
+  player: {fileID: 0}
+--- !u!114 &997964865609371510
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1861093861398921962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a62173ecdd160d479ca1f506cb71535, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stagePamameter: {fileID: 11400000, guid: b6a389dc0f68e4648a089d8e62d60045, type: 2}

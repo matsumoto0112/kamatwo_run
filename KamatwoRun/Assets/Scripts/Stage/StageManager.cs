@@ -71,7 +71,7 @@ public class StageManager : MonoBehaviour
     private GameObject GetNextSubStagePrefab(GatewayType type)
     {
         //100‰ñ‚¾‚¯ƒeƒXƒg‚·‚é
-        for (int i = 0; i < 100; i++)
+        for (int i = 0; i < 10000; i++)
         {
             int prefabIndex = Random.Range(0, subStagePrefabs.Count);
             GameObject prefab = subStagePrefabs[prefabIndex];

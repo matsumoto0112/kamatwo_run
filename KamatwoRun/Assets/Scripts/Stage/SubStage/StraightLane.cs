@@ -16,7 +16,7 @@ public class StraightLane : Lane
     /// ランダムなスポーン地点を返す
     /// </summary>
     /// <returns></returns>
-    public override Vector3 GetRandomSpawnPoint()
+    public override Vector3? GetRandomSpawnPoint()
     {
         if (!(lineStartPoint && lineEndPoint)) { return Vector3.zero; }
         float t = Random.Range(0, step + 1) * 1.0f / step;

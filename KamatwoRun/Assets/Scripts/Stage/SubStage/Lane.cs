@@ -7,5 +7,5 @@ using UnityEngine;
 /// </summary>
 public abstract class Lane : MonoBehaviour
 {
-    public abstract Vector3 GetRandomSpawnPoint();
+    public abstract Vector3? GetRandomSpawnPoint();
 }

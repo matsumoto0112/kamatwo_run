@@ -144,7 +144,9 @@ public class SubStage : MonoBehaviour
             Vector3 offset = new Vector3(0.0f, GetYOffset(spawnPrefab.GetComponent<StageObject>().GetPlacementType()), 0.0f);
 
             //そのレーンで生成可能な座標を取得する
-            Vector3 spawnPosition = lanes[laneNum].GetRandomSpawnPoint() + offset;
+            Vector3? pointOrNull = lanes[laneNum].GetRandomSpawnPoint();
+            if (pointOrNull == null) continue;
+            Vector3 spawnPosition = pointOrNull.Value +offset;
 
             //同じ座標に生成しないようにテストする
             bool spawnTestSucceeded = true;
@@ -161,10 +163,29 @@ public class SubStage : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
+    /// <summary>
+    /// 方向ベクトルからオブジェクトの回転方向を取得する
+    /// </summary>
+    /// <param name="dir"></param>
+    /// <returns></returns>
+    private Quaternion RotationFromDirectionVector(Vector3 dir)
     {
-
+        if (dir.x == 0 && dir.z == -1)
+        {
+            return Quaternion.Euler(0, 0, 0);
+        }
+        else if (dir.x == 0 && dir.z == 1)
+        {
+            return Quaternion.Euler(0, 180, 0);
+        }
+        else if (dir.x == -1 && dir.z == 0)
+        {
+            return Quaternion.Euler(0, 90, 0);
+        }
+        else
+        {
+            return Quaternion.Euler(0, 270, 0);
+        }
     }
 
     /// <summary>
@@ -176,16 +197,10 @@ public class SubStage : MonoBehaviour
     {
         Vector3 moveAmount = direction * speed;
         this.transform.position += moveAmount;
+
         foreach (var obj in spawnedObjects)
         {
-            if (direction.z == -1)
-            {
-                obj.transform.rotation = Quaternion.Euler(0, 0, 0);
-            }
-            else
-            {
-                obj.transform.rotation = Quaternion.Euler(0, 90, 0);
-            }
+            obj.transform.rotation = RotationFromDirectionVector(direction);
         }
     }
 

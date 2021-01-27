@@ -559,7 +559,7 @@ GameObject:
   - component: {fileID: 1984212307181959092}
   - component: {fileID: 718453813715687624}
   - component: {fileID: 2481028550016768067}
-  - component: {fileID: 1677660428683551755}
+  - component: {fileID: 477354469}
   - component: {fileID: 1677660428683551748}
   m_Layer: 0
   m_Name: Kamatwo
@@ -634,7 +634,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
---- !u!114 &1677660428683551755
+--- !u!114 &477354469
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -643,9 +643,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1677660428683551752}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ba979f567acbc74b88fe8f521e98312, type: 3}
+  m_Script: {fileID: 11500000, guid: abe70024301768c4bb481df97984e4ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dataTable: {fileID: 11400000, guid: 2799892052d6c3c47baad7493fe86ccc, type: 2}
 --- !u!114 &1677660428683551748
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -778,6 +779,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1984212307574710952}
+  - component: {fileID: 2043932344}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -801,6 +803,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2043932344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1984212307574710953}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ba979f567acbc74b88fe8f521e98312, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1984212307895425586
 GameObject:
   m_ObjectHideFlags: 0

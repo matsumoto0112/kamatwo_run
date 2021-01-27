@@ -10,7 +10,7 @@ public class Player : MonoBehaviour
     void Start()
     {
         componentList = new List<ICharacterComponent>();
-        ICharacterComponent[] array = GetComponents<ICharacterComponent>();
+        ICharacterComponent[] array = GetComponentsInChildren<ICharacterComponent>();
         foreach(var c in array)
         {
             componentList.Add(c);

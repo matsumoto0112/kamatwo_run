@@ -2,22 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface ICharacterComponent
+public interface ICommand
 {
     /// <summary>
     /// 初期化処理
     /// </summary>
-    void OnCreate();
+    void Initialize();
 
     /// <summary>
-    /// 更新処理
+    /// 実行
     /// </summary>
-    void OnUpdate();
+    void Execution();
 
     /// <summary>
-    /// 終了処理
+    /// 終了検知
     /// </summary>
-    void OnEnd();
-
-    Transform Parent { get; }
+    /// <returns></returns>
+    bool IsEnd();
 }

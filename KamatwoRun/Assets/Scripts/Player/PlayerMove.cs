@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System;
 using UnityEngine;
@@ -10,43 +10,73 @@ public enum LaneLocationType
     RIGHT_SIDE,
 }
 
+public enum CommandType
+{
+    NONE,
+    LEFT_MOVE,
+    RIGHT_MOVE,
+    JUMP,
+    SHOT,
+}
+
 public class PlayerMove : MonoBehaviour, ICharacterComponent
 {
-    private LaneLocationType locationType = LaneLocationType.MIDDLE;
-    private LaneLocationType prevLocationType = LaneLocationType.MIDDLE;
+    public LaneLocationType LocationType { get; private set; }
 
     private LanePositions lanePositions = null;
-    private Vector3 currentPosition = Vector3.zero;
 
-    private float t;
+    private Dictionary<CommandType, CommandBase> commandList;
+    private CommandType commandType = CommandType.NONE;
+
+    public Transform Parent => transform.parent;
 
     public void OnCreate()
     {
-        locationType = LaneLocationType.MIDDLE;
-        prevLocationType = locationType;
+        LocationType = LaneLocationType.MIDDLE;
         lanePositions = transform.parent.GetComponentInChildren<LanePositions>();
         lanePositions.Initialize();
-        currentPosition = transform.position;
-        t = 0;
+
+        commandType = CommandType.NONE;
+        //コマンドリスト登録
+        commandList = new Dictionary<CommandType, CommandBase>();
+        commandList.Add(CommandType.LEFT_MOVE, new LeftSideMoveCommand(this));
+        commandList.Add(CommandType.RIGHT_MOVE, new RightSideMoveCommand(this));
+        commandList.Add(CommandType.JUMP, new JumpCommand(this));
+        commandList.Add(CommandType.SHOT, new CommandBase(this));
     }
 
     public void OnUpdate()
     {
-        if (prevLocationType != locationType)
+        //コマンド実行
+        if (commandType != CommandType.NONE)
         {
-            t += Time.deltaTime;
-            transform.position = Vector3.Lerp(currentPosition, NextMovePosition(), t / 1.0f);
-            if(Vector3.Distance(transform.position,NextMovePosition()) <= 0.1f)
+            commandList[commandType].Execution();
+            //コマンド終了検知
+            if (commandList[commandType].IsEnd() == true)
             {
-                transform.position = NextMovePosition();
-                currentPosition = transform.position;
-                prevLocationType = locationType;
-                t = 0;
+                commandType = CommandType.NONE;
             }
             return;
         }
 
-        Move();
+        if (IsLeftMoveInput() == true)
+        {
+            commandType = CommandType.LEFT_MOVE;
+        }
+        else if (IsRightMoveInput() == true)
+        {
+            commandType = CommandType.RIGHT_MOVE;
+        }
+        else if (IsJumpInput() == true)
+        {
+            commandType = CommandType.JUMP;
+        }
+
+        //コマンド入力があったら
+        if (commandType != CommandType.NONE)
+        {
+            commandList[commandType].Initialize();
+        }
     }
 
     public void OnEnd()
@@ -54,35 +84,78 @@ public class PlayerMove : MonoBehaviour, ICharacterComponent
     }
 
     /// <summary>
-    /// �ړ����͏���
+    /// 左レーンへの状態を変更する
     /// </summary>
-    private void Move()
+    public void LeftSideMoveTypeChange()
     {
-        if (IsLeftMoveInput() == true)
-        {
-            prevLocationType = locationType;
-            locationType = (LaneLocationType)Mathf.Clamp((int)locationType - 1, 0, Enum.GetValues(typeof(LaneLocationType)).Length - 1);
-            Debug.Log($"num = {(int)locationType} : type = {locationType}");
-        }
-        else if (IsRightMoveInput() == true)
-        {
-            prevLocationType = locationType;
-            locationType = (LaneLocationType)Mathf.Clamp((int)locationType + 1, 0, Enum.GetValues(typeof(LaneLocationType)).Length - 1);
-            Debug.Log($"num = {(int)locationType} : type = {locationType}");
-        }
+        LocationType = (LaneLocationType)Mathf.Clamp((int)LocationType - 1, 0, Enum.GetValues(typeof(LaneLocationType)).Length - 1);
+        Debug.Log($"num = {(int)LocationType} : type = {LocationType}");
+    }
+
+    public void RightSideMoveTypeChange()
+    {
+        LocationType = (LaneLocationType)Mathf.Clamp((int)LocationType + 1, 0, Enum.GetValues(typeof(LaneLocationType)).Length - 1);
+        Debug.Log($"num = {(int)LocationType} : type = {LocationType}");
     }
 
     /// <summary>
-    /// ���̃��[���ړ���̈ʒu��Ԃ�
+    /// 移動処理
+    /// </summary>
+    /// <param name="currentPosition"></param>
+    /// <param name="t"></param>
+    public void Move(Vector3 currentPosition, float t)
+    {
+        transform.position = Vector3.Lerp(currentPosition, NextMovePosition(), t);
+    }
+
+    public float CulcMaxArrivalTime(float a,float height)
+    {
+        //速度(m/s)² - 初速度(m/s)² = 2 * 加速度 * 変位
+        float c = 2 * a * height;
+        float v0 = Mathf.Sqrt(c * -1);
+
+        float hightTime = v0 / (a * -1);
+        Debug.Log($"最高到達点に行くまでの時間->{hightTime}");
+        return hightTime;
+    }
+
+    public float Jump(float a,float height,float t)
+    {
+        //速度(m/s)² - 初速度(m/s)² = 2 * 加速度 * 変位(最高到達点height)
+        float c = 2 * a * height;
+        float v0 = Mathf.Sqrt(c * -1);
+        Debug.Log($"初速->{v0}");
+
+        //v = v0 + at;
+        float v = v0 + (a * t);
+        v *= Time.deltaTime;
+        Debug.Log($"現在の速度->{v}");
+        transform.position += new Vector3(0, v, 0);
+        return v;
+    }
+
+    /// <summary>
+    /// 目的地までの距離
     /// </summary>
     /// <returns></returns>
-    private Vector3 NextMovePosition()
+    public float DistanceToDestination()
     {
-        return lanePositions.LanePositionList[(int)locationType].position;
+        return Vector3.Distance(transform.position, NextMovePosition());
     }
 
     /// <summary>
-    /// �����ړ����͏�������
+    /// 次のレーン移動先の位置を返す
+    /// </summary>
+    /// <returns></returns>
+    public Vector3 NextMovePosition()
+    {
+        return lanePositions.LanePositionList[(int)LocationType].position;
+    }
+
+    #region Input
+
+    /// <summary>
+    /// 左側移動入力処理判定
     /// </summary>
     /// <returns></returns>
     private bool IsLeftMoveInput()
@@ -91,7 +164,7 @@ public class PlayerMove : MonoBehaviour, ICharacterComponent
     }
 
     /// <summary>
-    /// �����ړ����͏�������
+    /// 左側移動入力処理判定
     /// </summary>
     /// <returns></returns>
     private bool IsRightMoveInput()
@@ -100,11 +173,13 @@ public class PlayerMove : MonoBehaviour, ICharacterComponent
     }
 
     /// <summary>
-    /// �W�����v���͏�������
+    /// ジャンプ入力処理判定
     /// </summary>
     /// <returns></returns>
     private bool IsJumpInput()
     {
         return Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W);
     }
+
+    #endregion
 }

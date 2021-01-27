@@ -38,8 +38,6 @@ public static class GatewayTypeExtend
 /// </summary>
 public class SubStage : MonoBehaviour
 {
-
-
     [SerializeField, Tooltip("配置可能なオブジェクトリスト")]
     private SpawnObjectsParameter stageObjects;
 
@@ -108,6 +106,7 @@ public class SubStage : MonoBehaviour
         switch (type)
         {
             case PlacementType.OnlyGround:
+            case PlacementType.Wide:
                 return stageParameter.groundPosition_Y;
             case PlacementType.OnlySky:
                 return stageParameter.skyPosition_Y;
@@ -122,6 +121,8 @@ public class SubStage : MonoBehaviour
                         return stageParameter.skyPosition_Y;
                     }
                 }
+            case PlacementType.High:
+                return stageParameter.groundPosition_Y + 1.0f;
             default:
                 return 0.0f;
         }
@@ -135,18 +136,23 @@ public class SubStage : MonoBehaviour
     {
         for (int i = 0; i < spawnNum; i++)
         {
-            //ランダムなレーン番号を取得する
-            int laneNum = Random.Range(0, lanes.Count);
-
             //スポーンする対象に応じて配置座標が異なる場合があるため、それを計算する
             GameObject spawnPrefab = stageObjects.GetRandomObject();
             Assert.IsNotNull(spawnPrefab.GetComponent<StageObject>(), "配置可能なオブジェクトではありません");
-            Vector3 offset = new Vector3(0.0f, GetYOffset(spawnPrefab.GetComponent<StageObject>().GetPlacementType()), 0.0f);
+
+            PlacementType placementType = spawnPrefab.GetComponent<StageObject>().GetPlacementType();
+
+            //ランダムなレーン番号を取得する
+            int laneNum = Random.Range(0, lanes.Count);
+            //横幅のあるオブジェクトなら真ん中にしか置けない
+            if (placementType == PlacementType.Wide) { laneNum = lanes.Count / 2; }
+
+            Vector3 offset = new Vector3(0.0f, GetYOffset(placementType), 0.0f);
 
             //そのレーンで生成可能な座標を取得する
             Vector3? pointOrNull = lanes[laneNum].GetRandomSpawnPoint();
             if (pointOrNull == null) continue;
-            Vector3 spawnPosition = pointOrNull.Value +offset;
+            Vector3 spawnPosition = pointOrNull.Value + offset;
 
             //同じ座標に生成しないようにテストする
             bool spawnTestSucceeded = true;

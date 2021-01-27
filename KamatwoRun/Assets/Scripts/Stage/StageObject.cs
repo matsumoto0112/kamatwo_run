@@ -13,6 +13,10 @@ public enum PlacementType
     OnlySky,
     //’n–ÊA‹ó’†‚Ç‚¿‚ç‚à‚ ‚è
     GroundOrSky,
+    //•L
+    Wide,
+    //‚‚³‚ª‚ ‚é
+    High,
 }
 
 /// <summary>

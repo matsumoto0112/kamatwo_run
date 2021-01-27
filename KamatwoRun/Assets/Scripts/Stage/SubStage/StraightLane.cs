@@ -2,10 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary>
-/// 1レーンを管理するクラス
-/// </summary>
-public class Lane : MonoBehaviour
+public class StraightLane : Lane
 {
     [SerializeField, Tooltip("スポーン可能な地点の開始地点")]
     private GameObject lineStartPoint;
@@ -15,23 +12,11 @@ public class Lane : MonoBehaviour
     [SerializeField, Tooltip("生成地点を一定間隔にするためのステップ値")]
     private int step = 5;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     /// <summary>
     /// ランダムなスポーン地点を返す
     /// </summary>
     /// <returns></returns>
-    public Vector3 GetRandomSpawnPoint()
+    public override Vector3 GetRandomSpawnPoint()
     {
         if (!(lineStartPoint && lineEndPoint)) { return Vector3.zero; }
         float t = Random.Range(0, step + 1) * 1.0f / step;

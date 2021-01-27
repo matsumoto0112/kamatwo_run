@@ -45,3 +45,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   subStagePrefabs:
   - {fileID: 708928877946764755, guid: a376aa79410dc914e91ceaedb22ecbb0, type: 3}
+  - {fileID: 3417273926787986992, guid: f8501510208d7684c8ddb68c61b07318, type: 3}
+  - {fileID: 3233185797012436709, guid: f3c003fa481381741946846474de29a7, type: 3}

@@ -4,21 +4,41 @@ using UnityEngine;
 using UnityEngine.Assertions;
 
 /// <summary>
+/// 出入口の種類
+/// 出口のタイプと一致した入口を持つサブステージが連結可能である
+/// </summary>
+public enum GatewayType
+{
+    North,
+    South,
+    East,
+    West,
+}
+
+public static class GatewayTypeExtend
+{
+    public static GatewayType ChainableType(GatewayType type)
+    {
+        switch (type)
+        {
+            case GatewayType.North:
+                return GatewayType.South;
+            case GatewayType.South:
+                return GatewayType.North;
+            case GatewayType.East:
+                return GatewayType.West;
+            default:
+                return GatewayType.East;
+        }
+    }
+}
+
+/// <summary>
 /// 分割された一ステージを管理する
 /// </summary>
 public class SubStage : MonoBehaviour
 {
-    /// <summary>
-    /// 出入口の種類
-    /// 出口のタイプと一致した入口を持つサブステージが連結可能である
-    /// </summary>
-    public enum GatewayType
-    {
-        North,
-        South,
-        East,
-        West,
-    }
+
 
     [SerializeField, Tooltip("配置可能なオブジェクトリスト")]
     private SpawnObjectsParameter stageObjects;
@@ -30,7 +50,7 @@ public class SubStage : MonoBehaviour
     private StageParameter stageParameter;
     [SerializeField, Tooltip("入口の種類")]
     private GatewayType entranceType;
-    [SerializeField, Tooltip("入口の種類")]
+    [SerializeField, Tooltip("出口の種類")]
     private GatewayType exitType;
 
     public GatewayType EntranceType { get { return entranceType; } }
@@ -40,6 +60,9 @@ public class SubStage : MonoBehaviour
     private BoxCollider boxCollider;
     //レーン配列
     private List<Lane> lanes;
+
+    //進行方向を調べるコンポーネント
+    private DirectionChecker directionChecker;
 
     /// <summary>
     /// カメラの範囲内かどうか
@@ -68,6 +91,8 @@ public class SubStage : MonoBehaviour
     void Awake()
     {
         boxCollider = GetComponent<BoxCollider>();
+        directionChecker = GetComponent<DirectionChecker>();
+        directionChecker.Init(EntranceType, ExitType);
         spawnedObjects = new List<GameObject>();
         lanes = new List<Lane>();
         foreach (var lane in GetComponentsInChildren<Lane>())
@@ -151,6 +176,17 @@ public class SubStage : MonoBehaviour
     {
         Vector3 moveAmount = direction * speed;
         this.transform.position += moveAmount;
+        foreach (var obj in spawnedObjects)
+        {
+            if (direction.z == -1)
+            {
+                obj.transform.rotation = Quaternion.Euler(0, 0, 0);
+            }
+            else
+            {
+                obj.transform.rotation = Quaternion.Euler(0, 90, 0);
+            }
+        }
     }
 
     /// <summary>
@@ -161,7 +197,7 @@ public class SubStage : MonoBehaviour
     /// <returns></returns>
     public virtual Vector3 GetForegroundDirection(Vector3 checkPosition)
     {
-        return Vector3.back;
+        return -directionChecker.Directon(checkPosition);
     }
 
     /// <summary>

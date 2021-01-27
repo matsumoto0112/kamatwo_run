@@ -3,10 +3,40 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+/// <summary>
+/// サブステージの形状
+/// </summary>
+public enum SubStageShapeType
+{
+    //直線
+    Straight,
+    //L字
+    L_Shape,
+}
+
+/// <summary>
+/// サブステージ情報
+/// </summary>
+[System.Serializable]
+public struct SubStagePrefabInfo
+{
+    public SubStageShapeType type;
+    public GameObject prefab;
+}
+
+/// <summary>
+/// ステージ管理
+/// </summary>
 public class StageManager : MonoBehaviour
 {
     [SerializeField]
-    private List<GameObject> subStagePrefabs;
+    private List<SubStagePrefabInfo> subStagePrefabs;
+
+    [SerializeField]
+    private GameObject player;
+
+    //次のステージの形状予約(nullの時は指定なし)
+    private SubStageShapeType? reserveNextStageType;
 
     //ゲーム速度管理
     private GameSpeed gameSpeed;
@@ -25,7 +55,9 @@ public class StageManager : MonoBehaviour
 
         //最初のステージ情報は固定のものを使用する
         {
-            GameObject newObject = Instantiate(subStagePrefabs[0], new Vector3(0, 0, SubStageUnit / 2.0f - 5.0f), Quaternion.identity);
+            //ちょっとだけ手前にずらす
+            Vector3 pos = new Vector3(0, 0, SubStageUnit / 2.0f - 5.0f);
+            GameObject newObject = Instantiate(subStagePrefabs[0].prefab, pos, Quaternion.identity);
             subStages.Add(newObject.GetComponent<SubStage>());
         }
 
@@ -35,11 +67,13 @@ public class StageManager : MonoBehaviour
         {
             SpawnNextSubStage();
         }
+
+        reserveNextStageType = null;
     }
 
     void Update()
     {
-        Vector3 scrollDirection = GetForegroundDirection(Vector3.zero);
+        Vector3 scrollDirection = GetForegroundDirection(player.transform.position);
         float speed = gameSpeed.Speed * Time.deltaTime;
         foreach (var st in subStages)
         {
@@ -59,19 +93,71 @@ public class StageManager : MonoBehaviour
     }
 
     /// <summary>
+    /// 次のステージプレハブを取得する
+    /// </summary>
+    /// <param name="type">次のステージの入口の種類</param>
+    /// <returns>入口の種類が一致するステージのプレハブを返す</returns>
+    private GameObject GetNextSubStagePrefab(GatewayType type)
+    {
+        List<SubStagePrefabInfo> sameTypePrefabs;
+        //次ステージの種類の予約があればそれを採用する
+        if (reserveNextStageType.HasValue)
+        {
+            sameTypePrefabs = subStagePrefabs.FindAll(obj => obj.type == reserveNextStageType.Value && obj.prefab.GetComponent<SubStage>().EntranceType == type);
+            reserveNextStageType = null;
+        }
+        else
+        {
+            sameTypePrefabs = subStagePrefabs.FindAll(obj => obj.type == SubStageShapeType.Straight && obj.prefab.GetComponent<SubStage>().EntranceType == type);
+        }
+
+        //その中から適当なプレハブを選ぶ
+        int prefabIndex = Random.Range(0, sameTypePrefabs.Count());
+        GameObject prefab = sameTypePrefabs.ElementAt(prefabIndex).prefab;
+        SubStage prefabSubStage = prefab.GetComponent<SubStage>();
+        return prefab;
+    }
+
+    /// <summary>
+    /// サブステージを配置するオフセット値を取得する
+    /// </summary>
+    /// <param name="type"></param>
+    /// <returns></returns>
+    private Vector3 SubStageOffset(GatewayType type)
+    {
+        switch (type)
+        {
+            case GatewayType.North:
+                return new Vector3(0, 0, SubStageUnit);
+            case GatewayType.South:
+                return new Vector3(0, 0, -SubStageUnit);
+            case GatewayType.East:
+                return new Vector3(SubStageUnit, 0, 0);
+            default:
+                return new Vector3(-SubStageUnit, 0, 0);
+        }
+    }
+
+    /// <summary>
     /// 次のサブステージを生成する
     /// </summary>
     private void SpawnNextSubStage()
     {
-        //現状ではまっすぐのステージのみなので何も考えずに生成する
+        //直前のステージに合致するステージを生成する
         SubStage prevStage = subStages.Last();
-        Vector3 spawnPosition = prevStage.transform.position + new Vector3(0, 0, SubStageUnit);
-        GameObject newObject = Instantiate(subStagePrefabs[0], spawnPosition, Quaternion.identity);
+        GameObject next = GetNextSubStagePrefab(GatewayTypeExtend.ChainableType(prevStage.ExitType));
+        Vector3 spawnPosition = prevStage.transform.position + SubStageOffset(prevStage.ExitType);
+        GameObject newObject = Instantiate(next, spawnPosition, Quaternion.identity);
         SubStage newSubStage = newObject.GetComponent<SubStage>();
-        newSubStage.SpawnObjects(5);
+        newSubStage.SpawnObjects(20);
         subStages.Add(newSubStage);
     }
 
+    /// <summary>
+    /// 前方方向（ステージの移動方向）を取得する
+    /// </summary>
+    /// <param name="checkPosition"></param>
+    /// <returns></returns>
     public Vector3 GetForegroundDirection(Vector3 checkPosition)
     {
         foreach (var st in subStages)
@@ -84,5 +170,14 @@ public class StageManager : MonoBehaviour
 
         Debug.Log("調べたい座標が生成済みのステージ内にありません");
         return Vector3.back;
+    }
+
+    /// <summary>
+    /// 次のサブステージの形状を予約する
+    /// </summary>
+    /// <param name="type"></param>
+    public void ReserveNextSubstageShapeType(SubStageShapeType type)
+    {
+        reserveNextStageType = type;
     }
 }

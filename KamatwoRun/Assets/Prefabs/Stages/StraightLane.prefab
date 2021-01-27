@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 219739276128783819}
   - component: {fileID: 219739276128783818}
   - component: {fileID: 219739276128783817}
-  - component: {fileID: -5766733709832799939}
+  - component: {fileID: -835512003057319085}
   m_Layer: 0
-  m_Name: Lane
+  m_Name: StraightLane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -98,7 +98,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &-5766733709832799939
+--- !u!114 &-835512003057319085
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -107,11 +107,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 219739276128783816}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d132f7c646d2a5146bac289d2b3502e7, type: 3}
+  m_Script: {fileID: 11500000, guid: 11267b34b94b5334ebf6169ef453d89c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   lineStartPoint: {fileID: 8040111072841302085}
   lineEndPoint: {fileID: 6734901325310353077}
+  step: 5
 --- !u!1 &6734901325310353077
 GameObject:
   m_ObjectHideFlags: 0

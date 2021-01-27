@@ -19,4 +19,11 @@ public class StageParameter : ScriptableObject
 
     //空中の高さ
     public float skyPosition_Y = 10.0f;
+
+    //横に長いオブジェクトの半径
+    public float wideObjectJudgeRadius = 3.0f;
+
+    //高さのあるオブジェクト同士が隣接しないようにする判定距離
+    public float highObjectJudgeDistance = 3.0f;
+
 }

@@ -119,7 +119,7 @@ public class SubStage : MonoBehaviour
             if (pointOrNull.HasValue)
             {
                 //スポナーがスポーンに成功したら値が返ってくる
-                GameObject spawned = spawner.SpawnIfSucceed(SpawnObjectTypeExtend.GetRandom(), pointOrNull.Value, laneNum);
+                GameObject spawned = spawner.SpawnIfSucceed(stageObjects.GetRandomObject(), pointOrNull.Value, laneNum);
                 if (spawned)
                 {
                     spawned.transform.SetParent(this.transform, true);

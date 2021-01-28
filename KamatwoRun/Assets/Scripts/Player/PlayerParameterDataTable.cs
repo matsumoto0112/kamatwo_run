@@ -5,17 +5,17 @@ using UnityEngine;
 /// <summary>
 /// プレイヤーステータスデータテーブル
 /// </summary>
-[CreateAssetMenu(fileName = "PlayerStatusData", menuName = "ScriptableObject/PlayerStatusData", order = 0)]
-public class PlayerStatusDataTable : ScriptableObject
+[CreateAssetMenu(fileName = "PlayerParameterDataTable", menuName = "ScriptableObject/PlayerParameterDataTable", order = 0)]
+public class PlayerParameterDataTable : ScriptableObject
 {
     [SerializeField]
-    private PlayerStatusData statusData;
+    private PlayerParameterData statusData;
 
-    public PlayerStatusData GetStatus() => statusData;
+    public PlayerParameterData GetStatus() => statusData;
 }
 
 [System.Serializable]
-public class PlayerStatusData
+public class PlayerParameterData
 {
     /// <summary>
     /// ジャンプ時のスピードに乗算する係数
@@ -27,7 +27,7 @@ public class PlayerStatusData
     /// </summary>
     public float flightTime = 1.0f;
 
-    public PlayerStatusData(PlayerStatusData other)
+    public PlayerParameterData(PlayerParameterData other)
     {
         this.coefJumpSpeed = other.coefJumpSpeed;
     }

@@ -14,7 +14,7 @@ public class RightSideMoveCommand : CommandBase
     public RightSideMoveCommand(ICharacterComponent character)
         : base(character)
     {
-        playerMove = Character.Parent.GetComponentInChildren<PlayerMove>();
+        playerMove = Character.CharacterTransform.GetComponent<PlayerMove>();
         maxTime = 1.0f;
     }
 

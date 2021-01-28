@@ -3,21 +3,6 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 
-public enum LaneLocationType
-{
-    LEFT_SIDE = 0,
-    MIDDLE,
-    RIGHT_SIDE,
-}
-
-public enum CommandType
-{
-    NONE,
-    LEFT_MOVE,
-    RIGHT_MOVE,
-    JUMP,
-    SHOT,
-}
 
 public class PlayerMove :CharacterComponent
 {

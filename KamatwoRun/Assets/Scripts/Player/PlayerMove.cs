@@ -3,23 +3,8 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 
-public enum LaneLocationType
-{
-    LEFT_SIDE = 0,
-    MIDDLE,
-    RIGHT_SIDE,
-}
 
-public enum CommandType
-{
-    NONE,
-    LEFT_MOVE,
-    RIGHT_MOVE,
-    JUMP,
-    SHOT,
-}
-
-public class PlayerMove : MonoBehaviour, ICharacterComponent
+public class PlayerMove :CharacterComponent
 {
     public LaneLocationType LocationType { get; private set; }
 
@@ -28,9 +13,8 @@ public class PlayerMove : MonoBehaviour, ICharacterComponent
     private Dictionary<CommandType, CommandBase> commandList;
     private CommandType commandType = CommandType.NONE;
 
-    public Transform Parent => transform.parent;
 
-    public void OnCreate()
+    public override void OnCreate()
     {
         LocationType = LaneLocationType.MIDDLE;
         lanePositions = transform.parent.GetComponentInChildren<LanePositions>();
@@ -45,7 +29,7 @@ public class PlayerMove : MonoBehaviour, ICharacterComponent
         commandList.Add(CommandType.SHOT, new CommandBase(this));
     }
 
-    public void OnUpdate()
+    public override void OnUpdate()
     {
         //コマンド実行
         if (commandType != CommandType.NONE)
@@ -79,10 +63,6 @@ public class PlayerMove : MonoBehaviour, ICharacterComponent
         }
     }
 
-    public void OnEnd()
-    {
-    }
-
     /// <summary>
     /// 左レーンへの状態を変更する
     /// </summary>
@@ -108,6 +88,12 @@ public class PlayerMove : MonoBehaviour, ICharacterComponent
         transform.position = Vector3.Lerp(currentPosition, NextMovePosition(), t);
     }
 
+    /// <summary>
+    /// ジャンプ時の最高到達点までにかかる時間を計算
+    /// </summary>
+    /// <param name="a">加速度</param>
+    /// <param name="height">高さ</param>
+    /// <returns></returns>
     public float CulcMaxArrivalTime(float a,float height)
     {
         //速度(m/s)² - 初速度(m/s)² = 2 * 加速度 * 変位
@@ -115,21 +101,28 @@ public class PlayerMove : MonoBehaviour, ICharacterComponent
         float v0 = Mathf.Sqrt(c * -1);
 
         float hightTime = v0 / (a * -1);
-        Debug.Log($"最高到達点に行くまでの時間->{hightTime}");
+        //Debug.Log($"最高到達点に行くまでの時間->{hightTime}");
         return hightTime;
     }
 
+    /// <summary>
+    /// ジャンプ処理
+    /// </summary>
+    /// <param name="a">加速度</param>
+    /// <param name="height">高さ</param>
+    /// <param name="t">時間</param>
+    /// <returns></returns>
     public float Jump(float a,float height,float t)
     {
         //速度(m/s)² - 初速度(m/s)² = 2 * 加速度 * 変位(最高到達点height)
         float c = 2 * a * height;
         float v0 = Mathf.Sqrt(c * -1);
-        Debug.Log($"初速->{v0}");
+        //Debug.Log($"初速->{v0}");
 
         //v = v0 + at;
         float v = v0 + (a * t);
         v *= Time.deltaTime;
-        Debug.Log($"現在の速度->{v}");
+        //Debug.Log($"現在の速度->{v}");
         transform.position += new Vector3(0, v, 0);
         return v;
     }

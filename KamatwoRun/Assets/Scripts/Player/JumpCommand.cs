@@ -5,7 +5,7 @@ using UnityEngine;
 public class JumpCommand : CommandBase
 {
     private PlayerMove playerMove = null;
-    private PlayerStatus playerStatus = null;
+    private PlayerParameter playerParameter = null;
 
     private Vector3 currentPosition = Vector3.zero;
     private bool isEnd = false;
@@ -18,8 +18,8 @@ public class JumpCommand : CommandBase
     public JumpCommand(ICharacterComponent character)
         : base(character)
     {
-        playerMove = character.Parent.GetComponentInChildren<PlayerMove>();
-        playerStatus = character.Parent.GetComponentInChildren<PlayerStatus>();
+        playerMove = character.CharacterTransform.GetComponent<PlayerMove>();
+        playerParameter = character.CharacterTransform.GetComponent<PlayerParameter>();
     }
 
     public override void Initialize()
@@ -28,14 +28,14 @@ public class JumpCommand : CommandBase
         isEnd = false;
         currentPosition = playerMove.transform.position;
         t = 0.0f;
-        maxTime = playerMove.CulcMaxArrivalTime(-GRAVITY * playerStatus.status.coefJumpSpeed, HEIGHT);
+        maxTime = playerMove.CulcMaxArrivalTime(-GRAVITY * playerParameter.parameter.coefJumpSpeed, HEIGHT);
     }
 
     public override void Execution()
     {
         base.Execution();
 
-        playerMove.Jump(-GRAVITY * playerStatus.status.coefJumpSpeed, HEIGHT, t);
+        playerMove.Jump(-GRAVITY * playerParameter.parameter.coefJumpSpeed, HEIGHT, t);
         t += Time.deltaTime;
         if (t >= (maxTime * 2.0f))
         {

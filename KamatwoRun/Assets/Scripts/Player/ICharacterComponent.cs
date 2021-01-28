@@ -19,5 +19,13 @@ public interface ICharacterComponent
     /// </summary>
     void OnEnd();
 
+    /// <summary>
+    /// 親オブジェクト
+    /// </summary>
     Transform Parent { get; }
+
+    /// <summary>
+    /// モデルのオブジェクト
+    /// </summary>
+    Transform CharacterTransform { get; }
 }

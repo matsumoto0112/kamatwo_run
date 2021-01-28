@@ -5,17 +5,17 @@ using UnityEngine;
 public class LeftSideMoveCommand : CommandBase
 {
     private PlayerMove playerMove = null;
+    private PlayerParameter playerParameter = null;
     private Vector3 currentPosition = Vector3.zero;
 
     private bool isEnd = false;
     private float time = 0.0f;
-    private float maxTime = 0.0f;
 
     public LeftSideMoveCommand(ICharacterComponent character) 
         : base(character)
     {
         playerMove = Character.CharacterTransform.GetComponent<PlayerMove>();
-        maxTime = 1.0f;
+        playerParameter = Character.CharacterTransform.GetComponent<PlayerParameter>();
     }
 
     public override void Initialize()
@@ -46,7 +46,7 @@ public class LeftSideMoveCommand : CommandBase
         }
 
         time += Time.deltaTime;
-        playerMove.Move(currentPosition, time / maxTime);
+        playerMove.Move(currentPosition, time / playerParameter.parameter.timeToMove);
 
         if(playerMove.DistanceToDestination() <= 0.05f)
         {

@@ -88,6 +88,12 @@ public class PlayerMove :CharacterComponent
         transform.position = Vector3.Lerp(currentPosition, NextMovePosition(), t);
     }
 
+    /// <summary>
+    /// ジャンプ時の最高到達点までにかかる時間を計算
+    /// </summary>
+    /// <param name="a">加速度</param>
+    /// <param name="height">高さ</param>
+    /// <returns></returns>
     public float CulcMaxArrivalTime(float a,float height)
     {
         //速度(m/s)² - 初速度(m/s)² = 2 * 加速度 * 変位
@@ -99,6 +105,13 @@ public class PlayerMove :CharacterComponent
         return hightTime;
     }
 
+    /// <summary>
+    /// ジャンプ処理
+    /// </summary>
+    /// <param name="a">加速度</param>
+    /// <param name="height">高さ</param>
+    /// <param name="t">時間</param>
+    /// <returns></returns>
     public float Jump(float a,float height,float t)
     {
         //速度(m/s)² - 初速度(m/s)² = 2 * 加速度 * 変位(最高到達点height)

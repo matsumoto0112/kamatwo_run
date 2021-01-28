@@ -95,7 +95,7 @@ public class PlayerMove :CharacterComponent
         float v0 = Mathf.Sqrt(c * -1);
 
         float hightTime = v0 / (a * -1);
-        Debug.Log($"最高到達点に行くまでの時間->{hightTime}");
+        //Debug.Log($"最高到達点に行くまでの時間->{hightTime}");
         return hightTime;
     }
 
@@ -104,12 +104,12 @@ public class PlayerMove :CharacterComponent
         //速度(m/s)² - 初速度(m/s)² = 2 * 加速度 * 変位(最高到達点height)
         float c = 2 * a * height;
         float v0 = Mathf.Sqrt(c * -1);
-        Debug.Log($"初速->{v0}");
+        //Debug.Log($"初速->{v0}");
 
         //v = v0 + at;
         float v = v0 + (a * t);
         v *= Time.deltaTime;
-        Debug.Log($"現在の速度->{v}");
+        //Debug.Log($"現在の速度->{v}");
         transform.position += new Vector3(0, v, 0);
         return v;
     }

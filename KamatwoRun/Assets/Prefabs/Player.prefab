@@ -561,6 +561,7 @@ GameObject:
   - component: {fileID: 2481028550016768067}
   - component: {fileID: 477354469}
   - component: {fileID: 1677660428683551748}
+  - component: {fileID: 8242751027897723768}
   m_Layer: 0
   m_Name: Kamatwo
   m_TagString: Untagged
@@ -657,6 +658,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 110fb1fbe933ae34c9a157e6c7ac609a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8242751027897723768
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1677660428683551752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 135db0ba9dd85b6448bac4775c32001d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1940843571717048532

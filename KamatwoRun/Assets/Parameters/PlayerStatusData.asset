@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: PlayerStatusData
   m_EditorClassIdentifier: 
   statusData:
-    coefJumpSpeed: 1
+    coefJumpSpeed: 0.5
     flightTime: 1

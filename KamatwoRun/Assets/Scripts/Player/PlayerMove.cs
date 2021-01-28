@@ -19,7 +19,7 @@ public enum CommandType
     SHOT,
 }
 
-public class PlayerMove : MonoBehaviour, ICharacterComponent
+public class PlayerMove :CharacterComponent
 {
     public LaneLocationType LocationType { get; private set; }
 
@@ -28,9 +28,8 @@ public class PlayerMove : MonoBehaviour, ICharacterComponent
     private Dictionary<CommandType, CommandBase> commandList;
     private CommandType commandType = CommandType.NONE;
 
-    public Transform Parent => transform.parent;
 
-    public void OnCreate()
+    public override void OnCreate()
     {
         LocationType = LaneLocationType.MIDDLE;
         lanePositions = transform.parent.GetComponentInChildren<LanePositions>();
@@ -45,7 +44,7 @@ public class PlayerMove : MonoBehaviour, ICharacterComponent
         commandList.Add(CommandType.SHOT, new CommandBase(this));
     }
 
-    public void OnUpdate()
+    public override void OnUpdate()
     {
         //コマンド実行
         if (commandType != CommandType.NONE)
@@ -77,10 +76,6 @@ public class PlayerMove : MonoBehaviour, ICharacterComponent
         {
             commandList[commandType].Initialize();
         }
-    }
-
-    public void OnEnd()
-    {
     }
 
     /// <summary>

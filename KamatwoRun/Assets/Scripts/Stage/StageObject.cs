@@ -25,4 +25,5 @@ public enum PlacementType
 public abstract class StageObject : MonoBehaviour
 {
     public abstract PlacementType GetPlacementType();
+    public virtual void DestroySelf() { }
 }

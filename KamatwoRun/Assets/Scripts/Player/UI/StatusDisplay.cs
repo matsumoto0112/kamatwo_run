@@ -3,21 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ScoreDisplay : MonoBehaviour
+public class StatusDisplay : MonoBehaviour
 {
-    private PlayerStatus playerStatus = null;
+    [SerializeField]
     private Text scoreText = null;
+    [SerializeField]
+    private Text hpText = null;
+
+    private PlayerStatus playerStatus = null;
 
     // Start is called before the first frame update
     void Start()
     {
         playerStatus = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<PlayerStatus>();
-        scoreText = GetComponent<Text>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        scoreText.text = "Score:" + playerStatus.score;
+        scoreText.text = "Score:" + playerStatus.Score;
+        hpText.text = "HP:" + playerStatus.HP;
     }
 }

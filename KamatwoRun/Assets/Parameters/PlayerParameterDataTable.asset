@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6694a831a5d3074e969997dbf2cd6e0, type: 3}
   m_Name: PlayerParameterDataTable
   m_EditorClassIdentifier: 
-  statusData:
-    coefJumpSpeed: 1
+  parameterData:
+    coefJumpSpeed: 0.5
     timeToMove: 0.5
+    hp: 3
+    invincibleTime: 2
     flightTime: 1

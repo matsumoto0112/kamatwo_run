@@ -111,9 +111,9 @@ public class StageManager : MonoBehaviour
     private void CalcToNeedNextStageReserve()
     {
         //ウェーブ段階に変化があれば形状が変わる
-        if (currentWavePhase != stageParameter.GetPhaseByScore(playerStatus.score))
+        if (currentWavePhase != stageParameter.GetPhaseByScore(playerStatus.Score))
         {
-            currentWavePhase = stageParameter.GetPhaseByScore(playerStatus.score);
+            currentWavePhase = stageParameter.GetPhaseByScore(playerStatus.Score);
             ReserveNextSubstageShapeType(SubStageShapeType.L_Shape);
         }
     }

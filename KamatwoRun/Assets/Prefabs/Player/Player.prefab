@@ -662,6 +662,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abe70024301768c4bb481df97984e4ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerMeshObject: {fileID: 6626215754376554347}
 --- !u!114 &1677660428683551748
 MonoBehaviour:
   m_ObjectHideFlags: 0

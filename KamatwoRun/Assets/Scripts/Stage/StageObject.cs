@@ -25,5 +25,8 @@ public enum PlacementType
 public abstract class StageObject : MonoBehaviour
 {
     public abstract PlacementType GetPlacementType();
-    public virtual void DestroySelf() { }
+    public virtual void DestroySelf()
+    {
+        this.transform.position -= new Vector3(0, -100, 0);
+    }
 }

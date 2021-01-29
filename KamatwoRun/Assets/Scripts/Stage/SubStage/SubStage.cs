@@ -69,7 +69,7 @@ public class SubStage : MonoBehaviour
         get
         {
             //自身の中心から十字に伸びる点をもとに、その点がカメラの範囲内かどうか調べる
-            Vector3 halfSize = boxCollider.size / 2;
+            Vector3 halfSize = boxCollider.size / 4 * 3;
             Vector3[] offsets = new Vector3[] {
                 new Vector3(-halfSize.x, 0.0f, 0.0f),
                 new Vector3(halfSize.x, 0.0f, 0.0f),

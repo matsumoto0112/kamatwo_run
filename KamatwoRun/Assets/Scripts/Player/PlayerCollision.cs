@@ -29,7 +29,11 @@ public class PlayerCollision : CharacterComponent
         }
         else if (other.gameObject.GetComponentToNullCheck(out WrappableObject wrappableObject) == true)
         {
-            Debug.Log("$Hit to WrappableObject");
+            Debug.Log("$Hit to EnemyObject");
+        }
+        else if(other.gameObject.GetComponentToNullCheck(out DumplingSkin dumplingSkin) == true)
+        {
+            playerStatus.AddScore(dumplingSkin.score);
         }
     }
 }

@@ -26,7 +26,7 @@ public class PlayerMove :CharacterComponent
         commandList.Add(CommandType.LEFT_MOVE, new LeftSideMoveCommand(this));
         commandList.Add(CommandType.RIGHT_MOVE, new RightSideMoveCommand(this));
         commandList.Add(CommandType.JUMP, new JumpCommand(this));
-        commandList.Add(CommandType.SHOT, new CommandBase(this));
+        commandList.Add(CommandType.SHOT, new ShotCommand(this));
     }
 
     public override void OnUpdate()
@@ -54,6 +54,10 @@ public class PlayerMove :CharacterComponent
         else if (IsJumpInput() == true)
         {
             commandType = CommandType.JUMP;
+        }
+        else if(IsShotInput() == true)
+        {
+            commandType = CommandType.SHOT;
         }
 
         //コマンド入力があったら
@@ -172,6 +176,11 @@ public class PlayerMove :CharacterComponent
     private bool IsJumpInput()
     {
         return Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W);
+    }
+
+    private bool IsShotInput()
+    {
+        return Input.GetKeyDown(KeyCode.Space);
     }
 
     #endregion

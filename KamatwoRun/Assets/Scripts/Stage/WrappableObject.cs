@@ -8,9 +8,9 @@ using UnityEngine;
 public struct WrappedPoint
 {
     //獲得スコア
-    int score;
+    public int score { get; private set; }
     //回復量
-    float recover;
+    public float recover { get; private set; }
 
     /// <summary>
     /// コンストラクタ

@@ -24,7 +24,20 @@ public class L_ShapedDirection : DirectionChecker
             }
             else
             {
+
                 return Vector3.right;
+            }
+        }
+        //E->S
+        else if (entrance == GatewayType.East && exit == GatewayType.South)
+        {
+            if (GetAngle(new Vector3(1.0f, 0.0f, -1.0f), p) <= 0.0f)
+            {
+                return Vector3.back;
+            }
+            else
+            {
+                return Vector3.left;
             }
         }
         //W->S
@@ -39,6 +52,18 @@ public class L_ShapedDirection : DirectionChecker
                 return Vector3.back;
             }
         }
+        //S->W
+        else if (entrance == GatewayType.South && exit == GatewayType.West)
+        {
+            if (GetAngle(new Vector3(-1.0f, 0.0f, -1.0f), p) <= 0.0f)
+            {
+                return Vector3.left;
+            }
+            else
+            {
+                return Vector3.forward;
+            }
+        }
         //N->W
         else if (entrance == GatewayType.North && exit == GatewayType.West)
         {
@@ -51,6 +76,18 @@ public class L_ShapedDirection : DirectionChecker
                 return Vector3.left;
             }
         }
+        //W->N
+        else if (entrance == GatewayType.West && exit == GatewayType.North)
+        {
+            if (GetAngle(new Vector3(-1.0f, 0.0f, 1.0f), p) <= 0.0f)
+            {
+                return Vector3.forward;
+            }
+            else
+            {
+                return Vector3.right;
+            }
+        }
         //E->N
         else if (entrance == GatewayType.East && exit == GatewayType.North)
         {
@@ -61,6 +98,18 @@ public class L_ShapedDirection : DirectionChecker
             else
             {
                 return Vector3.forward;
+            }
+        }
+        //N->E
+        else if (entrance == GatewayType.East && exit == GatewayType.North)
+        {
+            if (GetAngle(new Vector3(1.0f, 0.0f, 1.0f), p) <= 0.0f)
+            {
+                return Vector3.right;
+            }
+            else
+            {
+                return Vector3.back;
             }
         }
         else

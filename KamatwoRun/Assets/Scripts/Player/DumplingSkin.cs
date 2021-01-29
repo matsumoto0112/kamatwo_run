@@ -12,6 +12,8 @@ public class DumplingSkin : MonoBehaviour
 
     private Vector3 initialScale = Vector3.zero;
     private IEnumerator shotCoroutine = null;
+    public int score { get; private set; }
+
     public bool IsShot
     {
         get
@@ -38,6 +40,16 @@ public class DumplingSkin : MonoBehaviour
         shotCoroutine = null;
     }
 
+    private void Update()
+    {
+        if(IsHit == true)
+        {
+            return;
+        }
+
+        transform.eulerAngles += new Vector3(0, 1, 0);
+    }
+
     /// <summary>
     /// î≠éÀèàóù
     /// </summary>
@@ -54,31 +66,34 @@ public class DumplingSkin : MonoBehaviour
             Vector3 vel = Vector3.Lerp(parentPosition, distination, time);
             transform.position = new Vector3(vel.x, transform.position.y, vel.z);
 
-            if (time >= 2.0f)
+            if (time >= 1.0f || IsHit == true)
             {
                 break;
             }
             yield return new WaitForSeconds(Time.deltaTime);
         }
+        yield return new WaitForSeconds(1.0f);
 
-        time = 0.0f;
+        yield return StartCoroutine(SkinBackCoroutine());
+        OnEnd();
+    }
+
+    private IEnumerator SkinBackCoroutine()
+    {
+        float time = 0.0f;
         Vector3 pos = transform.position;
-        parentPosition = transform.parent.GetChild(0).position;
         while (true)
         {
             time += Time.deltaTime;
-            Vector3 vel = Vector3.Lerp(pos, parentPosition, time);
+            Vector3 vel = Vector3.Lerp(pos, transform.parent.GetChild(0).position, time / 0.5f);
             transform.position = new Vector3(vel.x, transform.position.y, vel.z);
 
-            if (time >= 1.0f)
+            if (time >= 0.5f)
             {
                 break;
             }
             yield return new WaitForSeconds(Time.deltaTime);
         }
-        OnEnd();
-        yield return null;
-
     }
 
     /// <summary>
@@ -90,6 +105,7 @@ public class DumplingSkin : MonoBehaviour
         boxCollider.enabled = true;
         transform.localScale = initialScale;
         IsHit = false;
+        score = 0;
         shotCoroutine = ShotCoroutine();
         StartCoroutine(shotCoroutine);
     }
@@ -115,5 +131,20 @@ public class DumplingSkin : MonoBehaviour
         transform.localScale = initialScale;
         IsHit = false;
         shotCoroutine = null;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (IsHit == true)
+        {
+            return;
+        }
+
+        if (other.gameObject.GetComponentToNullCheck(out WrappableObject wrappableObject) == true)
+        {
+            OnHit();
+            score = wrappableObject.Wrap().score;
+            wrappableObject.DestroySelf();
+        }
     }
 }

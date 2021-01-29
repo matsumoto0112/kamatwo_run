@@ -131,6 +131,7 @@ public class DumplingSkin : MonoBehaviour
         transform.localScale = initialScale;
         IsHit = false;
         shotCoroutine = null;
+        score = 0;
     }
 
     private void OnTriggerEnter(Collider other)

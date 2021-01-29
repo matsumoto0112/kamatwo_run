@@ -5,6 +5,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     private List<ICharacterComponent> componentList;
+    private PlayerStatus playerStatus = null;
 
     // Start is called before the first frame update
     void Start()
@@ -20,11 +21,16 @@ public class Player : MonoBehaviour
         {
             c.OnCreate();
         }
+        playerStatus = GetComponentInChildren<PlayerStatus>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(playerStatus.IsDead() == true)
+        {
+            return;
+        }
         foreach(var c in componentList)
         {
             c.OnUpdate();

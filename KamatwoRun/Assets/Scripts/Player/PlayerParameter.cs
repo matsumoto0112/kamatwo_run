@@ -15,6 +15,6 @@ public class PlayerParameter : CharacterComponent
     public override void OnCreate()
     {
         //ステータス取得
-        parameter = new PlayerParameterData(dataTable.GetStatus());
+        parameter = new PlayerParameterData(dataTable.GetParameter());
     }
 }

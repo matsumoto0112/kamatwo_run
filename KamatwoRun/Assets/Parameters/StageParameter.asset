@@ -12,6 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea1b54089852d5b44a0cf29ef82da4d0, type: 3}
   m_Name: StageParameter
   m_EditorClassIdentifier: 
+  thresholds:
+  - scoreThreshold: 100
+    spawnParameter: {fileID: 11400000, guid: 0e36e322954e2804da8ed77d2935f3c0, type: 2}
+  - scoreThreshold: 300
+    spawnParameter: {fileID: 11400000, guid: 0e36e322954e2804da8ed77d2935f3c0, type: 2}
+  step:
+    scoreThreshold: 500
+    spawnParameter: {fileID: 11400000, guid: 7949149cfd9e9d14e935a306328abb80, type: 2}
   laneNum: 3
   stageWidth: 6
   defaultStageMoveSpeed: 15

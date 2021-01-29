@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 /// <summary>
 /// サブステージの形状
@@ -30,10 +31,16 @@ public struct SubStagePrefabInfo
 public class StageManager : MonoBehaviour
 {
     [SerializeField]
+    private StageParameter stageParameter;
+    [SerializeField]
     private List<SubStagePrefabInfo> subStagePrefabs;
 
     [SerializeField]
     private GameObject player;
+
+    //プレイヤーのステータス管理オブジェクト
+    private PlayerStatus playerStatus;
+    private int currentWavePhase;
 
     //次のステージの形状予約(nullの時は指定なし)
     private SubStageShapeType? reserveNextStageType;
@@ -52,6 +59,8 @@ public class StageManager : MonoBehaviour
     {
         gameSpeed = GetComponent<GameSpeed>();
         subStages = new List<SubStage>();
+        playerStatus = player.GetComponent<PlayerStatus>();
+        currentWavePhase = 0;
 
         //最初のステージ情報は固定のものを使用する
         {
@@ -69,6 +78,8 @@ public class StageManager : MonoBehaviour
         }
 
         reserveNextStageType = null;
+
+        Assert.IsNotNull(playerStatus, "PlayerStatusが取得できませんでした");
     }
 
     void Update()
@@ -80,6 +91,8 @@ public class StageManager : MonoBehaviour
             st.Move(scrollDirection, speed);
         }
 
+        CalcToNeedNextStageReserve();
+
         SubStage frontStage = subStages.First();
         if (!frontStage.IsInsideCamera)
         {
@@ -89,6 +102,19 @@ public class StageManager : MonoBehaviour
 
             //新しく追加する
             SpawnNextSubStage();
+        }
+    }
+
+    /// <summary>
+    /// 次のステージの形状予約が必要かどうかを計算し、必要であれば予約する
+    /// </summary>
+    private void CalcToNeedNextStageReserve()
+    {
+        //ウェーブ段階に変化があれば形状が変わる
+        if (currentWavePhase != stageParameter.GetPhaseByScore(playerStatus.score))
+        {
+            currentWavePhase = stageParameter.GetPhaseByScore(playerStatus.score);
+            ReserveNextSubstageShapeType(SubStageShapeType.L_Shape);
         }
     }
 
@@ -149,7 +175,7 @@ public class StageManager : MonoBehaviour
         Vector3 spawnPosition = prevStage.transform.position + SubStageOffset(prevStage.ExitType);
         GameObject newObject = Instantiate(next, spawnPosition, Quaternion.identity);
         SubStage newSubStage = newObject.GetComponent<SubStage>();
-        newSubStage.SpawnObjects(5);
+        newSubStage.SpawnObjects(stageParameter.GetSpawnObjectsParameterByPhase(currentWavePhase), 5);
         subStages.Add(newSubStage);
     }
 

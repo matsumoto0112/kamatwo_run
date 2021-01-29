@@ -38,9 +38,6 @@ public static class GatewayTypeExtend
 /// </summary>
 public class SubStage : MonoBehaviour
 {
-    [SerializeField, Tooltip("配置可能なオブジェクトリスト")]
-    private SpawnObjectsParameter stageObjects;
-
     //生成済みオブジェクト
     private List<GameObject> spawnedObjects;
 
@@ -108,7 +105,7 @@ public class SubStage : MonoBehaviour
     /// オブジェクトをスポーンする
     /// </summary>
     /// <param name="spawnNum"></param>
-    public void SpawnObjects(int spawnNum)
+    public void SpawnObjects(SpawnObjectsParameter spawnParameter, int spawnNum)
     {
         for (int i = 0; i < spawnNum; i++)
         {
@@ -119,7 +116,7 @@ public class SubStage : MonoBehaviour
             if (pointOrNull.HasValue)
             {
                 //スポナーがスポーンに成功したら値が返ってくる
-                GameObject spawned = spawner.SpawnIfSucceed(stageObjects.GetRandomObject(), pointOrNull.Value, laneNum);
+                GameObject spawned = spawner.SpawnIfSucceed(spawnParameter.GetRandomObject(), pointOrNull.Value, laneNum);
                 if (spawned)
                 {
                     spawned.transform.SetParent(this.transform, true);

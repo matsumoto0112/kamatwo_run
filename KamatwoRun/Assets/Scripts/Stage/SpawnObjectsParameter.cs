@@ -40,7 +40,6 @@ public struct SpawnObject
 [CreateAssetMenu(menuName = "Parameters/SpawnObjects")]
 public class SpawnObjectsParameter : ScriptableObject
 {
-    [Tooltip("スポーン対象リスト"), Header("selectRateの合計値は1.0になるようにしてください")]
     public List<SpawnObject> spawnObjects;
 
     /// <summary>
@@ -49,7 +48,8 @@ public class SpawnObjectsParameter : ScriptableObject
     /// <returns></returns>
     public SpawnObjectType GetRandomObject()
     {
-        float r = Random.Range(0.0f, 1.0f);
+        float sumRates = spawnObjects.Aggregate(0.0f, (s, o) => s + o.selectRate);
+        float r = Random.Range(0.0f, sumRates);
         foreach (var o in spawnObjects)
         {
             if (r <= o.selectRate)

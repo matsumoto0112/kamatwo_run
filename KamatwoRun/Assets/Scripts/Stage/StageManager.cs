@@ -41,6 +41,7 @@ public class StageManager : MonoBehaviour
     //プレイヤーのステータス管理オブジェクト
     private PlayerStatus playerStatus;
     private int currentWavePhase;
+    private int spawnedSubStageNum;
 
     //次のステージの形状予約(nullの時は指定なし)
     private SubStageShapeType? reserveNextStageType;
@@ -61,6 +62,7 @@ public class StageManager : MonoBehaviour
         subStages = new List<SubStage>();
         playerStatus = player.GetComponent<PlayerStatus>();
         currentWavePhase = 0;
+        spawnedSubStageNum = 0;
 
         //最初のステージ情報は固定のものを使用する
         {
@@ -102,6 +104,9 @@ public class StageManager : MonoBehaviour
 
             //新しく追加する
             SpawnNextSubStage();
+            if (spawnedSubStageNum == 50) { 
+                
+            }
         }
     }
 
@@ -177,6 +182,7 @@ public class StageManager : MonoBehaviour
         SubStage newSubStage = newObject.GetComponent<SubStage>();
         newSubStage.SpawnObjects(stageParameter.GetSpawnObjectsParameterByPhase(currentWavePhase), 5);
         subStages.Add(newSubStage);
+        spawnedSubStageNum++;
     }
 
     /// <summary>

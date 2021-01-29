@@ -17,3 +17,5 @@ MonoBehaviour:
   defaultStageMoveSpeed: 15
   groundPosition_Y: 1
   skyPosition_Y: 3
+  wideObjectJudgeRadius: 3
+  highObjectJudgeDistance: 3

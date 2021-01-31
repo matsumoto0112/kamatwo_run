@@ -4,67 +4,17 @@ using System;
 using UnityEngine;
 
 
-public class PlayerMove :CharacterComponent
+public class PlayerMove : CharacterComponent
 {
     public LaneLocationType LocationType { get; private set; }
 
     private LanePositions lanePositions = null;
-
-    private Dictionary<CommandType, CommandBase> commandList;
-    private CommandType commandType = CommandType.NONE;
-
 
     public override void OnCreate()
     {
         LocationType = LaneLocationType.MIDDLE;
         lanePositions = transform.parent.GetComponentInChildren<LanePositions>();
         lanePositions.Initialize();
-
-        commandType = CommandType.NONE;
-        //コマンドリスト登録
-        commandList = new Dictionary<CommandType, CommandBase>();
-        commandList.Add(CommandType.LEFT_MOVE, new LeftSideMoveCommand(this));
-        commandList.Add(CommandType.RIGHT_MOVE, new RightSideMoveCommand(this));
-        commandList.Add(CommandType.JUMP, new JumpCommand(this));
-        commandList.Add(CommandType.SHOT, new ShotCommand(this));
-    }
-
-    public override void OnUpdate()
-    {
-        //コマンド実行
-        if (commandType != CommandType.NONE)
-        {
-            commandList[commandType].Execution();
-            //コマンド終了検知
-            if (commandList[commandType].IsEnd() == true)
-            {
-                commandType = CommandType.NONE;
-            }
-            return;
-        }
-
-        if (IsLeftMoveInput() == true)
-        {
-            commandType = CommandType.LEFT_MOVE;
-        }
-        else if (IsRightMoveInput() == true)
-        {
-            commandType = CommandType.RIGHT_MOVE;
-        }
-        else if (IsJumpInput() == true)
-        {
-            commandType = CommandType.JUMP;
-        }
-        else if(IsShotInput() == true)
-        {
-            commandType = CommandType.SHOT;
-        }
-
-        //コマンド入力があったら
-        if (commandType != CommandType.NONE)
-        {
-            commandList[commandType].Initialize();
-        }
     }
 
     /// <summary>
@@ -98,7 +48,7 @@ public class PlayerMove :CharacterComponent
     /// <param name="a">加速度</param>
     /// <param name="height">高さ</param>
     /// <returns></returns>
-    public float CulcMaxArrivalTime(float a,float height)
+    public float CulcMaxArrivalTime(float a, float height)
     {
         //速度(m/s)² - 初速度(m/s)² = 2 * 加速度 * 変位
         float c = 2 * a * height;
@@ -116,7 +66,7 @@ public class PlayerMove :CharacterComponent
     /// <param name="height">高さ</param>
     /// <param name="t">時間</param>
     /// <returns></returns>
-    public float Jump(float a,float height,float t)
+    public float Jump(float a, float height, float t)
     {
         //速度(m/s)² - 初速度(m/s)² = 2 * 加速度 * 変位(最高到達点height)
         float c = 2 * a * height;
@@ -148,40 +98,4 @@ public class PlayerMove :CharacterComponent
     {
         return lanePositions.LanePositionList[(int)LocationType].position;
     }
-
-    #region Input
-
-    /// <summary>
-    /// 左側移動入力処理判定
-    /// </summary>
-    /// <returns></returns>
-    private bool IsLeftMoveInput()
-    {
-        return Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A);
-    }
-
-    /// <summary>
-    /// 左側移動入力処理判定
-    /// </summary>
-    /// <returns></returns>
-    private bool IsRightMoveInput()
-    {
-        return Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D);
-    }
-
-    /// <summary>
-    /// ジャンプ入力処理判定
-    /// </summary>
-    /// <returns></returns>
-    private bool IsJumpInput()
-    {
-        return Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W);
-    }
-
-    private bool IsShotInput()
-    {
-        return Input.GetKeyDown(KeyCode.Space);
-    }
-
-    #endregion
 }

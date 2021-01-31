@@ -141,6 +141,7 @@ public class DumplingSkin : MonoBehaviour
             return;
         }
 
+        //ìGÇ…è’ìÀÇµÇΩÇÁ
         if (other.gameObject.GetComponentToNullCheck(out WrappableObject wrappableObject) == true)
         {
             OnHit();

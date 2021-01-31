@@ -108,6 +108,21 @@ public class Timer
         return false;
     }
 
+    public bool IsTime(float coef)
+    {
+        if (type == TimerType.INCREASE)
+        {
+            return CurrentTime >= LimitTime * coef;
+        }
+        else if (type == TimerType.DECREASE)
+        {
+            return CurrentTime <= 0.0f;
+        }
+
+        return false;
+
+    }
+
     /// <summary>
     /// タイマーの更新を始める/再開する
     /// </summary>

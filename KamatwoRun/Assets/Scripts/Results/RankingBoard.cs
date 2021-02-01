@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.UI;
 
-public class RankingVisualizer : MonoBehaviour
+public class RankingBoard : MonoBehaviour
 {
     [SerializeField, Header("モード名を表示するテキスト")]
     private Text modeText;
@@ -13,6 +13,8 @@ public class RankingVisualizer : MonoBehaviour
 
     private void Start()
     {
+        //セーブ処理をしてプレイデータをアップロードしておく
+        //セーブ後にはデータがリセットされるため、複数回呼んでもデータが破壊されることはない
         GameDataStore.Instance.SaveGameData();
         RankingData data = GameDataStore.Instance.GetSavedRankingData();
 

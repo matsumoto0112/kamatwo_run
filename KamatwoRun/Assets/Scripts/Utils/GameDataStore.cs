@@ -94,6 +94,9 @@ public class GameDataStore
         //新しくなったランキングデータを保存する
         RankingData currentRanking = new RankingData(list.ToArray());
         BinarySaveSystem.Save(currentRanking, kSaveFileName[PlayedMode]);
+
+        //保存したのでデータを初期化する
+        this.Score = 0;
     }
 
     /// <summary>

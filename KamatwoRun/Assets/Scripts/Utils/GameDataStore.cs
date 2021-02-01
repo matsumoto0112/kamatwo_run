@@ -66,8 +66,13 @@ public class GameDataStore
     /// </summary>
     public int Score { get; set; }
 
+    /// <summary>
+    /// 今回のプレイしたモード
+    /// </summary>
+    public PlayMode PlayedMode { get; set; }
+
     //セーブするファイル名
-    private static readonly string kSaveFileName = "savedata.bin";
+    private static readonly Dictionary<PlayMode, string> kSaveFileName = new Dictionary<PlayMode, string>() { { PlayMode.Weekday, "save1.bin" }, { PlayMode.Holiday, "save2.bin" }, };
 
     /// <summary>
     /// 今回のプレイ情報をセーブする
@@ -75,7 +80,7 @@ public class GameDataStore
     public void SaveGameData()
     {
         //前のプレイ段階の情報を取得する
-        RankingData prevRanking = BinarySaveSystem.Load<RankingData>(kSaveFileName);
+        RankingData prevRanking = BinarySaveSystem.Load<RankingData>(kSaveFileName[PlayedMode]);
 
         //今回のプレイのスコアを追加する
         var list = prevRanking.playerDatas.ToList();
@@ -88,7 +93,7 @@ public class GameDataStore
 
         //新しくなったランキングデータを保存する
         RankingData currentRanking = new RankingData(list.ToArray());
-        BinarySaveSystem.Save(currentRanking, kSaveFileName);
+        BinarySaveSystem.Save(currentRanking, kSaveFileName[PlayedMode]);
     }
 
     /// <summary>
@@ -97,7 +102,18 @@ public class GameDataStore
     /// <returns></returns>
     public RankingData GetSavedRankingData()
     {
-        RankingData res = BinarySaveSystem.Load<RankingData>(kSaveFileName);
+        RankingData res = BinarySaveSystem.Load<RankingData>(kSaveFileName[PlayedMode]);
+        return res;
+    }
+
+    /// <summary>
+    /// modeに対応したセーブされているランキング情報を取得する
+    /// </summary>
+    /// <param name="mode"></param>
+    /// <returns></returns>
+    public RankingData GetSavedRankingData(PlayMode mode)
+    {
+        RankingData res = BinarySaveSystem.Load<RankingData>(kSaveFileName[mode]);
         return res;
     }
 }

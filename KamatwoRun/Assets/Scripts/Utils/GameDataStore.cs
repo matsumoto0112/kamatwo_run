@@ -89,7 +89,7 @@ public class GameDataStore
         //上から既定の人数になるようにリストを作る
         //降順にソートし、 最後の要素を削除することで実現する
         list.Sort((a, b) => b.score - a.score);
-        list.RemoveAt(list.Count);
+        list.RemoveAt(list.Count - 1);
 
         //新しくなったランキングデータを保存する
         RankingData currentRanking = new RankingData(list.ToArray());

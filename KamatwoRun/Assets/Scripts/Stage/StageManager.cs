@@ -13,6 +13,8 @@ public enum SubStageShapeType
     Straight,
     //L字
     L_Shape,
+    //ゴール
+    Goal,
 }
 
 /// <summary>
@@ -42,6 +44,7 @@ public class StageManager : MonoBehaviour
     private PlayerStatus playerStatus;
     private int currentWavePhase;
     private int spawnedSubStageNum;
+    private bool goalGenerated;
 
     //次のステージの形状予約(nullの時は指定なし)
     private SubStageShapeType? reserveNextStageType;
@@ -55,6 +58,11 @@ public class StageManager : MonoBehaviour
     //サブステージの正方形の一辺の長さ
     private static readonly float SubStageUnit = 50.0f;
 
+    /// <summary>
+    /// ステージを削除できる状態か
+    /// </summary>
+    public bool stageDeletable { get; set; }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -63,6 +71,8 @@ public class StageManager : MonoBehaviour
         playerStatus = player.GetComponent<PlayerStatus>();
         currentWavePhase = 0;
         spawnedSubStageNum = 0;
+        goalGenerated = false;
+        stageDeletable = true;
 
         //最初のステージ情報は固定のものを使用する
         {
@@ -96,7 +106,7 @@ public class StageManager : MonoBehaviour
         CalcToNeedNextStageReserve();
 
         SubStage frontStage = subStages.First();
-        if (!frontStage.IsInsideCamera)
+        if (!frontStage.IsInsideCamera && stageDeletable)
         {
             //プレイヤーより前にいったので範囲外になったため、削除する
             Destroy(frontStage.gameObject);
@@ -104,8 +114,9 @@ public class StageManager : MonoBehaviour
 
             //新しく追加する
             SpawnNextSubStage();
-            if (spawnedSubStageNum == 50) { 
-                
+            if (!goalGenerated && spawnedSubStageNum == stageParameter.stageGoalWaveNum)
+            {
+                ReserveNextSubstageShapeType(SubStageShapeType.Goal);
             }
         }
     }
@@ -135,7 +146,6 @@ public class StageManager : MonoBehaviour
         if (reserveNextStageType.HasValue)
         {
             sameTypePrefabs = subStagePrefabs.FindAll(obj => obj.type == reserveNextStageType.Value && obj.prefab.GetComponent<SubStage>().EntranceType == type);
-            reserveNextStageType = null;
         }
         else
         {
@@ -182,7 +192,19 @@ public class StageManager : MonoBehaviour
         SubStage newSubStage = newObject.GetComponent<SubStage>();
         newSubStage.SpawnObjects(stageParameter.GetSpawnObjectsParameterByPhase(currentWavePhase), 5);
         subStages.Add(newSubStage);
-        spawnedSubStageNum++;
+
+        if (reserveNextStageType.HasValue)
+        {
+            if (reserveNextStageType.Value == SubStageShapeType.Goal)
+            {
+                goalGenerated = true;
+            }
+            reserveNextStageType = null;
+        }
+        else
+        {
+            spawnedSubStageNum++;
+        }
     }
 
     /// <summary>
@@ -210,6 +232,11 @@ public class StageManager : MonoBehaviour
     /// <param name="type"></param>
     public void ReserveNextSubstageShapeType(SubStageShapeType type)
     {
+        //ゴール予約は上書きしない
+        if (reserveNextStageType.HasValue && reserveNextStageType.Value == SubStageShapeType.Goal) return;
+        //ゴールが生成済みなら他の形状にしたくない
+        if (goalGenerated) return;
+
         reserveNextStageType = type;
     }
 }

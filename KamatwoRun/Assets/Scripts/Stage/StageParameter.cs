@@ -47,6 +47,9 @@ public class StageParameter : ScriptableObject
     //高さのあるオブジェクト同士が隣接しないようにする判定距離
     public float highObjectJudgeDistance = 3.0f;
 
+    [Header("ゴールするのに必要なウェーブ数")]
+    public int stageGoalWaveNum = 50;
+
     /// <summary>
     /// スコアに対するウェーブ段階を取得する
     /// </summary>

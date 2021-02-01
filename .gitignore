@@ -51,3 +51,4 @@ ehthumbs.db
 !*.obj
 BuildGame/
 SubmitData/
+*savedata.bin*

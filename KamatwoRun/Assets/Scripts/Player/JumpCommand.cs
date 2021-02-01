@@ -9,8 +9,9 @@ public class JumpCommand : CommandBase
 
     private Vector3 currentPosition = Vector3.zero;
     private bool isEnd = false;
-    private float maxTime = 0.0f;
-    private float t;
+    private Timer timer;
+    private Timer flightTimer;
+    private bool isFlight = true;
 
     private const float GRAVITY = 9.8f;
     private const float HEIGHT = 1.8f;
@@ -27,17 +28,28 @@ public class JumpCommand : CommandBase
         base.Initialize();
         isEnd = false;
         currentPosition = playerMove.transform.position;
-        t = 0.0f;
-        maxTime = playerMove.CulcMaxArrivalTime(-GRAVITY * playerParameter.parameter.coefJumpSpeed, HEIGHT);
+        timer = new Timer(playerMove.CulcMaxArrivalTime(-GRAVITY * playerParameter.parameter.coefJumpSpeed, HEIGHT));
+        flightTimer = new Timer(playerParameter.parameter.flightTime);
+        isFlight = true;
     }
 
     public override void Execution()
     {
         base.Execution();
+        //•‚—V§Œä
+        if(Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.UpArrow))
+        {
+            isFlight = false;
+        }
 
-        playerMove.Jump(-GRAVITY * playerParameter.parameter.coefJumpSpeed, HEIGHT, t);
-        t += Time.deltaTime;
-        if (t >= (maxTime * 2.0f))
+        if(timer.IsTime() == true && isFlight == true && flightTimer.IsTime() == false)
+        {
+            flightTimer.UpdateTimer();
+            return;
+        }
+        playerMove.Jump(-GRAVITY * playerParameter.parameter.coefJumpSpeed, HEIGHT, timer.CurrentTime);
+        timer.UpdateTimer();
+        if (timer.IsTime(2.0f) == true)
         {
             playerMove.transform.position = currentPosition;
             isEnd = true;

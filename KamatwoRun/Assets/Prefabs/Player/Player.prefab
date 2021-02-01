@@ -564,6 +564,8 @@ GameObject:
   - component: {fileID: 1677660428683551748}
   - component: {fileID: 8242751027897723768}
   - component: {fileID: 3315752493375504000}
+  - component: {fileID: 5022571423239434809}
+  - component: {fileID: 1269120837}
   m_Layer: 0
   m_Name: Kamatwo
   m_TagString: Untagged
@@ -699,6 +701,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 543d2f93cef881a4884ee6e08775ce5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5022571423239434809
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1677660428683551752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07eb3ddfeb85d99478516afcc73e50d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1269120837
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1677660428683551752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8833e47aa8481ed459cfe80dd816aae2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  a: {x: 0, y: 0, z: 0}
 --- !u!1 &1940843571717048532
 GameObject:
   m_ObjectHideFlags: 0
@@ -3169,7 +3196,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8182062683676997590}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1

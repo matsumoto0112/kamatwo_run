@@ -10,7 +10,7 @@ public class GameSpeed : MonoBehaviour
     /// <summary>
     /// ゲームのスピード
     /// </summary>
-    public float Speed { get; private set; }
+    public float Speed = 1.0f;
 
     // Start is called before the first frame update
     void Start()

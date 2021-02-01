@@ -23,7 +23,8 @@ MonoBehaviour:
   laneNum: 3
   stageWidth: 6
   defaultStageMoveSpeed: 15
-  groundPosition_Y: 1
+  groundPosition_Y: 0.5
   skyPosition_Y: 3
   wideObjectJudgeRadius: 3
   highObjectJudgeDistance: 3
+  stageGoalWaveNum: 50

@@ -57,13 +57,14 @@ public class DumplingSkin : MonoBehaviour
     private IEnumerator ShotCoroutine()
     {
         float time = 0.0f;
-        Vector3 parentPosition = transform.parent.GetChild(0).position;
+        Transform modelTransform = transform.parent.GetChild(0);
+        Vector3 modelPosition = modelTransform.position;
         //³–ÊˆÚ“®
         while (true)
         {
             time += Time.deltaTime;
-            Vector3 distination = parentPosition + (transform.parent.forward * 20);
-            Vector3 vel = Vector3.Lerp(parentPosition, distination, time);
+            Vector3 distination = modelPosition + (modelTransform.forward * 20);
+            Vector3 vel = Vector3.Lerp(modelPosition, distination, time);
             transform.position = new Vector3(vel.x, transform.position.y, vel.z);
 
             if (time >= 1.0f || IsHit == true)

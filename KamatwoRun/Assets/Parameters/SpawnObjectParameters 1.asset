@@ -14,12 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnObjects:
   - type: 3
-    selectRate: 0
+    selectRate: 0.2
   - type: 0
-    selectRate: 0
+    selectRate: 0.2
   - type: 1
-    selectRate: 0
+    selectRate: 0.12
   - type: 2
-    selectRate: 1
+    selectRate: 0.08
   - type: 4
-    selectRate: 1
+    selectRate: 0.5

@@ -255,7 +255,7 @@ Light:
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 0
+    m_Type: 1
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
@@ -409,6 +409,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f20f09708d988748ae4c3566bb868a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &747171596 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1677660428683551752, guid: 841a19bd5af0d994880837c151d3ada1, type: 3}
+  m_PrefabInstance: {fileID: 1466259627}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &957594465
 GameObject:
   m_ObjectHideFlags: 0
@@ -566,7 +571,7 @@ PrefabInstance:
     - target: {fileID: 47348508016047450, guid: 9deca6e10dd9f0f468f9e1bcf4ae9794, type: 3}
       propertyPath: player
       value: 
-      objectReference: {fileID: 1466259628}
+      objectReference: {fileID: 747171596}
     - target: {fileID: 424993771714300768, guid: 9deca6e10dd9f0f468f9e1bcf4ae9794, type: 3}
       propertyPath: stageParameter
       value: 
@@ -812,11 +817,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 841a19bd5af0d994880837c151d3ada1, type: 3}
---- !u!1 &1466259628 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1984212307574710953, guid: 841a19bd5af0d994880837c151d3ada1, type: 3}
-  m_PrefabInstance: {fileID: 1466259627}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1629004252
 GameObject:
   m_ObjectHideFlags: 0

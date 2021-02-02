@@ -812,6 +812,10 @@ PrefabInstance:
       propertyPath: gameSpeed
       value: 
       objectReference: {fileID: 1283789040}
+    - target: {fileID: 1984212307181959092, guid: 841a19bd5af0d994880837c151d3ada1, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1984212307574710952, guid: 841a19bd5af0d994880837c151d3ada1, type: 3}
       propertyPath: m_RootOrder
       value: 6
@@ -859,6 +863,10 @@ PrefabInstance:
     - target: {fileID: 1984212307574710953, guid: 841a19bd5af0d994880837c151d3ada1, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 2481028550016768067, guid: 841a19bd5af0d994880837c151d3ada1, type: 3}
+      propertyPath: m_Constraints
+      value: 84
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 841a19bd5af0d994880837c151d3ada1, type: 3}

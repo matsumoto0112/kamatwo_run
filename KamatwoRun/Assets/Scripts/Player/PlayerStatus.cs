@@ -10,6 +10,8 @@ public class PlayerStatus : CharacterComponent
     private Timer blinkingTimer;
     private Timer invincibleTimer;
 
+    private Animator animator = null;
+
     public bool IsHit { get; private set; }
     public bool IsCreate { get; private set; } = false;
     public int Score { get; private set; }
@@ -26,6 +28,8 @@ public class PlayerStatus : CharacterComponent
         HP = playerParameter.parameter.hp;
         IsHit = false;
         IsCreate = true;
+        animator = GetComponent<Animator>();
+        animator.applyRootMotion = true;
     }
 
     public override void OnUpdate()
@@ -75,6 +79,11 @@ public class PlayerStatus : CharacterComponent
         }
         HP -= damage;
         IsHit = true;
+        if(IsDead() == true)
+        {
+            animator.applyRootMotion = false;
+            animator.SetTrigger("Dead");
+        }
     }
 
     /// <summary>

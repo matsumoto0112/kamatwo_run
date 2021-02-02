@@ -603,7 +603,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: d9504ed093f1334498245802ff9f114e, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 0
+  m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
@@ -725,7 +725,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8833e47aa8481ed459cfe80dd816aae2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  a: {x: 0, y: 0, z: 0}
 --- !u!1 &1940843571717048532
 GameObject:
   m_ObjectHideFlags: 0
@@ -883,6 +882,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ba979f567acbc74b88fe8f521e98312, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameSpeed: {fileID: 0}
 --- !u!1 &1984212307895425586
 GameObject:
   m_ObjectHideFlags: 0

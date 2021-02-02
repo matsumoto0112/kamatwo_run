@@ -35,8 +35,9 @@ public class HPImageDisplay : MonoBehaviour
     {
         playerStatus = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<PlayerStatus>();
         hpImageList = new List<Image>();
-        yield return new WaitWhile(() => playerStatus.IsCreate == true);
+        yield return new WaitWhile(() => playerStatus.IsCreate == false);
         float x = hpImageObject.GetComponent<Image>().rectTransform.sizeDelta.x;
+            Debug.Log(1);
         for (int i = 1; i < playerStatus.HP; i++)
         {
             Image image = Instantiate(hpImageObject).GetComponent<Image>();

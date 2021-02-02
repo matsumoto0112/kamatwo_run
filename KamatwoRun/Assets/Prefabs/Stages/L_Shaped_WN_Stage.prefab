@@ -513,6 +513,7 @@ GameObject:
   - component: {fileID: 2682313432696629864}
   - component: {fileID: 7211192960113228093}
   - component: {fileID: 4966630736298030436}
+  - component: {fileID: 3469660922626772496}
   m_Layer: 0
   m_Name: L_Shaped_WN_Stage
   m_TagString: Untagged
@@ -579,6 +580,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5da7e9127dab894db2ef4195b322b07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3469660922626772496
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4009374741254545578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bad47db5f875afa4a99e334269464774, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eventCameraPosition: {x: 10, y: 2.5, z: 0}
 --- !u!1 &6766694755345000438
 GameObject:
   m_ObjectHideFlags: 0

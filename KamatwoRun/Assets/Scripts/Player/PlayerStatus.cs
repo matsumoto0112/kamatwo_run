@@ -11,6 +11,7 @@ public class PlayerStatus : CharacterComponent
     private Timer invincibleTimer;
 
     public bool IsHit { get; private set; }
+    public bool IsCreate { get; private set; } = false;
     public int Score { get; private set; }
     public int HP { get; private set; }
 
@@ -24,6 +25,7 @@ public class PlayerStatus : CharacterComponent
         Score = 0;
         HP = playerParameter.parameter.hp;
         IsHit = false;
+        IsCreate = true;
     }
 
     public override void OnUpdate()

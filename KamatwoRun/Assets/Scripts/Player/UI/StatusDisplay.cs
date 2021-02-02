@@ -7,8 +7,6 @@ public class StatusDisplay : MonoBehaviour
 {
     [SerializeField]
     private Text scoreText = null;
-    [SerializeField]
-    private Text hpText = null;
 
     private PlayerStatus playerStatus = null;
 
@@ -22,6 +20,7 @@ public class StatusDisplay : MonoBehaviour
     void Update()
     {
         scoreText.text = "Score:" + playerStatus.Score;
-        hpText.text = "HP:" + playerStatus.HP;
     }
+
+
 }

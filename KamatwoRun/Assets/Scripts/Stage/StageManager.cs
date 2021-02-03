@@ -66,6 +66,7 @@ public class StageManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        GameDataStore.Instance.ResetWaveCount();
         gameSpeed = GetComponent<GameSpeed>();
         subStages = new List<SubStage>();
         playerStatus = player.GetComponent<PlayerStatus>();
@@ -97,7 +98,7 @@ public class StageManager : MonoBehaviour
     void Update()
     {
         //スタートイベント中だったら
-        if(EventManager.Instance.StartEventFlag == false)
+        if (EventManager.Instance.StartEventFlag == false)
         {
             return;
         }

@@ -99,7 +99,33 @@ public class SubStage : MonoBehaviour
         Assert.IsNotNull(boxCollider, "BoxColliderがアタッチされていません");
     }
 
+    /// <summary>
+    /// 直進する通路かどうか判定する
+    /// </summary>
+    /// <returns></returns>
+    private bool IsStraight()
+    {
+        switch (EntranceType)
+        {
+            case GatewayType.North:
+                return ExitType == GatewayType.South;
+            case GatewayType.South:
+                return ExitType == GatewayType.North;
+            case GatewayType.East:
+                return ExitType == GatewayType.West;
+            default:
+                return ExitType == GatewayType.East;
+        }
+    }
 
+    private void OnDestroy()
+    {
+        if (IsStraight())
+        {
+            GameDataStore.Instance.IncrementWaveCount();
+            Debug.Log(GameDataStore.Instance.WaveCount);
+        }
+    }
 
     /// <summary>
     /// オブジェクトをスポーンする

@@ -71,6 +71,27 @@ public class GameDataStore
     /// </summary>
     public PlayMode PlayedMode { get; set; }
 
+    /// <summary>
+    /// 進んだウェーブ
+    /// </summary>
+    public int WaveCount { get; private set; }
+
+    /// <summary>
+    /// ウェーブ数を一増やす
+    /// </summary>
+    public void IncrementWaveCount()
+    {
+        WaveCount = WaveCount + 1; ;
+    }
+
+    /// <summary>
+    /// ウェーブ数をリセットする
+    /// </summary>
+    public void ResetWaveCount()
+    {
+        WaveCount = 0;
+    }
+
     //セーブするファイル名
     private static readonly Dictionary<PlayMode, string> kSaveFileName = new Dictionary<PlayMode, string>() { { PlayMode.Weekday, "save1.bin" }, { PlayMode.Holiday, "save2.bin" }, };
 

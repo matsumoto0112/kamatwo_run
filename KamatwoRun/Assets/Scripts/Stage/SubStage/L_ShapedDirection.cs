@@ -101,7 +101,7 @@ public class L_ShapedDirection : DirectionChecker
             }
         }
         //N->E
-        else if (entrance == GatewayType.East && exit == GatewayType.North)
+        else if (entrance == GatewayType.North && exit == GatewayType.East)
         {
             if (GetAngle(new Vector3(1.0f, 0.0f, 1.0f), p) <= 0.0f)
             {

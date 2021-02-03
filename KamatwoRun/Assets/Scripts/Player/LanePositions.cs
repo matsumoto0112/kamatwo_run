@@ -23,7 +23,7 @@ public class LanePositions : MonoBehaviour
         }
         entranceDirection = Vector3.zero;
         modelObject = transform.parent.GetChild(0).gameObject;
-        Camera.main.transform.parent = transform;
+        //Camera.main.transform.parent = transform;
         subStageObject = null;
         curveTimer = new Timer();
     }

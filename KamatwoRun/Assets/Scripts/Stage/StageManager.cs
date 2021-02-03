@@ -96,6 +96,12 @@ public class StageManager : MonoBehaviour
 
     void Update()
     {
+        //スタートイベント中だったら
+        if(EventManager.Instance.StartEventFlag == false)
+        {
+            return;
+        }
+
         Vector3 scrollDirection = GetForegroundDirection(player.transform.position);
         float speed = gameSpeed.Speed * Time.deltaTime;
         foreach (var st in subStages)

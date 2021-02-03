@@ -9,19 +9,12 @@ public class HPImageDisplay : MonoBehaviour
     private RectTransform hpImageObject = null;
     private PlayerStatus playerStatus = null;
     private int prevHP = 0;
-    private bool isCreate = false;
 
     public List<Image> hpImageList { get; private set; }
 
-    private void Start()
+    public void OnUpdate()
     {
-        isCreate = false;
-        StartCoroutine(Initialize());
-    }
-
-    private void Update()
-    {
-        if (isCreate == false || prevHP == playerStatus.HP)
+        if (prevHP == playerStatus.HP)
         {
             return;
         }
@@ -31,13 +24,11 @@ public class HPImageDisplay : MonoBehaviour
         prevHP = playerStatus.HP;
     }
 
-    private IEnumerator Initialize()
+    public void Initialize()
     {
         playerStatus = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<PlayerStatus>();
         hpImageList = new List<Image>();
-        yield return new WaitWhile(() => playerStatus.IsCreate == false);
         float x = hpImageObject.GetComponent<Image>().rectTransform.sizeDelta.x;
-            Debug.Log(1);
         for (int i = 1; i < playerStatus.HP; i++)
         {
             Image image = Instantiate(hpImageObject).GetComponent<Image>();
@@ -51,6 +42,5 @@ public class HPImageDisplay : MonoBehaviour
         }
 
         prevHP = playerStatus.HP;
-        isCreate = true;
     }
 }

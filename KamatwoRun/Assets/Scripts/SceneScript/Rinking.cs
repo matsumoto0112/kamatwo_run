@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-public class Gamestart : MonoBehaviour
+public class Rinking : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
@@ -15,14 +15,9 @@ public class Gamestart : MonoBehaviour
     {
         
     }
-    //ゲームシーン
-    public void ScenenGame()
+    //ランキングシーン移動
+  public  void RankingScene()
     {
-        SceneManager.LoadScene("Main");
-    }
-    //ゴールゲームシーン
-    public void GoalSceneGame()
-    {
-        SceneManager.LoadScene("StageObjectTest");
+        SceneManager.LoadScene("RankingScene");
     }
 }

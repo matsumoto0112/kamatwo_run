@@ -71,6 +71,14 @@ MonoBehaviour:
     prefab: {fileID: 4009374741254545578, guid: d9b9a055d61431348a84dbdf7bc6aba9, type: 3}
   - type: 1
     prefab: {fileID: 3747905753147181197, guid: 56d16d9a2a76a0b4f98165afb872447c, type: 3}
+  - type: 2
+    prefab: {fileID: 2774953111957260740, guid: 7e3bafd042cd49a4db07ed22bf06ffb2, type: 3}
+  - type: 2
+    prefab: {fileID: 4929607393223116596, guid: 5c23cd5ce4473dd49b2a0ca68787cc4a, type: 3}
+  - type: 2
+    prefab: {fileID: 3831536564189466660, guid: abbd37138e4729f489669bc74e865df9, type: 3}
+  - type: 2
+    prefab: {fileID: 2255587035788088644, guid: aff5f6a8a079591488e11d41bd5b4ae9, type: 3}
   player: {fileID: 0}
 --- !u!114 &997964865609371510
 MonoBehaviour:
@@ -85,6 +93,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stagePamameter: {fileID: 11400000, guid: b6a389dc0f68e4648a089d8e62d60045, type: 2}
+  Speed: 1
 --- !u!114 &424993771714300768
 MonoBehaviour:
   m_ObjectHideFlags: 0

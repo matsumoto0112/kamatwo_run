@@ -8,7 +8,6 @@ public class LeftSideMoveCommand : CommandBase
     private PlayerParameter playerParameter = null;
     private Vector3 currentPosition = Vector3.zero;
 
-    private bool isEnd = false;
     private float time = 0.0f;
 
     public LeftSideMoveCommand(ICharacterComponent character) 
@@ -53,6 +52,16 @@ public class LeftSideMoveCommand : CommandBase
             playerMove.transform.position = playerMove.NextMovePosition();
             isEnd = true;
         }
+    }
+
+    /// <summary>
+    /// イベント発生時に行動していた時の処理
+    /// </summary>
+    public override void EventInitialize()
+    {
+        base.EventInitialize();
+        //移動先の位置へワープさせる
+        playerMove.transform.position = playerMove.NextMovePosition();
     }
 
     public override bool IsEnd()

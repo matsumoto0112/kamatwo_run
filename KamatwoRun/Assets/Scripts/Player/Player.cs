@@ -40,6 +40,12 @@ public class Player : MonoBehaviour
             gameSpeed.Speed = 0.0f;
             return;
         }
+
+        if(EventManager.Instance.EventFlag == true)
+        {
+            return;
+        }
+
         foreach(var c in componentList)
         {
             c.OnUpdate();

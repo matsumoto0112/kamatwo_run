@@ -10,6 +10,7 @@ namespace UnityExLib
         [SerializeField]
         private bool DontDestroyFlag = true;
         private static T instance;
+
         public static T Instance
         {
             get

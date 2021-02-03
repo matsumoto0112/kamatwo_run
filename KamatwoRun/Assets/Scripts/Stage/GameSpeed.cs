@@ -11,16 +11,22 @@ public class GameSpeed : MonoBehaviour
     /// ゲームのスピード
     /// </summary>
     public float Speed = 1.0f;
+    public float DefaultStageMoveSpeed
+    {
+        get
+        {
+            return stagePamameter.defaultStageMoveSpeed;
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        Speed = stagePamameter.defaultStageMoveSpeed;
+        Initialize();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Initialize()
     {
-
+        Speed = stagePamameter.defaultStageMoveSpeed;
     }
 }

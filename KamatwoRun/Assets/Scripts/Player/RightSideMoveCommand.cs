@@ -8,7 +8,6 @@ public class RightSideMoveCommand : CommandBase
     private PlayerParameter playerParameter = null;
     private Vector3 currentPosition = Vector3.zero;
 
-    private bool isEnd = false;
     private float time = 0.0f;
 
     public RightSideMoveCommand(ICharacterComponent character)
@@ -53,6 +52,12 @@ public class RightSideMoveCommand : CommandBase
             playerMove.transform.position = playerMove.NextMovePosition();
             isEnd = true;
         }
+    }
+
+    public override void EventInitialize()
+    {
+        base.EventInitialize();
+        playerMove.transform.position = playerMove.NextMovePosition();
     }
 
     public override bool IsEnd()

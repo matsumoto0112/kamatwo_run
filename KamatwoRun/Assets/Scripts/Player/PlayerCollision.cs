@@ -17,11 +17,13 @@ public class PlayerCollision : CharacterComponent
 
     private void OnTriggerEnter(Collider other)
     {
+        //死亡していたら
         if(playerStatus.IsDead() == true)
         {
             return;
         }
 
+        //スコアオブジェクトに衝突したら
         if (other.gameObject.GetComponentToNullCheck(out ScoreObject scoreObject) == true)
         {
             playerStatus.AddScore(scoreObject.ScoreInfo.score);
@@ -32,18 +34,21 @@ public class PlayerCollision : CharacterComponent
             playerStatus.AddScore(dumplingSkin.score);
         }
 
+        //ダメージを受けている途中なら
         if(playerStatus.IsHit == true)
         {
             return;
         }
 
-        if (other.gameObject.GetComponentToNullCheck(out Obstacle obstacle) == true)
+        if (other.GetComponent<Obstacle>() != null || other.GetComponent<WrappableObject>() != null)
         {
             playerStatus.Damage();
         }
-        else if (other.gameObject.GetComponentToNullCheck(out WrappableObject wrappableObject) == true)
+
+        //カーブオブジェクトに接触したら
+        if(other.GetComponent<CurveCameraEvent>() != null)
         {
-            playerStatus.Damage();
+            EventManager.Instance.CurveEvent(other.gameObject);
         }
     }
 }

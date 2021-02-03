@@ -6,22 +6,26 @@ using UnityEngine.UI;
 public class StatusDisplay : MonoBehaviour
 {
     [SerializeField]
-    private Text scoreText = null;
+    private HPImageDisplay hpDisplay = null;
     [SerializeField]
-    private Text hpText = null;
+    private Text scoreText = null;
 
     private PlayerStatus playerStatus = null;
 
-    // Start is called before the first frame update
-    void Start()
+    public void OnEventEndInitialize()
     {
         playerStatus = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<PlayerStatus>();
+        hpDisplay.Initialize();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(EventManager.Instance.StartEventFlag == false)
+        {
+            return;
+        }
         scoreText.text = "Score:" + playerStatus.Score;
-        hpText.text = "HP:" + playerStatus.HP;
+        hpDisplay.OnUpdate();
     }
 }

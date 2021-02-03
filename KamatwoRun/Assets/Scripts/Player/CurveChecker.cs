@@ -21,11 +21,15 @@ public class CurveChecker : MonoBehaviour
             return;
         }
 
-        if(lanePositions.CurveToChangeLanePosition(subStage) == true)
+        if(EventManager.Instance.IsCurvePoint == true)
+        {
+            lanePositions.CurveTiltBody();
+        }
+
+        if (lanePositions.CurveToChangeLanePosition() == true)
         {
             subStage = null;
         }
-
     }
 
     private void OnTriggerEnter(Collider other)
@@ -43,6 +47,11 @@ public class CurveChecker : MonoBehaviour
             this.subStage = subStage;
             lanePositions.GetEntranceDirection(subStage);
         }
+        else if (other.CompareTag("CurvePoint") == true)
+        {
+            EventManager.Instance.IsCurvePoint = true;
+        }
+
     }
 
     /// <summary>

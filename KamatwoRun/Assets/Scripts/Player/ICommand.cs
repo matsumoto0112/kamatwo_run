@@ -19,4 +19,9 @@ public interface ICommand
     /// </summary>
     /// <returns></returns>
     bool IsEnd();
+
+    /// <summary>
+    /// イベント時にコマンド実行中の場合に初期化を行う
+    /// </summary>
+    void EventInitialize();
 }

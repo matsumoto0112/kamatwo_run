@@ -8,7 +8,6 @@ public class PlayerInput : CharacterComponent
     private Dictionary<CommandType, CommandBase> commandList;
     private CommandType commandType = CommandType.NONE;
 
-
     public override void OnCreate()
     {
         commandType = CommandType.NONE;
@@ -55,6 +54,16 @@ public class PlayerInput : CharacterComponent
         if (commandType != CommandType.NONE)
         {
             commandList[commandType].Initialize();
+        }
+    }
+
+    public void OnEventInitialize()
+    {
+        //コマンドが実行中だったら
+        if(commandType != CommandType.NONE)
+        {
+            commandList[commandType].EventInitialize();
+            commandType = CommandType.NONE;
         }
     }
 

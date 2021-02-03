@@ -8,7 +8,6 @@ public class JumpCommand : CommandBase
     private PlayerParameter playerParameter = null;
 
     private Vector3 currentPosition = Vector3.zero;
-    private bool isEnd = false;
     private Timer timer;
     private Timer flightTimer;
     private bool isFlight = true;
@@ -41,19 +40,28 @@ public class JumpCommand : CommandBase
         {
             isFlight = false;
         }
-
+        //•‚—V
         if(timer.IsTime() == true && isFlight == true && flightTimer.IsTime() == false)
         {
             flightTimer.UpdateTimer();
             return;
         }
+        //ƒWƒƒƒ“ƒvˆ—
         playerMove.Jump(-GRAVITY * playerParameter.parameter.coefJumpSpeed, HEIGHT, timer.CurrentTime);
         timer.UpdateTimer();
+
+        //I—¹ˆ—
         if (timer.IsTime(2.0f) == true)
         {
             playerMove.transform.position = currentPosition;
             isEnd = true;
         }
+    }
+
+    public override void EventInitialize()
+    {
+        base.EventInitialize();
+        playerMove.transform.position = currentPosition;
     }
 
     public override bool IsEnd()

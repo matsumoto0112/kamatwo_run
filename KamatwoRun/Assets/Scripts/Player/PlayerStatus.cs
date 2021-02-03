@@ -7,8 +7,8 @@ public class PlayerStatus : CharacterComponent
     [SerializeField]
     private GameObject playerMeshObject = null;
     private PlayerParameter playerParameter = null;
-    private Timer blinkingTimer;
-    private Timer invincibleTimer;
+    private Timer blinkingTimer;    //点滅時間計測
+    private Timer invincibleTimer;  //無敵時間計測
 
     private Animator animator = null;
 
@@ -35,6 +35,7 @@ public class PlayerStatus : CharacterComponent
     public override void OnUpdate()
     {
         base.OnUpdate();
+        //衝突中もしくは死亡していたら
         if(IsHit == false || IsDead() == true)
         {
             return;
@@ -79,8 +80,10 @@ public class PlayerStatus : CharacterComponent
         }
         HP -= damage;
         IsHit = true;
+        //死亡時にデータ保存とアニメーション再生
         if(IsDead() == true)
         {
+            GameDataStore.Instance.Score = Score;
             animator.applyRootMotion = false;
             animator.SetTrigger("Dead");
         }

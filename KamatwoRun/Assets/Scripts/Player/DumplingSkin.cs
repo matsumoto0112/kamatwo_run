@@ -11,6 +11,8 @@ public class DumplingSkin : MonoBehaviour
     #endregion
 
     [SerializeField]
+    private GameObject smokeParticle = null;
+    [SerializeField]
     private Texture dumplingTexture = null;
     [SerializeField]
     private Texture wrappTexture = null;
@@ -33,6 +35,7 @@ public class DumplingSkin : MonoBehaviour
     public bool IsHit { get; private set; }
     //è·äQï®Ç…ìñÇΩÇ¡ÇΩÇ©Ç«Ç§Ç©
     public bool IsObstacleHit { get; private set; }
+    public bool IsNoHit { get; private set; }
 
     // Start is called before the first frame update
     void Start()
@@ -47,6 +50,7 @@ public class DumplingSkin : MonoBehaviour
 
         IsHit = false;
         IsObstacleHit = false;
+        IsNoHit = false;
         shotCoroutine = null;
     }
 
@@ -105,9 +109,9 @@ public class DumplingSkin : MonoBehaviour
         }
         else
         {
+            IsNoHit = true;
             yield return StartCoroutine(SkinBackCoroutine());
         }
-        OnEnd();
     }
 
     /// <summary>
@@ -141,6 +145,7 @@ public class DumplingSkin : MonoBehaviour
         meshRenderer.enabled = true;
         boxCollider.enabled = true;
         IsHit = false;
+        IsNoHit = false;
         IsObstacleHit = false;
         score = 0;
         shotCoroutine = ShotCoroutine();
@@ -166,6 +171,7 @@ public class DumplingSkin : MonoBehaviour
         meshRenderer.enabled = false;
         boxCollider.enabled = false;
         IsHit = false;
+        IsNoHit = false;
         IsObstacleHit = false;
         shotCoroutine = null;
         score = 0;
@@ -177,7 +183,11 @@ public class DumplingSkin : MonoBehaviour
         {
             return;
         }
-
+        //ñﬂÇÈÇ‹Ç≈Ç…âΩÇ…Ç‡ìñÇΩÇÁÇ»Ç©Ç¡ÇΩÇÁ
+        if(IsNoHit == true)
+        {
+            return;
+        }
         //ìGÇ…è’ìÀÇµÇΩÇÁ
         if (other.gameObject.GetComponentToNullCheck(out WrappableObject wrappableObject) == true)
         {
@@ -199,6 +209,9 @@ public class DumplingSkin : MonoBehaviour
             }
             score = (int)(wrappableObject.Wrap().score * coef);
             wrappableObject.DestroySelf();
+            GameObject particle = Instantiate(smokeParticle, transform.position, Quaternion.identity);
+            particle.transform.parent = transform;
+            Destroy(particle, 1.5f);
         }
         //è·äQï®Ç…è’ìÀÇµÇΩÇÁ
         else if (other.gameObject.GetComponentToNullCheck(out Obstacle obstacle) == true)

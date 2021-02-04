@@ -7,6 +7,11 @@ using UnityEngine;
 /// </summary>
 public class PlayerCollision : CharacterComponent
 {
+    [SerializeField]
+    private GameObject smallEatParticle = null;
+    [SerializeField]
+    private GameObject bigEatParticle = null;
+
     private PlayerStatus playerStatus = null;
 
     public override void OnCreate()
@@ -26,16 +31,35 @@ public class PlayerCollision : CharacterComponent
         //スコアオブジェクトに衝突したら
         if (other.gameObject.GetComponentToNullCheck(out ScoreObject scoreObject) == true)
         {
+            GameObject particle = Instantiate(smallEatParticle, transform.position + Vector3.up, Quaternion.identity);
+            Destroy(particle, 1.5f);
             playerStatus.AddScore(scoreObject.ScoreInfo.score);
             scoreObject.DestroySelf();
         }
+        //包んだ餃子を取得したら
         else if(other.gameObject.GetComponentToNullCheck(out DumplingSkin dumplingSkin) == true)
         {
-            playerStatus.AddScore(dumplingSkin.score);
+            if(dumplingSkin.IsHit == true)
+            {
+                GameObject particle = Instantiate(bigEatParticle, transform.position + Vector3.up, Quaternion.identity);
+                Destroy(particle, 1.5f);
+                playerStatus.AddScore(dumplingSkin.score);
+                dumplingSkin.OnEnd();
+            }
+        }
+
+        //カーブオブジェクトに接触したら
+        if (other.GetComponent<CurveCameraEvent>() != null)
+        {
+            EventManager.Instance.CurveEvent(other.gameObject);
+        }
+        else if (other.GetComponent<GoalSubStage>() != null)
+        {
+            EventManager.Instance.GoalEvent(gameObject, other.gameObject);
         }
 
         //ダメージを受けている途中なら
-        if(playerStatus.IsHit == true)
+        if (playerStatus.IsHit == true)
         {
             return;
         }
@@ -43,16 +67,6 @@ public class PlayerCollision : CharacterComponent
         if (other.GetComponent<Obstacle>() != null || other.GetComponent<WrappableObject>() != null)
         {
             playerStatus.Damage();
-        }
-
-        //カーブオブジェクトに接触したら
-        if(other.GetComponent<CurveCameraEvent>() != null)
-        {
-            EventManager.Instance.CurveEvent(other.gameObject);
-        }
-        else if(other.GetComponent<GoalSubStage>() != null)
-        {
-            EventManager.Instance.GoalEvent(gameObject,other.gameObject);
         }
     }
 }

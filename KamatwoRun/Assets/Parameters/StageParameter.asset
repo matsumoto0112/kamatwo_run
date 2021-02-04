@@ -27,4 +27,4 @@ MonoBehaviour:
   skyPosition_Y: 3
   wideObjectJudgeRadius: 3
   highObjectJudgeDistance: 3
-  stageGoalWaveNum: 5
+  stageGoalWaveNum: 50

@@ -13,6 +13,8 @@ public class EventManager : SingletonMonoBehaviour<EventManager>
     private GameObject startEventStagePrefab = null;
     [SerializeField]
     private GameObject eventCanvasObject = null;
+    [SerializeField]
+    private SceneChangeRelay changeRelay = null;
 
     private StageManager stageManager = null;
     private GameSpeed gameSpeed = null;
@@ -156,6 +158,12 @@ public class EventManager : SingletonMonoBehaviour<EventManager>
         StartCoroutine(coroutine);
     }
 
+    public void GoalEvent(GameObject target,GameObject stageObject)
+    {
+        coroutine = GoalCoroutine(target,stageObject);
+        StartCoroutine(coroutine);
+    }
+
     /// <summary>
     /// カーブ時の演出処理
     /// </summary>
@@ -210,5 +218,26 @@ public class EventManager : SingletonMonoBehaviour<EventManager>
         coroutine = null;
         eventTimer.Initialize();
         stageManager.stageDeletable = true;
+    }
+
+    private IEnumerator GoalCoroutine(GameObject target, GameObject stageObject)
+    {
+        stageManager.stageDeletable = false;
+        //カメラ追跡停止
+        Camera.main.transform.parent = stageObject.transform;
+        Timer timer = new Timer(1.5f);
+        while (true)
+        {
+            Camera.main.transform.LookAt(target.transform);
+            timer.UpdateTimer();
+            yield return new WaitForSeconds(Time.deltaTime);
+            if(timer.IsTime() == true)
+            {
+                break;
+            }
+        }
+
+        changeRelay.Next();
+        coroutine = null;
     }
 }

@@ -50,5 +50,9 @@ public class PlayerCollision : CharacterComponent
         {
             EventManager.Instance.CurveEvent(other.gameObject);
         }
+        else if(other.GetComponent<GoalSubStage>() != null)
+        {
+            EventManager.Instance.GoalEvent(gameObject,other.gameObject);
+        }
     }
 }

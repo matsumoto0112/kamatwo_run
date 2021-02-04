@@ -517,20 +517,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1677660428683551752, guid: 841a19bd5af0d994880837c151d3ada1, type: 3}
   m_PrefabInstance: {fileID: 1466259627}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &747171597
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 747171596}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b506bb41c94353d438b3eca189cad1f8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sceneName: ResultScene
-  fade: {fileID: 1185673025}
 --- !u!1 &957594465
 GameObject:
   m_ObjectHideFlags: 0
@@ -896,6 +882,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 747171597, guid: 841a19bd5af0d994880837c151d3ada1, type: 3}
+      propertyPath: fade
+      value: 
+      objectReference: {fileID: 1185673025}
     - target: {fileID: 2043932344, guid: 841a19bd5af0d994880837c151d3ada1, type: 3}
       propertyPath: gameSpeed
       value: 
@@ -1264,6 +1254,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1890000643}
   - component: {fileID: 1890000642}
+  - component: {fileID: 1890000644}
   m_Layer: 0
   m_Name: EventManager
   m_TagString: Untagged
@@ -1288,6 +1279,7 @@ MonoBehaviour:
   playerCanvas: {fileID: 96132391}
   startEventStagePrefab: {fileID: 7900751174107455145, guid: 658e8905049b9cd45998aee76ee9ccf3, type: 3}
   eventCanvasObject: {fileID: 2095609438}
+  changeRelay: {fileID: 1890000644}
 --- !u!4 &1890000643
 Transform:
   m_ObjectHideFlags: 0
@@ -1302,6 +1294,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1890000644
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1890000641}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b506bb41c94353d438b3eca189cad1f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneName: ResultScene
+  fade: {fileID: 1185673025}
 --- !u!1 &1903945179
 GameObject:
   m_ObjectHideFlags: 0

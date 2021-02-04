@@ -566,6 +566,7 @@ GameObject:
   - component: {fileID: 3315752493375504000}
   - component: {fileID: 5022571423239434809}
   - component: {fileID: 1269120837}
+  - component: {fileID: 747171597}
   m_Layer: 0
   m_Name: Kamatwo
   m_TagString: Untagged
@@ -725,6 +726,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8833e47aa8481ed459cfe80dd816aae2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &747171597
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1677660428683551752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b506bb41c94353d438b3eca189cad1f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneName: ResultScene
+  fade: {fileID: 0}
 --- !u!1 &1940843571717048532
 GameObject:
   m_ObjectHideFlags: 0
@@ -2420,6 +2435,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dumplingTexture: {fileID: 2800000, guid: 36f6d563f93feed459797fef968a9309, type: 3}
   wrappTexture: {fileID: 2800000, guid: 3263d1eb32944d34992bab6396eda32a, type: 3}
+  shotPower: 10
 --- !u!65 &6303902998758027802
 BoxCollider:
   m_ObjectHideFlags: 0

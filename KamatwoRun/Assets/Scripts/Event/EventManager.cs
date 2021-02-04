@@ -11,6 +11,8 @@ public class EventManager : SingletonMonoBehaviour<EventManager>
     private GameObject playerCanvas = null;
     [SerializeField]
     private GameObject startEventStagePrefab = null;
+    [SerializeField]
+    private GameObject eventCanvasObject = null;
 
     private StageManager stageManager = null;
     private GameSpeed gameSpeed = null;
@@ -46,7 +48,7 @@ public class EventManager : SingletonMonoBehaviour<EventManager>
         gameSpeed = stageManagerObject.GetComponent<GameSpeed>();
         //プレイヤーモデル取得
         playerModelObject = GameObject.FindGameObjectWithTag("Player").transform.GetChild(0).gameObject;
-        eventTimer = new Timer(2.0f);
+        eventTimer = new Timer(1.5f);
         IsCurvePoint = false;
 
         StartEventFlag = false;
@@ -65,6 +67,9 @@ public class EventManager : SingletonMonoBehaviour<EventManager>
         stageManager.stageDeletable = false;
         playerCanvas.SetActive(false);
 
+        EventTextDisplay eventTextDisplay = eventCanvasObject.GetComponent<EventTextDisplay>();
+        eventTextDisplay.Initialize();
+
         //スタート時のプレイヤー情報保存
         Vector3 initialPlayerPosition = playerModelObject.transform.localPosition;
         Vector3 initialPlayerRotate = playerModelObject.transform.localEulerAngles;
@@ -80,14 +85,22 @@ public class EventManager : SingletonMonoBehaviour<EventManager>
         Camera.main.transform.LookAt(playerModelObject.transform);
         Camera.main.transform.position = playerModelObject.transform.position + (playerModelObject.transform.forward * 30) + new Vector3(0.0f, 2.0f, 0.0f);
 
+        float alpha = 0.0f;
         //プレイヤーがカメラに向かって走ってくる
         while (true)
         {
             playerModelObject.transform.position += playerModelObject.transform.forward * Time.deltaTime * 7.5f;
+            alpha += Time.deltaTime;
+            alpha = Mathf.Clamp01(alpha);
+            eventTextDisplay.SetFrameAlpha(alpha);
             yield return new WaitForSeconds(Time.deltaTime);
             if((Camera.main.transform.position.z - playerModelObject.transform.position.z) <= 5.0f)
             {
                 break;
+            }
+            if(alpha >= 1.0f)
+            {
+                eventTextDisplay.FirstText();
             }
         }
 
@@ -97,6 +110,7 @@ public class EventManager : SingletonMonoBehaviour<EventManager>
         Camera.main.transform.parent = playerModelObject.transform;
 
         Timer timer = new Timer(2.0f);
+        eventTextDisplay.SecondText();
         //再度進む
         while (true)
         {
@@ -110,6 +124,8 @@ public class EventManager : SingletonMonoBehaviour<EventManager>
         }
 
         //演出終了処理
+        eventTextDisplay.Initialize();
+
         Camera.main.transform.parent = null;
         playerModelObject.transform.localPosition = initialPlayerPosition;
         playerModelObject.transform.localEulerAngles = initialPlayerRotate;
@@ -140,6 +156,11 @@ public class EventManager : SingletonMonoBehaviour<EventManager>
         StartCoroutine(coroutine);
     }
 
+    /// <summary>
+    /// カーブ時の演出処理
+    /// </summary>
+    /// <param name="subStageObject"></param>
+    /// <returns></returns>
     private IEnumerator CurveEventCoroutine(GameObject subStageObject)
     {
         //演出中はステージを削除しない

@@ -8,9 +8,9 @@ public class LoadMapController : MonoBehaviour
     [SerializeField]
     private StageParameter stageParameter = null;
     [SerializeField]
-    private GameObject startPosition = null;
+    private RectTransform startPosition = null;
     [SerializeField]
-    private GameObject endPosition = null;
+    private RectTransform endPosition = null;
     [SerializeField]
     private Image playerIcon = null;
 
@@ -28,20 +28,21 @@ public class LoadMapController : MonoBehaviour
 
         //ゴールするのに必要なウェーブ数
         maxWaveCount = stageParameter.stageGoalWaveNum;
-        playerIcon.rectTransform.position = startPosition.transform.position;
-        distance = endPosition.transform.position.y - startPosition.transform.position.y;
+        playerIcon.rectTransform.localPosition = startPosition.localPosition;
+        distance = endPosition.position.y - startPosition.position.y;
     }
 
     public void OnUpdate()
     {
-        if (GameDataStore.Instance.PlayedMode == PlayMode.Holiday)
+        if (GameDataStore.Instance.PlayedMode == PlayMode.Holiday || 
+            EventManager.Instance.StartEventFlag == false)
         {
             return;
         }
 
         float coef = GameDataStore.Instance.WaveCount / (maxWaveCount * 1.0f);
-        float y = distance * coef;
-        y = Mathf.Clamp(y, startPosition.transform.position.y, endPosition.transform.position.y);
-        playerIcon.transform.position = startPosition.transform.position + new Vector3(0.0f, y, 0.0f);
+        float y = (distance * coef) - (distance / 2.0f);
+        y = Mathf.Clamp(y, startPosition.localPosition.y, endPosition.localPosition.y);
+        playerIcon.transform.localPosition = new Vector3(playerIcon.transform.localPosition.x, y, playerIcon.transform.localPosition.z);
     }
 }

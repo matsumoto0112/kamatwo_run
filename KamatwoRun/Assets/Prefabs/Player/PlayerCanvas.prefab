@@ -98,12 +98,12 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4454536104146816620}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 5360409465110649633}
-  m_RootOrder: 0
+  m_Father: {fileID: 4791001095017757361}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -138,9 +138,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 2629263179423566878}
-  - {fileID: 4793936894737856198}
+  m_Children: []
   m_Father: {fileID: 4791001095017757361}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -285,12 +283,12 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6262332675266265980}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 5360409465110649633}
-  m_RootOrder: 1
+  m_Father: {fileID: 4791001095017757361}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -327,6 +325,8 @@ RectTransform:
   m_Children:
   - {fileID: 5360409465110649633}
   - {fileID: 4585573244338696358}
+  - {fileID: 2629263179423566878}
+  - {fileID: 4793936894737856198}
   m_Father: {fileID: 7374077690919639556}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -348,8 +348,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stageParameter: {fileID: 11400000, guid: b6a389dc0f68e4648a089d8e62d60045, type: 2}
-  startPosition: {fileID: 4454536104146816620}
-  endPosition: {fileID: 6262332675266265980}
+  startPosition: {fileID: 2629263179423566878}
+  endPosition: {fileID: 4793936894737856198}
   playerIcon: {fileID: 6012677412014017079}
 --- !u!1 &7374077690919639552
 GameObject:

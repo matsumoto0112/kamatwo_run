@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 411016432045809730}
   - component: {fileID: 411016432045809731}
   - component: {fileID: 411016432045809728}
-  - component: {fileID: 8277396985743044314}
   m_Layer: 0
   m_Name: RightLane
   m_TagString: Untagged
@@ -98,21 +97,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &8277396985743044314
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 411016432045809729}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 11267b34b94b5334ebf6169ef453d89c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lineStartPoint: {fileID: 7578613268639378892}
-  lineEndPoint: {fileID: 6615717363340129084}
-  step: 5
 --- !u!1 &549391229057986710
 GameObject:
   m_ObjectHideFlags: 0
@@ -188,7 +172,6 @@ GameObject:
   - component: {fileID: 2371151421242902573}
   - component: {fileID: 2371151421242902572}
   - component: {fileID: 2371151421242902575}
-  - component: {fileID: 6305888645147690677}
   m_Layer: 0
   m_Name: LeftLane
   m_TagString: Untagged
@@ -274,21 +257,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &6305888645147690677
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2371151421242902574}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 11267b34b94b5334ebf6169ef453d89c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lineStartPoint: {fileID: 5508070013898524067}
-  lineEndPoint: {fileID: 9120777706503232339}
-  step: 5
 --- !u!1 &4451199205128385825
 GameObject:
   m_ObjectHideFlags: 0
@@ -361,7 +329,6 @@ GameObject:
   - component: {fileID: 5862925641490512047}
   - component: {fileID: 5862925641490512046}
   - component: {fileID: 5862925641490512045}
-  - component: {fileID: 2753469832358278711}
   m_Layer: 0
   m_Name: MiddleLane
   m_TagString: Untagged
@@ -447,21 +414,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &2753469832358278711
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5862925641490512044}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 11267b34b94b5334ebf6169ef453d89c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lineStartPoint: {fileID: 4451199205128385825}
-  lineEndPoint: {fileID: 1091785811900754897}
-  step: 5
 --- !u!1 &6615717363340129084
 GameObject:
   m_ObjectHideFlags: 0

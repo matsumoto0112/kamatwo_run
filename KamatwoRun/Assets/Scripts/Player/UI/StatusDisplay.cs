@@ -8,6 +8,8 @@ public class StatusDisplay : MonoBehaviour
     [SerializeField]
     private HPImageDisplay hpDisplay = null;
     [SerializeField]
+    private LoadMapController loadMapController = null;
+    [SerializeField]
     private Text scoreText = null;
 
     private PlayerStatus playerStatus = null;
@@ -16,6 +18,7 @@ public class StatusDisplay : MonoBehaviour
     {
         playerStatus = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<PlayerStatus>();
         hpDisplay.Initialize();
+        loadMapController.Initialize();
     }
 
     // Update is called once per frame
@@ -27,5 +30,6 @@ public class StatusDisplay : MonoBehaviour
         }
         scoreText.text = "Score:" + playerStatus.Score;
         hpDisplay.OnUpdate();
+        loadMapController.OnUpdate();
     }
 }

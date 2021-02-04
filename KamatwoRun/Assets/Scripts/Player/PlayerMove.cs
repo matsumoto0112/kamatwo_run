@@ -23,13 +23,11 @@ public class PlayerMove : CharacterComponent
     public void LeftSideMoveTypeChange()
     {
         LocationType = (LaneLocationType)Mathf.Clamp((int)LocationType - 1, 0, Enum.GetValues(typeof(LaneLocationType)).Length - 1);
-        Debug.Log($"num = {(int)LocationType} : type = {LocationType}");
     }
 
     public void RightSideMoveTypeChange()
     {
         LocationType = (LaneLocationType)Mathf.Clamp((int)LocationType + 1, 0, Enum.GetValues(typeof(LaneLocationType)).Length - 1);
-        Debug.Log($"num = {(int)LocationType} : type = {LocationType}");
     }
 
     /// <summary>

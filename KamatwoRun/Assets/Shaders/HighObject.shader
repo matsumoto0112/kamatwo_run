@@ -55,7 +55,7 @@ Shader "Custom/High"
                 float2 worldPos_XZ = IN.worldPos.xz;
                 float dist = length(cameraPos_XZ - worldPos_XZ);
                 dist = clamp(dist, _MinDist, _MaxDist);
-                float t = dist / (_MaxDist - _MinDist);
+                float t = (dist - _MinDist) / (_MaxDist - _MinDist);
                 o.Alpha = lerp(_MinAlpha, 1.0, t);
             }
             ENDCG

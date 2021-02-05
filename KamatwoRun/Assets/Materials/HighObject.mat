@@ -65,7 +65,7 @@ Material:
     - _GlossyReflections: 1
     - _MaxDist: 30
     - _Metallic: 1
-    - _MinAlpha: 0.1
+    - _MinAlpha: 0.3
     - _MinDist: 10
     - _Mode: 0
     - _OcclusionStrength: 1

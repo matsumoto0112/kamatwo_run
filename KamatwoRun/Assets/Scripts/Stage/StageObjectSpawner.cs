@@ -17,11 +17,10 @@ public class StageObjectSpawner : MonoBehaviour
     [SerializeField]
     private StageParameter stageParameter;
 
-    private List<GameObject> spawnedObjects;
+    private List<GameObject> spawnedObjects = new List<GameObject>();
 
     private void Start()
     {
-        spawnedObjects = new List<GameObject>();
     }
 
     /// <summary>

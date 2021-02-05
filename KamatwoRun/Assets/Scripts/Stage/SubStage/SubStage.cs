@@ -123,7 +123,6 @@ public class SubStage : MonoBehaviour
         if (IsStraight())
         {
             GameDataStore.Instance.IncrementWaveCount();
-            Debug.Log(GameDataStore.Instance.WaveCount);
         }
     }
 

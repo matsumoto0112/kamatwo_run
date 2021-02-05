@@ -197,7 +197,6 @@ public class StageManager : MonoBehaviour
         Vector3 spawnPosition = prevStage.transform.position + SubStageOffset(prevStage.ExitType);
         GameObject newObject = Instantiate(next, spawnPosition, Quaternion.identity);
         SubStage newSubStage = newObject.GetComponent<SubStage>();
-        newSubStage.SpawnObjects(stageParameter.GetSpawnObjectsParameterByPhase(currentWavePhase), 5);
         subStages.Add(newSubStage);
 
         if (reserveNextStageType.HasValue)
@@ -211,6 +210,11 @@ public class StageManager : MonoBehaviour
         else
         {
             spawnedSubStageNum++;
+        }
+
+        if (!goalGenerated)
+        {
+            newSubStage.SpawnObjects(stageParameter.GetSpawnObjectsParameterByPhase(currentWavePhase), 5);
         }
     }
 

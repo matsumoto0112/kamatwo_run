@@ -44,10 +44,12 @@ public class PlayerInput : CharacterComponent
         else if (IsJumpInput() == true)
         {
             commandType = CommandType.JUMP;
+            AudioManager.Instance.PlaySE(2);
         }
         else if (IsShotInput() == true)
         {
             commandType = CommandType.SHOT;
+            AudioManager.Instance.PlaySE(5);
         }
 
         //コマンド入力があったら

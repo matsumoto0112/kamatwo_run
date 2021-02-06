@@ -37,9 +37,10 @@ public class DumplingSkin : MonoBehaviour
     [SerializeField]
     private float shotPower = 10.0f;
 
+    private float initialPosY = 0.0f;
     private IEnumerator shotCoroutine = null;
     //投擲オブジェクトの状態
-    public  ThrowingItemType ThrowType{ get; private set; } = ThrowingItemType.None;
+    public ThrowingItemType ThrowType { get; private set; } = ThrowingItemType.None;
 
     public int WrappableObjectScore { get; private set; }
 
@@ -59,13 +60,14 @@ public class DumplingSkin : MonoBehaviour
         ThrowType = ThrowingItemType.None;
 
         shotCoroutine = null;
+        initialPosY = transform.position.y;
     }
 
     private void Update()
     {
         //投擲していない状態または
         //敵オブジェクトに衝突していたら
-        if(ThrowType == ThrowingItemType.None || 
+        if (ThrowType == ThrowingItemType.None ||
             ThrowType == ThrowingItemType.HitWrappableObject)
         {
             return;
@@ -86,12 +88,13 @@ public class DumplingSkin : MonoBehaviour
         Timer stopShotObjectTime = new Timer();
         Vector3 modelPosition = modelTransform.position;
         Vector3 shotDistination = modelTransform.position + (modelTransform.forward * shotPower);
+        Vector3 vel = Vector3.zero;
 
         //正面移動
         while (true)
         {
-            if (stopShotObjectTime.IsTime() == true || 
-                ThrowType == ThrowingItemType.HitObstacle || 
+            if (stopShotObjectTime.IsTime() == true ||
+                ThrowType == ThrowingItemType.HitObstacle ||
                 ThrowType == ThrowingItemType.HitWrappableObject)
             {
                 break;
@@ -103,7 +106,10 @@ public class DumplingSkin : MonoBehaviour
             }
             else
             {
-                Vector3 vel = Vector3.Lerp(modelPosition, shotDistination, shotTime.CurrentTime);
+                vel.x = Linear(shotTime.CurrentTime, shotTime.LimitTime, modelPosition.x, shotDistination.x);
+                vel.y = transform.position.y;
+                vel.z = Linear(shotTime.CurrentTime, shotTime.LimitTime, modelPosition.z, shotDistination.z);
+
                 transform.position = new Vector3(vel.x, transform.position.y, vel.z);
                 shotTime.UpdateTimer();
             }
@@ -131,21 +137,39 @@ public class DumplingSkin : MonoBehaviour
     /// <returns></returns>
     private IEnumerator SkinBackCoroutine()
     {
-        float time = 0.0f;
+        Timer timer = new Timer(0.5f);
         Vector3 pos = transform.position;
+        Vector3 vel = Vector3.zero;
         while (true)
         {
-            time += Time.deltaTime;
-            Vector3 vel = Vector3.Lerp(pos, modelTransform.position, time / 0.5f);
-            vel.y = Mathf.Clamp(vel.y, 1.5f, Mathf.Infinity);
+            timer.UpdateTimer();
+            vel.x = Linear(timer.CurrentTime, timer.LimitTime, pos.x, modelTransform.position.x);
+            vel.y = Mathf.Clamp(vel.y, 0.5f + modelTransform.position.y, Mathf.Infinity);
+            vel.z = Linear(timer.CurrentTime, timer.LimitTime, pos.z, modelTransform.position.z);
             transform.position = vel;
 
-            if (time >= 0.5f)
+            if (timer.IsTime() == true)
             {
                 break;
             }
             yield return new WaitForSeconds(Time.deltaTime);
         }
+    }
+
+    /// <summary>
+    /// 等速移動
+    /// </summary>
+    /// <param name="ct">現在時間</param>
+    /// <param name="et">終了時間</param>
+    /// <param name="start">初めの数値</param>
+    /// <param name="end">終了数値</param>
+    /// <returns></returns>
+    public float Linear(float ct, float et, float start, float end)
+    {
+        if (ct > et)
+            return end;
+        end -= start;
+        return end * ct / et + start;
     }
 
     /// <summary>
@@ -157,6 +181,9 @@ public class DumplingSkin : MonoBehaviour
         boxCollider.enabled = true;
         ThrowType = ThrowingItemType.Shot;
         WrappableObjectScore = 0;
+        Vector3 position = transform.position;
+        position.y = initialPosY;
+        transform.position = position;
         shotCoroutine = ShotCoroutine();
         StartCoroutine(shotCoroutine);
     }
@@ -209,8 +236,8 @@ public class DumplingSkin : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(ThrowType == ThrowingItemType.HitObstacle || 
-            ThrowType == ThrowingItemType.HitWrappableObject || 
+        if (ThrowType == ThrowingItemType.HitObstacle ||
+            ThrowType == ThrowingItemType.HitWrappableObject ||
             ThrowType == ThrowingItemType.NoHit)
         {
             return;

@@ -191,7 +191,7 @@ public class EventManager : SingletonMonoBehaviour<EventManager>
             if (IsCurvePoint == true)
             {
                 gameSpeed.Speed -= Time.deltaTime * curveCoef;
-                gameSpeed.Speed = Mathf.Clamp(gameSpeed.Speed, 0.0f, gameSpeed.DefaultStageMoveSpeed);
+                gameSpeed.Speed = Mathf.Clamp(gameSpeed.Speed, 0.1f, gameSpeed.DefaultStageMoveSpeed);
                 //is•ûŒü‚ª•Ï‰»‚µ‚½‚ç
                 if (lane.IsChangeDirection() == false)
                 {

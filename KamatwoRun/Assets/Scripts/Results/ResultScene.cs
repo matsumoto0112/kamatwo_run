@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class ResultScene : MonoBehaviour
@@ -98,5 +99,13 @@ public class ResultScene : MonoBehaviour
 
         //もうこのプレイのデータは必要ないのでリセットする
         GameDataStore.Instance.ResetPlayDatas();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            SceneManager.LoadScene("Title");
+        }
     }
 }

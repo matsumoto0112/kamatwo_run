@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class LanePositions : MonoBehaviour
 {
+    [SerializeField]
+    private GameObject playerModelObject = null;
     private Vector3 entranceDirection = Vector3.zero;
-    private GameObject modelObject = null;
     private SubStage subStageObject = null;
     private Vector3 initModelAngle = Vector3.zero;
     private Timer curveTimer;
@@ -22,16 +23,15 @@ public class LanePositions : MonoBehaviour
             LanePositionList.Add(transform.GetChild(i));
         }
         entranceDirection = Vector3.zero;
-        modelObject = transform.parent.GetChild(0).gameObject;
         subStageObject = null;
         curveTimer = new Timer();
     }
 
     public void GetEntranceDirection(SubStage subStage)
     {
-        entranceDirection = subStage.GetForegroundDirection(transform.parent.GetChild(0).position);
+        entranceDirection = subStage.GetForegroundDirection(playerModelObject.transform.position);
         subStageObject = subStage;
-        initModelAngle = modelObject.transform.eulerAngles;
+        initModelAngle = playerModelObject.transform.eulerAngles;
         curveTimer.Initialize();
     }
 
@@ -47,7 +47,7 @@ public class LanePositions : MonoBehaviour
         }
         float y = Mathf.LerpAngle(initModelAngle.y, GetExitPlayerAngle().y, curveTimer.CurrentTime);
         float z = Mathf.LerpAngle(initModelAngle.z, GetTiltAngle().z, curveTimer.CurrentTime);
-        modelObject.transform.eulerAngles = new Vector3(0, y, z);
+        playerModelObject.transform.eulerAngles = new Vector3(0, y, z);
     }
 
     /// <summary>
@@ -63,9 +63,9 @@ public class LanePositions : MonoBehaviour
         }
 
         //レーンの位置をモデルの位置にする
-        transform.position = modelObject.transform.position;
+        transform.position = playerModelObject.transform.position;
         LaneLocationType type = transform.parent.GetComponentInChildren<PlayerMove>().LocationType;
-        modelObject.transform.eulerAngles = GetExitPlayerAngle();
+        playerModelObject.transform.eulerAngles = GetExitPlayerAngle();
         transform.eulerAngles = GetExitPlayerAngle();
 
         switch (subStageObject.ExitType)
@@ -106,7 +106,7 @@ public class LanePositions : MonoBehaviour
     /// <returns></returns>
     public bool IsChangeDirection()
     {
-        return entranceDirection == subStageObject.GetForegroundDirection(modelObject.transform.position);
+        return entranceDirection == subStageObject.GetForegroundDirection(playerModelObject.transform.position);
     }
 
     /// <summary>

@@ -19,8 +19,15 @@ public class ResultScene : MonoBehaviour
     [SerializeField, TextArea()]
     private string[] comments;
 
+    [SerializeField]
+    private SoundManager soundManager;
+    [SerializeField, AudioSelect(SoundType.BGM)]
+    private string bgmName;
+
     private void Start()
     {
+        soundManager.FadeOutBGM();
+        soundManager.PlayBGM(bgmName);
         //セーブ処理をしてプレイデータをアップロードしておく
         //セーブ後にはデータがリセットされるため、複数回呼んでもデータが破壊されることはない
         GameDataStore.Instance.SaveGameData();

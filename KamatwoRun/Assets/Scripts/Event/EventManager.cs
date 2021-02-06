@@ -11,7 +11,7 @@ public enum EventType
     Goal,
 }
 
-public class EventManager : SingletonMonoBehaviour<EventManager>
+public class EventManager : MonoBehaviour
 {
     [SerializeField]
     private GameObject stageManagerObject = null;
@@ -40,9 +40,8 @@ public class EventManager : SingletonMonoBehaviour<EventManager>
     //ゲーム中イベントフラグ
     public bool EventFlag => eventType != EventType.None;
 
-    protected override void Awake()
+    private void Awake()
     {
-        base.Awake();
         StageManager = stageManagerObject.GetComponent<StageManager>();
         GameSpeed = stageManagerObject.GetComponent<GameSpeed>();
         SceneChangeRelay = GetComponent<SceneChangeRelay>();
@@ -55,9 +54,9 @@ public class EventManager : SingletonMonoBehaviour<EventManager>
     private void Start()
     {
         eventList = new Dictionary<EventType, BaseEvent>();
-        eventList.Add(EventType.GameStart, new GameStartEvent(playerModelObject));
-        eventList.Add(EventType.Curve, new CurveEvent(playerModelObject));
-        eventList.Add(EventType.Goal, new GoalEvent(playerModelObject));
+        eventList.Add(EventType.GameStart, new GameStartEvent(playerModelObject,this));
+        eventList.Add(EventType.Curve, new CurveEvent(playerModelObject,this));
+        eventList.Add(EventType.Goal, new GoalEvent(playerModelObject,this));
 
         eventType = EventType.GameStart;
         eventList[eventType].OnInitialize();

@@ -6,6 +6,8 @@ public class Player : MonoBehaviour
 {
     [SerializeField]
     private GameSpeed gameSpeed = null;
+    [SerializeField]
+    private EventManager eventManager = null;
 
     private List<ICharacterComponent> componentList;
     private PlayerStatus playerStatus = null;
@@ -13,6 +15,7 @@ public class Player : MonoBehaviour
     public GameObject ModelObject { get; private set; } = null;
     public GameObject LaneObject { get; private set; } = null;
     public GameObject DumplingObject { get; private set; } = null;
+    public EventManager EventManager => eventManager;
 
     // Start is called before the first frame update
     void Start()
@@ -48,7 +51,7 @@ public class Player : MonoBehaviour
             return;
         }
 
-        if(EventManager.Instance.EventFlag == true)
+        if(eventManager.EventFlag == true)
         {
             return;
         }

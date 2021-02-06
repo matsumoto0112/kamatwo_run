@@ -130,6 +130,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 545632838904152350, guid: 29cc941f0beca4545ba0d346137b1f57, type: 3}
+      propertyPath: eventManager
+      value: 
+      objectReference: {fileID: 1890000642}
+    - target: {fileID: 6815157404903527326, guid: 29cc941f0beca4545ba0d346137b1f57, type: 3}
+      propertyPath: eventManager
+      value: 
+      objectReference: {fileID: 1890000642}
     - target: {fileID: 7374077690919639552, guid: 29cc941f0beca4545ba0d346137b1f57, type: 3}
       propertyPath: m_Name
       value: PlayerCanvas
@@ -743,6 +751,10 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 747171596}
+    - target: {fileID: 47348508016047450, guid: 9deca6e10dd9f0f468f9e1bcf4ae9794, type: 3}
+      propertyPath: eventManager
+      value: 
+      objectReference: {fileID: 1890000642}
     - target: {fileID: 424993771714300768, guid: 9deca6e10dd9f0f468f9e1bcf4ae9794, type: 3}
       propertyPath: stageParameter
       value: 
@@ -965,6 +977,10 @@ PrefabInstance:
       propertyPath: gameSpeed
       value: 
       objectReference: {fileID: 1283789040}
+    - target: {fileID: 2043932344, guid: 841a19bd5af0d994880837c151d3ada1, type: 3}
+      propertyPath: eventManager
+      value: 
+      objectReference: {fileID: 1890000642}
     - target: {fileID: 1984212307574710952, guid: 841a19bd5af0d994880837c151d3ada1, type: 3}
       propertyPath: m_RootOrder
       value: 6
@@ -1273,7 +1289,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 068127281737c404a954fdbabe454055, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DontDestroyFlag: 0
   stageManagerObject: {fileID: 1283789041}
   playerCanvas: {fileID: 96132391}
   startEventStagePrefab: {fileID: 3540577897443143398, guid: 2cb69b1aed9385e4a89a0efd3f1875eb, type: 3}

@@ -7,9 +7,6 @@ using UnityEngine;
 /// </summary>
 public class GoalEvent : BaseEvent
 {
-    private PlayerInput playerInput = null;
-    private PlayerStatus playerStatus = null;
-
     private SceneChangeRelay sceneChangeRelay = null;
 
     private Timer timer;
@@ -18,13 +15,10 @@ public class GoalEvent : BaseEvent
     /// コンストラクタ
     /// </summary>
     /// <param name="playerModelObject"></param>
-    public GoalEvent(GameObject playerModelObject)
-        : base(playerModelObject)
+    public GoalEvent(GameObject playerModelObject, EventManager eventManager)
+        : base(playerModelObject,eventManager)
     {
-        playerInput = this.playerModelObject.GetComponent<PlayerInput>();
-        playerStatus = this.playerModelObject.GetComponent<PlayerStatus>();
-
-        sceneChangeRelay = EventManager.Instance.SceneChangeRelay;
+        sceneChangeRelay = eventManager.SceneChangeRelay;
 
         timer = new Timer(1.5f);
     }
@@ -39,13 +33,10 @@ public class GoalEvent : BaseEvent
         timer.Initialize();
 
         GameDataStore.Instance.Score = playerModelObject.GetComponent<PlayerStatus>().Score;
-
-        //プレイヤーの状態を初期化
-        playerInput.OnEventInitialize();
-        playerStatus.OnEventInitialize();
+        GameDataStore.Instance.GameEndedType = GameEndType.Goal;
 
         //カメラの追従対象を変更
-        Camera.main.transform.parent = EventManager.Instance.StageObject.transform;
+        Camera.main.transform.parent = eventManager.StageObject.transform;
     }
 
     /// <summary>

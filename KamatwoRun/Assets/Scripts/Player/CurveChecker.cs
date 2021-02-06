@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CurveChecker : MonoBehaviour
 {
+    private EventManager eventManager;
     private LanePositions lanePositions = null;
     private bool isCurve = false;
 
@@ -11,6 +12,7 @@ public class CurveChecker : MonoBehaviour
     void Start()
     {
         lanePositions = transform.parent.GetComponentInChildren<LanePositions>();
+        eventManager = transform.parent.GetComponent<Player>().EventManager;
         isCurve = false;
     }
 
@@ -21,7 +23,7 @@ public class CurveChecker : MonoBehaviour
             return;
         }
 
-        if(EventManager.Instance.IsCurvePoint == true)
+        if(eventManager.IsCurvePoint == true)
         {
             lanePositions.CurveTiltBody();
         }
@@ -49,9 +51,8 @@ public class CurveChecker : MonoBehaviour
         }
         else if (other.CompareTag("CurvePoint") == true)
         {
-            EventManager.Instance.IsCurvePoint = true;
+            eventManager.IsCurvePoint = true;
         }
-
     }
 
     /// <summary>

@@ -10,6 +10,8 @@ public class StatusDisplay : MonoBehaviour
     [SerializeField]
     private LoadMapController loadMapController = null;
     [SerializeField]
+    private EventManager eventManager = null;
+    [SerializeField]
     private Text scoreText = null;
 
     private PlayerStatus playerStatus = null;
@@ -24,11 +26,11 @@ public class StatusDisplay : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(EventManager.Instance.StartEventFlag == false)
+        if(eventManager.StartEventFlag == false)
         {
             return;
         }
-        scoreText.text = "Score:" + playerStatus.Score;
+        scoreText.text = "“¾“_:" + playerStatus.Score;
         hpDisplay.OnUpdate();
         loadMapController.OnUpdate();
     }

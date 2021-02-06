@@ -6,6 +6,8 @@ using UnityEngine.UI;
 public class LoadMapController : MonoBehaviour
 {
     [SerializeField]
+    private EventManager eventManager = null;
+    [SerializeField]
     private StageParameter stageParameter = null;
     [SerializeField]
     private RectTransform startPosition = null;
@@ -34,8 +36,8 @@ public class LoadMapController : MonoBehaviour
 
     public void OnUpdate()
     {
-        if (GameDataStore.Instance.PlayedMode == PlayMode.Holiday || 
-            EventManager.Instance.StartEventFlag == false)
+        if (GameDataStore.Instance.PlayedMode == PlayMode.Holiday ||
+            eventManager.StartEventFlag == false)
         {
             return;
         }

@@ -7,8 +7,6 @@ using UnityEngine;
 /// </summary>
 public class CurveEvent : BaseEvent
 {
-    private PlayerInput playerInput = null;
-    private PlayerStatus playerStatus = null;
     private LanePositions lanePositions = null;
 
     private GameSpeed gameSpeed = null;
@@ -25,14 +23,12 @@ public class CurveEvent : BaseEvent
     ///コンストラクタ
     /// </summary>
     /// <param name="playerModelObject"></param>
-    public CurveEvent(GameObject playerModelObject)
-        : base(playerModelObject)
+    public CurveEvent(GameObject playerModelObject, EventManager eventManager)
+        : base(playerModelObject,eventManager)
     {
-        playerInput = this.playerModelObject.GetComponent<PlayerInput>();
-        playerStatus = this.playerModelObject.GetComponent<PlayerStatus>();
         GameObject laneObject = this.playerModelObject.GetComponentInParent<Player>().LaneObject;
         lanePositions = laneObject.GetComponent<LanePositions>();
-        gameSpeed = EventManager.Instance.GameSpeed;
+        gameSpeed = eventManager.GameSpeed;
         timer = new Timer(2.0f);
     }
 
@@ -45,18 +41,14 @@ public class CurveEvent : BaseEvent
         IsEnd = false;
         timer.Initialize();
 
-        //プレイヤーの行動を初期化
-        playerInput.OnEventInitialize();
-        playerStatus.OnEventInitialize();
-
         //カメラの情報保存
         cameraParent = Camera.main.transform.parent;
         initCameraPosition = Camera.main.transform.localPosition;
         initCameraAngle = Camera.main.transform.localEulerAngles;
 
         //カメラ情報の更新
-        Camera.main.transform.parent = EventManager.Instance.StageObject.transform;
-        Camera.main.transform.position = EventManager.Instance.StageObject.GetComponent<CurveCameraEvent>().EventCameraPosition;
+        Camera.main.transform.parent = eventManager.StageObject.transform;
+        Camera.main.transform.position = eventManager.StageObject.GetComponent<CurveCameraEvent>().EventCameraPosition;
     }
 
     /// <summary>
@@ -69,14 +61,14 @@ public class CurveEvent : BaseEvent
         Camera.main.transform.LookAt(playerModelObject.transform);
 
         //体を傾けるポイントに到達したら
-        if(EventManager.Instance.IsCurvePoint == true)
+        if(eventManager.IsCurvePoint == true)
         {
             gameSpeed.Speed -= Time.deltaTime * CURVE_COEF;
             gameSpeed.Speed = Mathf.Clamp(gameSpeed.Speed, 5.0f, gameSpeed.DefaultStageMoveSpeed);
             //進行方向が変化したら
             if(lanePositions.IsChangeDirection() == false)
             {
-                EventManager.Instance.IsCurvePoint = false;
+                eventManager.IsCurvePoint = false;
                 gameSpeed.Initialize();
             }
             return;

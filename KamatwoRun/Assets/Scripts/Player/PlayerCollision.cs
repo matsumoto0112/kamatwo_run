@@ -12,12 +12,16 @@ public class PlayerCollision : CharacterComponent
     [SerializeField]
     private GameObject bigEatParticle = null;
 
+    private EventManager eventManager = null;
     private PlayerStatus playerStatus = null;
+    private PlayerInput playerInput = null;
 
     public override void OnCreate()
     {
         base.OnCreate();
         playerStatus = GetComponent<PlayerStatus>();
+        playerInput = GetComponent<PlayerInput>();
+        eventManager = Parent.GetComponent<Player>().EventManager;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -55,14 +59,13 @@ public class PlayerCollision : CharacterComponent
             dumplingSkin.OnEnd();
         }
 
-        //カーブオブジェクトに接触したら
-        if (other.GetComponent<CurveCameraEvent>() != null)
+        //カーブオブジェクト又はゴールしたら
+        if (other.GetComponent<CurveCameraEvent>() != null ||
+            other.GetComponent<GoalSubStage>() != null)
         {
-            EventManager.Instance.CurveEvent(other.gameObject);
-        }
-        else if (other.GetComponent<GoalSubStage>() != null)
-        {
-            EventManager.Instance.GoalEvent(other.gameObject);
+            playerInput.OnEventInitialize();
+            playerStatus.OnEventInitialize();
+            eventManager.CurveEvent(other.gameObject);
         }
 
         //ダメージを受けている途中なら

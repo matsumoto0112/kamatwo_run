@@ -39,6 +39,8 @@ public class StageManager : MonoBehaviour
 
     [SerializeField]
     private GameObject player;
+    [SerializeField]
+    private EventManager eventManager = null;
 
     //プレイヤーのステータス管理オブジェクト
     private PlayerStatus playerStatus;
@@ -98,7 +100,7 @@ public class StageManager : MonoBehaviour
     void Update()
     {
         //スタートイベント中だったら
-        if (EventManager.Instance.StartEventFlag == false)
+        if (eventManager.StartEventFlag == false)
         {
             return;
         }

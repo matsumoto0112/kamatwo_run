@@ -27,10 +27,10 @@ public class GameStartEvent : BaseEvent
     /// コンストラクタ
     /// </summary>
     /// <param name="playerModelObject"></param>
-    public GameStartEvent(GameObject playerModelObject)
-        : base(playerModelObject)
+    public GameStartEvent(GameObject playerModelObject,EventManager eventManager)
+        : base(playerModelObject,eventManager)
     {
-        eventTextDisplay = EventManager.Instance.GetEventTextDisplay();
+        eventTextDisplay = eventManager.GetEventTextDisplay();
         startStage = null;
         timer = new Timer(2.0f);
     }
@@ -46,7 +46,7 @@ public class GameStartEvent : BaseEvent
         type = EventProgressType.StartFirstEvent;
         eventTextDisplay.Initialize();
 
-        EventManager.Instance.ChangeCanvasActive(false);
+        eventManager.ChangeCanvasActive(false);
 
         //プレイヤーの情報保存
         initPlayerPosition = playerModelObject.transform.localPosition;
@@ -57,7 +57,7 @@ public class GameStartEvent : BaseEvent
         initCameraAngle = Camera.main.transform.eulerAngles;
 
         //演出時に使用するステージの生成
-        startStage = EventManager.Instance.SpawnStartStage();
+        startStage = eventManager.SpawnStartStage();
         playerModelObject.transform.position = startStage.transform.position + new Vector3(0.0f, 0.5f, 0.0f);
 
         Camera.main.transform.LookAt(playerModelObject.transform);
@@ -115,10 +115,10 @@ public class GameStartEvent : BaseEvent
         Camera.main.transform.eulerAngles = initCameraAngle;
         Camera.main.transform.parent = playerModelObject.GetComponentInParent<Player>().LaneObject.transform;
 
-        EventManager.Instance.DestroyObject(startStage);
+        eventManager.DestroyObject(startStage);
 
-        EventManager.Instance.ChangeCanvasActive(true);
-        EventManager.Instance.StartEventFlag = true;
+        eventManager.ChangeCanvasActive(true);
+        eventManager.StartEventFlag = true;
 
         return true;
     }

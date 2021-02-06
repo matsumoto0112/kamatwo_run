@@ -44,6 +44,11 @@ public class CurveEvent : BaseEvent
         base.OnInitialize();
         IsEnd = false;
         timer.Initialize();
+
+        //プレイヤーの行動を初期化
+        playerInput.OnEventInitialize();
+        playerStatus.OnEventInitialize();
+
         //カメラの情報保存
         cameraParent = Camera.main.transform.parent;
         initCameraPosition = Camera.main.transform.localPosition;

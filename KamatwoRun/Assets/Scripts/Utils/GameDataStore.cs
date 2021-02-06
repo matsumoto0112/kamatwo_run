@@ -77,6 +77,11 @@ public class GameDataStore
     public int WaveCount { get; private set; }
 
     /// <summary>
+    /// ゲームの終了の種類
+    /// </summary>
+    public GameEndType GameEndedType { get; set; }
+
+    /// <summary>
     /// ウェーブ数を一増やす
     /// </summary>
     public void IncrementWaveCount()

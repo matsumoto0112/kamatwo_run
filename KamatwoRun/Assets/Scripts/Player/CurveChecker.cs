@@ -5,18 +5,18 @@ using UnityEngine;
 public class CurveChecker : MonoBehaviour
 {
     private LanePositions lanePositions = null;
-    private SubStage subStage = null;
+    private bool isCurve = false;
 
     // Start is called before the first frame update
     void Start()
     {
         lanePositions = transform.parent.GetComponentInChildren<LanePositions>();
-        subStage = null;
+        isCurve = false;
     }
 
     private void Update()
     {
-        if (subStage == null)
+        if (isCurve == false)
         {
             return;
         }
@@ -28,7 +28,7 @@ public class CurveChecker : MonoBehaviour
 
         if (lanePositions.CurveToChangeLanePosition() == true)
         {
-            subStage = null;
+            isCurve = false;
         }
     }
 
@@ -44,7 +44,7 @@ public class CurveChecker : MonoBehaviour
             }
 
             //次のステージが曲がり角なのを表す
-            this.subStage = subStage;
+            isCurve = true;
             lanePositions.GetEntranceDirection(subStage);
         }
         else if (other.CompareTag("CurvePoint") == true)

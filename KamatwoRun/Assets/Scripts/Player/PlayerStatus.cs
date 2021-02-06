@@ -41,8 +41,17 @@ public class PlayerStatus : CharacterComponent
             return;
         }
 
+        HitObstacle();
+    }
+
+    /// <summary>
+    /// 衝突時の処理
+    /// </summary>
+    private void HitObstacle()
+    {
+        //無敵時間
         invincibleTimer.UpdateTimer();
-        if(invincibleTimer.IsTime() == true)
+        if (invincibleTimer.IsTime() == true)
         {
             IsHit = false;
             playerMeshObject.SetActive(true);
@@ -51,8 +60,9 @@ public class PlayerStatus : CharacterComponent
             return;
         }
 
+        //点滅
         blinkingTimer.UpdateTimer();
-        if(blinkingTimer.IsTime() == true)
+        if (blinkingTimer.IsTime() == true)
         {
             playerMeshObject.SetActive(!playerMeshObject.activeSelf);
             blinkingTimer.Initialize();
@@ -105,5 +115,13 @@ public class PlayerStatus : CharacterComponent
     public bool IsDead()
     {
         return HP <= 0;
+    }
+
+    /// <summary>
+    /// イベント時の初期化
+    /// </summary>
+    public void OnEventInitialize()
+    {
+        playerMeshObject.SetActive(true);
     }
 }

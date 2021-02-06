@@ -22,12 +22,17 @@ public class PlayerMove : CharacterComponent
     /// </summary>
     public void LeftSideMoveTypeChange()
     {
-        LocationType = (LaneLocationType)Mathf.Clamp((int)LocationType - 1, 0, Enum.GetValues(typeof(LaneLocationType)).Length - 1);
+        int max = Enum.GetValues(typeof(LaneLocationType)).Length - 1;
+        LocationType = (LaneLocationType)Mathf.Clamp((int)LocationType - 1, 0, max);
     }
 
+    /// <summary>
+    /// 右レーンへの状態を変更する
+    /// </summary>
     public void RightSideMoveTypeChange()
     {
-        LocationType = (LaneLocationType)Mathf.Clamp((int)LocationType + 1, 0, Enum.GetValues(typeof(LaneLocationType)).Length - 1);
+        int max = Enum.GetValues(typeof(LaneLocationType)).Length - 1;
+        LocationType = (LaneLocationType)Mathf.Clamp((int)LocationType + 1, 0, max);
     }
 
     /// <summary>

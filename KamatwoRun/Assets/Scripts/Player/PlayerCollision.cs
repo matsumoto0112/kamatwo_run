@@ -23,7 +23,7 @@ public class PlayerCollision : CharacterComponent
     private void OnTriggerEnter(Collider other)
     {
         //死亡していたら
-        if(playerStatus.IsDead() == true)
+        if (playerStatus.IsDead() == true)
         {
             return;
         }
@@ -37,15 +37,22 @@ public class PlayerCollision : CharacterComponent
             scoreObject.DestroySelf();
         }
         //包んだ餃子を取得したら
-        else if(other.gameObject.GetComponentToNullCheck(out DumplingSkin dumplingSkin) == true)
+        else if (other.gameObject.GetComponentToNullCheck(out DumplingSkin dumplingSkin) == true)
         {
-            if(dumplingSkin.IsHit == true)
+            //敵オブジェクトに衝突していた状態なら
+            if (dumplingSkin.ThrowType == ThrowingItemType.HitWrappableObject)
             {
                 GameObject particle = Instantiate(bigEatParticle, transform.position + Vector3.up, Quaternion.identity);
                 Destroy(particle, 1.5f);
-                playerStatus.AddScore(dumplingSkin.score);
-                dumplingSkin.OnEnd();
+                playerStatus.AddScore(dumplingSkin.WrappableObjectScore);
             }
+            else if(dumplingSkin.ThrowType == ThrowingItemType.None || 
+                dumplingSkin.ThrowType == ThrowingItemType.Shot)
+            {
+                return;
+            }
+
+            dumplingSkin.OnEnd();
         }
 
         //カーブオブジェクトに接触したら

@@ -10,6 +10,10 @@ public class Player : MonoBehaviour
     private List<ICharacterComponent> componentList;
     private PlayerStatus playerStatus = null;
 
+    public GameObject ModelObject { get; private set; } = null;
+    public GameObject LaneObject { get; private set; } = null;
+    public GameObject DumplingObject { get; private set; } = null;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -30,6 +34,9 @@ public class Player : MonoBehaviour
             c.OnCreate();
         }
         playerStatus = GetComponentInChildren<PlayerStatus>();
+        ModelObject = playerStatus.gameObject;
+        LaneObject = GetComponentInChildren<LanePositions>().gameObject;
+        DumplingObject = GetComponentInChildren<DumplingSkin>().gameObject;
     }
 
     // Update is called once per frame

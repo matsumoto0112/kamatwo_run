@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.442352, g: 0.49140072, b: 0.5712726, a: 1}
+  m_IndirectSpecularColor: {r: 0.4423516, g: 0.49140018, b: 0.5712722, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1334,7 +1334,7 @@ MonoBehaviour:
   DontDestroyFlag: 0
   stageManagerObject: {fileID: 1283789041}
   playerCanvas: {fileID: 96132391}
-  startEventStagePrefab: {fileID: 7900751174107455145, guid: 658e8905049b9cd45998aee76ee9ccf3, type: 3}
+  startEventStagePrefab: {fileID: 6241833498972968288, guid: 2cb69b1aed9385e4a89a0efd3f1875eb, type: 3}
   eventCanvasObject: {fileID: 2095609438}
   changeRelay: {fileID: 1890000644}
 --- !u!4 &1890000643

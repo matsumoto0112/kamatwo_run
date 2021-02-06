@@ -2,6 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// 投擲状態
+/// </summary>
+public enum ThrowingItemType
+{
+    None = 0,
+    Shot,
+    HitObstacle,
+    HitWrappableObject,
+    NoHit,
+}
+
+
+/// <summary>
+/// 投擲アイテムクラス
+/// </summary>
 public class DumplingSkin : MonoBehaviour
 {
     #region 描画
@@ -10,6 +26,8 @@ public class DumplingSkin : MonoBehaviour
     private BoxCollider boxCollider = null;
     #endregion
 
+    [SerializeField]
+    private Transform modelTransform = null;
     [SerializeField]
     private GameObject smokeParticle = null;
     [SerializeField]
@@ -20,22 +38,12 @@ public class DumplingSkin : MonoBehaviour
     private float shotPower = 10.0f;
 
     private IEnumerator shotCoroutine = null;
+    //投擲オブジェクトの状態
+    public  ThrowingItemType ThrowType{ get; private set; } = ThrowingItemType.None;
 
-    public int score { get; private set; }
+    public int WrappableObjectScore { get; private set; }
 
-    public bool IsShot
-    {
-        get
-        {
-            return shotCoroutine != null;
-        }
-    }
-
-    //敵に衝突して包んだかどうか
-    public bool IsHit { get; private set; }
-    //障害物に当たったかどうか
-    public bool IsObstacleHit { get; private set; }
-    public bool IsNoHit { get; private set; }
+    public bool IsShot => shotCoroutine != null;
 
     // Start is called before the first frame update
     void Start()
@@ -48,20 +56,22 @@ public class DumplingSkin : MonoBehaviour
         boxCollider = GetComponent<BoxCollider>();
         boxCollider.enabled = false;
 
-        IsHit = false;
-        IsObstacleHit = false;
-        IsNoHit = false;
+        ThrowType = ThrowingItemType.None;
+
         shotCoroutine = null;
     }
 
     private void Update()
     {
-        if (IsHit == true)
+        //投擲していない状態または
+        //敵オブジェクトに衝突していたら
+        if(ThrowType == ThrowingItemType.None || 
+            ThrowType == ThrowingItemType.HitWrappableObject)
         {
             return;
         }
 
-        transform.eulerAngles += new Vector3(0, 1, 0);
+        transform.eulerAngles += new Vector3(0, 5, 0);
     }
 
     /// <summary>
@@ -74,14 +84,15 @@ public class DumplingSkin : MonoBehaviour
         transform.localEulerAngles = new Vector3(90.0f, 0.0f, 0.0f);
         Timer shotTime = new Timer();
         Timer stopShotObjectTime = new Timer();
-        Transform modelTransform = transform.parent.GetChild(0);
         Vector3 modelPosition = modelTransform.position;
         Vector3 shotDistination = modelTransform.position + (modelTransform.forward * shotPower);
 
         //正面移動
         while (true)
         {
-            if (stopShotObjectTime.IsTime() == true || IsHit == true || IsObstacleHit == true)
+            if (stopShotObjectTime.IsTime() == true || 
+                ThrowType == ThrowingItemType.HitObstacle || 
+                ThrowType == ThrowingItemType.HitWrappableObject)
             {
                 break;
             }
@@ -89,27 +100,27 @@ public class DumplingSkin : MonoBehaviour
             if (shotTime.IsTime() == true)
             {
                 stopShotObjectTime.UpdateTimer();
-                yield return new WaitForSeconds(Time.deltaTime);
-                continue;
             }
-
-            Vector3 vel = Vector3.Lerp(modelPosition, shotDistination, shotTime.CurrentTime);
-            transform.position = new Vector3(vel.x, transform.position.y, vel.z);
-            shotTime.UpdateTimer();
+            else
+            {
+                Vector3 vel = Vector3.Lerp(modelPosition, shotDistination, shotTime.CurrentTime);
+                transform.position = new Vector3(vel.x, transform.position.y, vel.z);
+                shotTime.UpdateTimer();
+            }
             yield return new WaitForSeconds(Time.deltaTime);
         }
-        if (IsHit == true)
+        if (ThrowType == ThrowingItemType.HitWrappableObject)
         {
             yield return new WaitForSeconds(1.0f);
             yield return StartCoroutine(SkinBackCoroutine());
         }
-        else if (IsObstacleHit == true)
+        else if (ThrowType == ThrowingItemType.HitObstacle)
         {
             yield return StartCoroutine(SkinBackCoroutine());
         }
         else
         {
-            IsNoHit = true;
+            ThrowType = ThrowingItemType.NoHit;
             yield return StartCoroutine(SkinBackCoroutine());
         }
     }
@@ -125,7 +136,7 @@ public class DumplingSkin : MonoBehaviour
         while (true)
         {
             time += Time.deltaTime;
-            Vector3 vel = Vector3.Lerp(pos, transform.parent.GetChild(0).position, time / 0.5f);
+            Vector3 vel = Vector3.Lerp(pos, modelTransform.position, time / 0.5f);
             vel.y = Mathf.Clamp(vel.y, 1.5f, Mathf.Infinity);
             transform.position = vel;
 
@@ -144,22 +155,20 @@ public class DumplingSkin : MonoBehaviour
     {
         meshRenderer.enabled = true;
         boxCollider.enabled = true;
-        IsHit = false;
-        IsNoHit = false;
-        IsObstacleHit = false;
-        score = 0;
+        ThrowType = ThrowingItemType.Shot;
+        WrappableObjectScore = 0;
         shotCoroutine = ShotCoroutine();
         StartCoroutine(shotCoroutine);
     }
 
     /// <summary>
-    /// 衝突時の変化
+    /// 敵オブジェクト衝突字の処理
     /// </summary>
-    public void OnHit()
+    private void OnHitToWrappableObject()
     {
         dumplingSkinRenderer.material.SetTexture("_MainTex", wrappTexture);
-        transform.eulerAngles = transform.parent.GetChild(0).eulerAngles;
-        IsHit = true;
+        transform.eulerAngles = modelTransform.eulerAngles;
+        ThrowType = ThrowingItemType.HitWrappableObject;
     }
 
     /// <summary>
@@ -170,45 +179,51 @@ public class DumplingSkin : MonoBehaviour
         dumplingSkinRenderer.material.SetTexture("_MainTex", dumplingTexture);
         meshRenderer.enabled = false;
         boxCollider.enabled = false;
-        IsHit = false;
-        IsNoHit = false;
-        IsObstacleHit = false;
+        ThrowType = ThrowingItemType.None;
         shotCoroutine = null;
-        score = 0;
+        WrappableObjectScore = 0;
+    }
+
+    /// <summary>
+    /// 敵を包んだ後のスコア計算処理
+    /// </summary>
+    private void CulcScore(int wrappableObjectScore)
+    {
+        //モデルの位置と自信の位置との距離を求める
+        float distance = Vector3.Distance(modelTransform.position, transform.position);
+        float coef = 0.0f;
+        if (distance <= shotPower / 3.0f)
+        {
+            coef = 1.5f;
+        }
+        else if (distance <= shotPower / 2.0f)
+        {
+            coef = 1.25f;
+        }
+        else
+        {
+            coef = 1.0f;
+        }
+        WrappableObjectScore = (int)(wrappableObjectScore * coef);
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (IsHit == true || IsObstacleHit == true)
+        if(ThrowType == ThrowingItemType.HitObstacle || 
+            ThrowType == ThrowingItemType.HitWrappableObject || 
+            ThrowType == ThrowingItemType.NoHit)
         {
             return;
         }
-        //戻るまでに何にも当たらなかったら
-        if(IsNoHit == true)
-        {
-            return;
-        }
+
         //敵に衝突したら
         if (other.gameObject.GetComponentToNullCheck(out WrappableObject wrappableObject) == true)
         {
-            OnHit();
-            //モデルと投擲アイテムとの距離
-            float distance = Vector3.Distance(transform.parent.GetChild(0).position, transform.position);
-            float coef = 0.0f;
-            if (distance <= shotPower / 3.0f)
-            {
-                coef = 1.5f;
-            }
-            else if (distance <= shotPower / 2.0f)
-            {
-                coef = 1.25f;
-            }
-            else
-            {
-                coef = 1.0f;
-            }
-            score = (int)(wrappableObject.Wrap().score * coef);
+            OnHitToWrappableObject();
+            //スコア計算
+            CulcScore(wrappableObject.Wrap().score);
             wrappableObject.DestroySelf();
+            //エフェクト作成
             GameObject particle = Instantiate(smokeParticle, transform.position, Quaternion.identity);
             particle.transform.parent = transform;
             Destroy(particle, 1.5f);
@@ -216,7 +231,7 @@ public class DumplingSkin : MonoBehaviour
         //障害物に衝突したら
         else if (other.gameObject.GetComponentToNullCheck(out Obstacle obstacle) == true)
         {
-            IsObstacleHit = true;
+            ThrowType = ThrowingItemType.HitObstacle;
         }
     }
 }

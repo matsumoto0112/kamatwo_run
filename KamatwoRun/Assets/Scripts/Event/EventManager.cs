@@ -79,10 +79,9 @@ public class EventManager : SingletonMonoBehaviour<EventManager>
         Vector3 initialCameraPosition = Camera.main.transform.position;
         Vector3 initialCameraRotate = Camera.main.transform.eulerAngles;
 
-        Vector3 startPosition = new Vector3(0.0f, 0.0f, -100.0f);
-        playerModelObject.transform.position = startPosition + new Vector3(0.0f,0.5f,0.0f);
+        Vector3 startPosition = new Vector3(0.0f, 0.0f, -50.0f);
+        playerModelObject.transform.position = startPosition + new Vector3(0.0f, 0.5f, 0.0f);
         GameObject startStage1 = Instantiate(startEventStagePrefab, startPosition, Quaternion.identity);
-        GameObject startStage2 = Instantiate(startEventStagePrefab, startPosition + new Vector3(0.0f,0.0f,50.0f), Quaternion.identity);
 
         Camera.main.transform.LookAt(playerModelObject.transform);
         Camera.main.transform.position = playerModelObject.transform.position + (playerModelObject.transform.forward * 30) + new Vector3(0.0f, 2.0f, 0.0f);
@@ -96,11 +95,11 @@ public class EventManager : SingletonMonoBehaviour<EventManager>
             alpha = Mathf.Clamp01(alpha);
             eventTextDisplay.SetFrameAlpha(alpha);
             yield return new WaitForSeconds(Time.deltaTime);
-            if((Camera.main.transform.position.z - playerModelObject.transform.position.z) <= 5.0f)
+            if ((Camera.main.transform.position.z - playerModelObject.transform.position.z) <= 5.0f)
             {
                 break;
             }
-            if(alpha >= 1.0f)
+            if (alpha >= 1.0f)
             {
                 eventTextDisplay.FirstText();
             }
@@ -119,7 +118,7 @@ public class EventManager : SingletonMonoBehaviour<EventManager>
             playerModelObject.transform.position += playerModelObject.transform.forward * Time.deltaTime * 7.5f;
             timer.UpdateTimer();
             yield return new WaitForSeconds(Time.deltaTime);
-            if(timer.IsTime() == true)
+            if (timer.IsTime() == true)
             {
                 break;
             }
@@ -138,7 +137,6 @@ public class EventManager : SingletonMonoBehaviour<EventManager>
         Camera.main.transform.parent = playerModelObject.transform.parent.GetComponentInChildren<LanePositions>().transform;
 
         Destroy(startStage1);
-        Destroy(startStage2);
 
         playerCanvas.SetActive(true);
         playerCanvas.GetComponent<StatusDisplay>().OnEventEndInitialize();
@@ -158,9 +156,9 @@ public class EventManager : SingletonMonoBehaviour<EventManager>
         StartCoroutine(coroutine);
     }
 
-    public void GoalEvent(GameObject target,GameObject stageObject)
+    public void GoalEvent(GameObject target, GameObject stageObject)
     {
-        coroutine = GoalCoroutine(target,stageObject);
+        coroutine = GoalCoroutine(target, stageObject);
         StartCoroutine(coroutine);
     }
 
@@ -174,6 +172,7 @@ public class EventManager : SingletonMonoBehaviour<EventManager>
         //演出中はステージを削除しない
         stageManager.stageDeletable = false;
         playerModelObject.GetComponent<PlayerInput>().OnEventInitialize();
+        playerModelObject.GetComponent<PlayerStatus>().OnEventInitialize();
 
         //カメラの親オブジェクトを保存
         Transform cameraParent = Camera.main.transform.parent;
@@ -183,17 +182,18 @@ public class EventManager : SingletonMonoBehaviour<EventManager>
         //カメラをサブステージの子オブジェクトにする
         Camera.main.transform.parent = subStageObject.transform;
         Camera.main.transform.position = subStageObject.GetComponent<CurveCameraEvent>().EventCameraPosition;
-
+        GameObject laneObject = playerModelObject.GetComponentInParent<Player>().LaneObject;
+        LanePositions lane = laneObject.GetComponent<LanePositions>();
         while (true)
         {
-            //カメラをプレイヤーに向ける
             Camera.main.transform.LookAt(playerModelObject.transform);
+            //カメラをプレイヤーに向ける
             if (IsCurvePoint == true)
             {
                 gameSpeed.Speed -= Time.deltaTime * curveCoef;
                 gameSpeed.Speed = Mathf.Clamp(gameSpeed.Speed, 0.0f, gameSpeed.DefaultStageMoveSpeed);
-                //減速させて曲がったら元の速度に戻す
-                if (gameSpeed.Speed <= 0.0f)
+                //進行方向が変化したら
+                if (lane.IsChangeDirection() == false)
                 {
                     IsCurvePoint = false;
                     gameSpeed.Initialize();
@@ -223,6 +223,9 @@ public class EventManager : SingletonMonoBehaviour<EventManager>
     private IEnumerator GoalCoroutine(GameObject target, GameObject stageObject)
     {
         stageManager.stageDeletable = false;
+        playerModelObject.GetComponent<PlayerInput>().OnEventInitialize();
+        playerModelObject.GetComponent<PlayerStatus>().OnEventInitialize();
+
         //カメラ追跡停止
         Camera.main.transform.parent = stageObject.transform;
         Timer timer = new Timer(1.5f);
@@ -231,7 +234,7 @@ public class EventManager : SingletonMonoBehaviour<EventManager>
             Camera.main.transform.LookAt(target.transform);
             timer.UpdateTimer();
             yield return new WaitForSeconds(Time.deltaTime);
-            if(timer.IsTime() == true)
+            if (timer.IsTime() == true)
             {
                 break;
             }

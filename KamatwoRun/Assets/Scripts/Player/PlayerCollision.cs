@@ -62,7 +62,7 @@ public class PlayerCollision : CharacterComponent
         }
         else if (other.GetComponent<GoalSubStage>() != null)
         {
-            EventManager.Instance.GoalEvent(gameObject, other.gameObject);
+            EventManager.Instance.GoalEvent(other.gameObject);
         }
 
         //ƒ_ƒ[ƒW‚ğó‚¯‚Ä‚¢‚é“r’†‚È‚ç

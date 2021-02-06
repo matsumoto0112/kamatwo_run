@@ -1260,7 +1260,9 @@ MonoBehaviour:
   playerCanvas: {fileID: 96132391}
   startEventStagePrefab: {fileID: 3540577897443143398, guid: 2cb69b1aed9385e4a89a0efd3f1875eb, type: 3}
   eventCanvasObject: {fileID: 2095609438}
-  changeRelay: {fileID: 1890000644}
+  playerModelObject: {fileID: 747171596}
+  StartEventFlag: 0
+  IsCurvePoint: 0
 --- !u!4 &1890000643
 Transform:
   m_ObjectHideFlags: 0

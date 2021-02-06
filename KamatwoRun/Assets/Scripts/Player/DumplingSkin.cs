@@ -35,16 +35,19 @@ public class DumplingSkin : MonoBehaviour
     [SerializeField]
     private Texture wrappTexture = null;
     [SerializeField]
+    private Rigidbody rb = null;
+    [SerializeField]
     private float shotPower = 10.0f;
 
     private float initialPosY = 0.0f;
     private IEnumerator shotCoroutine = null;
+    private IEnumerator backCoroutine = null;
     //投擲オブジェクトの状態
     public ThrowingItemType ThrowType { get; private set; } = ThrowingItemType.None;
 
     public int WrappableObjectScore { get; private set; }
 
-    public bool IsShot => shotCoroutine != null;
+    public bool IsShot => ThrowType != ThrowingItemType.None;
 
     // Start is called before the first frame update
     void Start()
@@ -60,6 +63,7 @@ public class DumplingSkin : MonoBehaviour
         ThrowType = ThrowingItemType.None;
 
         shotCoroutine = null;
+        backCoroutine = null;
         initialPosY = transform.position.y;
     }
 
@@ -86,9 +90,6 @@ public class DumplingSkin : MonoBehaviour
         transform.localEulerAngles = new Vector3(90.0f, 0.0f, 0.0f);
         Timer shotTime = new Timer();
         Timer stopShotObjectTime = new Timer();
-        Vector3 modelPosition = modelTransform.position;
-        Vector3 shotDistination = modelTransform.position + (modelTransform.forward * shotPower);
-        Vector3 vel = Vector3.zero;
 
         //正面移動
         while (true)
@@ -97,20 +98,18 @@ public class DumplingSkin : MonoBehaviour
                 ThrowType == ThrowingItemType.HitObstacle ||
                 ThrowType == ThrowingItemType.HitWrappableObject)
             {
+                rb.velocity = Vector3.zero;
                 break;
             }
 
             if (shotTime.IsTime() == true)
             {
                 stopShotObjectTime.UpdateTimer();
+                rb.velocity = Vector3.zero;
             }
             else
             {
-                vel.x = Linear(shotTime.CurrentTime, shotTime.LimitTime, modelPosition.x, shotDistination.x);
-                vel.y = transform.position.y;
-                vel.z = Linear(shotTime.CurrentTime, shotTime.LimitTime, modelPosition.z, shotDistination.z);
-
-                transform.position = new Vector3(vel.x, transform.position.y, vel.z);
+                rb.velocity = modelTransform.forward.normalized * shotPower;
                 shotTime.UpdateTimer();
             }
             yield return new WaitForSeconds(Time.deltaTime);
@@ -118,17 +117,13 @@ public class DumplingSkin : MonoBehaviour
         if (ThrowType == ThrowingItemType.HitWrappableObject)
         {
             yield return new WaitForSeconds(1.0f);
-            yield return StartCoroutine(SkinBackCoroutine());
-        }
-        else if (ThrowType == ThrowingItemType.HitObstacle)
-        {
-            yield return StartCoroutine(SkinBackCoroutine());
         }
         else
         {
             ThrowType = ThrowingItemType.NoHit;
-            yield return StartCoroutine(SkinBackCoroutine());
         }
+        backCoroutine = SkinBackCoroutine();
+        yield return StartCoroutine(backCoroutine);
     }
 
     /// <summary>
@@ -137,21 +132,12 @@ public class DumplingSkin : MonoBehaviour
     /// <returns></returns>
     private IEnumerator SkinBackCoroutine()
     {
-        Timer timer = new Timer(0.5f);
-        Vector3 pos = transform.position;
         Vector3 vel = Vector3.zero;
         while (true)
-        {
-            timer.UpdateTimer();
-            vel.x = Linear(timer.CurrentTime, timer.LimitTime, pos.x, modelTransform.position.x);
-            vel.y = Mathf.Clamp(vel.y, 0.5f + modelTransform.position.y, Mathf.Infinity);
-            vel.z = Linear(timer.CurrentTime, timer.LimitTime, pos.z, modelTransform.position.z);
-            transform.position = vel;
-
-            if (timer.IsTime() == true)
-            {
-                break;
-            }
+        {          
+            //方向取得
+            vel = (modelTransform.position + new Vector3(0.0f, 0.5f, 0.0f) - transform.position).normalized;
+            rb.velocity = vel * shotPower;
             yield return new WaitForSeconds(Time.deltaTime);
         }
     }
@@ -181,7 +167,7 @@ public class DumplingSkin : MonoBehaviour
         boxCollider.enabled = true;
         ThrowType = ThrowingItemType.Shot;
         WrappableObjectScore = 0;
-        Vector3 position = transform.position;
+        Vector3 position = modelTransform.position;
         position.y = initialPosY;
         transform.position = position;
         shotCoroutine = ShotCoroutine();
@@ -207,8 +193,12 @@ public class DumplingSkin : MonoBehaviour
         meshRenderer.enabled = false;
         boxCollider.enabled = false;
         ThrowType = ThrowingItemType.None;
+        StopCoroutine(shotCoroutine);
         shotCoroutine = null;
+        StopCoroutine(backCoroutine);
+        backCoroutine = null;
         WrappableObjectScore = 0;
+        rb.velocity = Vector3.zero;
     }
 
     /// <summary>

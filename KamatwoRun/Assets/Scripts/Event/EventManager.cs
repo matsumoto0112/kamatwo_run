@@ -3,6 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityExLib;
 
+public enum EventType
+{
+    None,
+    GameStart,
+    Curve,
+    Goal,
+}
+
 public class EventManager : SingletonMonoBehaviour<EventManager>
 {
     [SerializeField]
@@ -14,233 +22,109 @@ public class EventManager : SingletonMonoBehaviour<EventManager>
     [SerializeField]
     private GameObject eventCanvasObject = null;
     [SerializeField]
-    private SceneChangeRelay changeRelay = null;
+    private GameObject playerModelObject = null;
 
-    private StageManager stageManager = null;
-    private GameSpeed gameSpeed = null;
+    private EventType eventType = EventType.None;
+    private Dictionary<EventType, BaseEvent> eventList;
 
-    private IEnumerator coroutine = null;
-    private GameObject playerModelObject = null;   //プレイヤーモデルオブジェクト
-    private Timer eventTimer;
+    public StageManager StageManager { get; private set; } = null;
+    public GameSpeed GameSpeed { get; private set; } = null;
+    public GameObject StageObject { get; private set; } = null;
+    public SceneChangeRelay SceneChangeRelay { get; private set; } = null;
 
-    private const float curveCoef = 26.5f;
-
-    //
-    public bool StartEventFlag { get; private set; }
+    [HideInInspector]
+    public bool StartEventFlag = false;
+    [HideInInspector]
+    public bool IsCurvePoint = false;
 
     //ゲーム中イベントフラグ
-    public bool EventFlag
-    {
-        get
-        {
-            return coroutine != null;
-        }
-    }
-
-    /// <summary>
-    /// カーブポイントに差し掛かったかどうか
-    /// </summary>
-    public bool IsCurvePoint { get; set; }
+    public bool EventFlag => eventType != EventType.None;
 
     protected override void Awake()
     {
-        coroutine = null;
         base.Awake();
-        stageManager = stageManagerObject.GetComponent<StageManager>();
-        gameSpeed = stageManagerObject.GetComponent<GameSpeed>();
-        //プレイヤーモデル取得
-        playerModelObject = GameObject.FindGameObjectWithTag("Player").transform.GetChild(0).gameObject;
-        eventTimer = new Timer(1.5f);
+        StageManager = stageManagerObject.GetComponent<StageManager>();
+        GameSpeed = stageManagerObject.GetComponent<GameSpeed>();
+        SceneChangeRelay = GetComponent<SceneChangeRelay>();
+        StageObject = null;
         IsCurvePoint = false;
 
         StartEventFlag = false;
-        coroutine = GameStartEvent();
-        StartCoroutine(coroutine);
     }
 
+    private void Start()
+    {
+        eventList = new Dictionary<EventType, BaseEvent>();
+        eventList.Add(EventType.GameStart, new GameStartEvent(playerModelObject));
+        eventList.Add(EventType.Curve, new CurveEvent(playerModelObject));
+        eventList.Add(EventType.Goal, new GoalEvent(playerModelObject));
+
+        eventType = EventType.GameStart;
+        eventList[eventType].OnInitialize();
+    }
+
+    private void Update()
+    {
+        if(eventType != EventType.None)
+        {
+            StageManager.stageDeletable = false;
+            eventList[eventType].OnUpdate();
+            if(eventList[eventType].OnEnd() == true)
+            {
+                StageManager.stageDeletable = true;
+                eventType = EventType.None;
+            }
+        }
+    }
 
     /// <summary>
-    /// ゲームスタート時のイベント処理
+    /// プレイヤーUIの表示変更
     /// </summary>
-    /// <returns></returns>
-    private IEnumerator GameStartEvent()
+    /// <param name="active"></param>
+    public void ChangeCanvasActive(bool active)
     {
-        //演出中はステージを破棄させない
-        stageManager.stageDeletable = false;
-        playerCanvas.SetActive(false);
-
-        EventTextDisplay eventTextDisplay = eventCanvasObject.GetComponent<EventTextDisplay>();
-        eventTextDisplay.Initialize();
-
-        //スタート時のプレイヤー情報保存
-        Vector3 initialPlayerPosition = playerModelObject.transform.localPosition;
-        Vector3 initialPlayerRotate = playerModelObject.transform.localEulerAngles;
-        //初期のカメラ情報保存
-        Vector3 initialCameraPosition = Camera.main.transform.position;
-        Vector3 initialCameraRotate = Camera.main.transform.eulerAngles;
-
-        Vector3 startPosition = new Vector3(0.0f, 0.0f, -50.0f);
-        playerModelObject.transform.position = startPosition + new Vector3(0.0f, 0.5f, 0.0f);
-        GameObject startStage1 = Instantiate(startEventStagePrefab, startPosition, Quaternion.identity);
-
-        Camera.main.transform.LookAt(playerModelObject.transform);
-        Camera.main.transform.position = playerModelObject.transform.position + (playerModelObject.transform.forward * 30) + new Vector3(0.0f, 2.0f, 0.0f);
-
-        float alpha = 0.0f;
-        //プレイヤーがカメラに向かって走ってくる
-        while (true)
+        if (active == true)
         {
-            playerModelObject.transform.position += playerModelObject.transform.forward * Time.deltaTime * 7.5f;
-            alpha += Time.deltaTime;
-            alpha = Mathf.Clamp01(alpha);
-            eventTextDisplay.SetFrameAlpha(alpha);
-            yield return new WaitForSeconds(Time.deltaTime);
-            if ((Camera.main.transform.position.z - playerModelObject.transform.position.z) <= 5.0f)
-            {
-                break;
-            }
-            if (alpha >= 1.0f)
-            {
-                eventTextDisplay.FirstText();
-            }
+            playerCanvas.SetActive(true);
+            playerCanvas.GetComponent<StatusDisplay>().OnEventEndInitialize();
         }
-
-        //カメラをプレイヤーの側面を移すようにする
-        Camera.main.transform.position = playerModelObject.transform.position + new Vector3(5.0f, 2.5f, 0.0f);
-        Camera.main.transform.LookAt(playerModelObject.transform);
-        Camera.main.transform.parent = playerModelObject.transform;
-
-        Timer timer = new Timer(2.0f);
-        eventTextDisplay.SecondText();
-        //再度進む
-        while (true)
+        else if (active == false)
         {
-            playerModelObject.transform.position += playerModelObject.transform.forward * Time.deltaTime * 7.5f;
-            timer.UpdateTimer();
-            yield return new WaitForSeconds(Time.deltaTime);
-            if (timer.IsTime() == true)
-            {
-                break;
-            }
+            playerCanvas.SetActive(false);
         }
-
-        //演出終了処理
-        eventTextDisplay.Initialize();
-
-        Camera.main.transform.parent = null;
-        playerModelObject.transform.localPosition = initialPlayerPosition;
-        playerModelObject.transform.localEulerAngles = initialPlayerRotate;
-
-
-        Camera.main.transform.position = initialCameraPosition;
-        Camera.main.transform.eulerAngles = initialCameraRotate;
-        Camera.main.transform.parent = playerModelObject.transform.parent.GetComponentInChildren<LanePositions>().transform;
-
-        Destroy(startStage1);
-
-        playerCanvas.SetActive(true);
-        playerCanvas.GetComponent<StatusDisplay>().OnEventEndInitialize();
-
-        stageManager.stageDeletable = true;
-        StartEventFlag = true;
-        coroutine = null;
     }
 
     /// <summary>
     /// カーブイベント
     /// </summary>
     /// <param name="subStageObject"></param>
-    public void CurveEvent(GameObject subStageObject)
+    public void CurveEvent(GameObject stageObject)
     {
-        coroutine = CurveEventCoroutine(subStageObject);
-        StartCoroutine(coroutine);
+        StageObject = stageObject;
+        eventType = EventType.Curve;
+        eventList[eventType].OnInitialize();
     }
 
-    public void GoalEvent(GameObject target, GameObject stageObject)
+    public void GoalEvent(GameObject stageObject)
     {
-        coroutine = GoalCoroutine(target, stageObject);
-        StartCoroutine(coroutine);
+        StageObject = stageObject;
+        eventType = EventType.Goal;
+        eventList[eventType].OnInitialize();
     }
 
-    /// <summary>
-    /// カーブ時の演出処理
-    /// </summary>
-    /// <param name="subStageObject"></param>
-    /// <returns></returns>
-    private IEnumerator CurveEventCoroutine(GameObject subStageObject)
+    public EventTextDisplay GetEventTextDisplay()
     {
-        //演出中はステージを削除しない
-        stageManager.stageDeletable = false;
-        playerModelObject.GetComponent<PlayerInput>().OnEventInitialize();
-        playerModelObject.GetComponent<PlayerStatus>().OnEventInitialize();
-
-        //カメラの親オブジェクトを保存
-        Transform cameraParent = Camera.main.transform.parent;
-        Vector3 localPosition = Camera.main.transform.localPosition;
-        Vector3 localEulerAngle = Camera.main.transform.localEulerAngles;
-
-        //カメラをサブステージの子オブジェクトにする
-        Camera.main.transform.parent = subStageObject.transform;
-        Camera.main.transform.position = subStageObject.GetComponent<CurveCameraEvent>().EventCameraPosition;
-        GameObject laneObject = playerModelObject.GetComponentInParent<Player>().LaneObject;
-        LanePositions lane = laneObject.GetComponent<LanePositions>();
-        while (true)
-        {
-            Camera.main.transform.LookAt(playerModelObject.transform);
-            //カメラをプレイヤーに向ける
-            if (IsCurvePoint == true)
-            {
-                gameSpeed.Speed -= Time.deltaTime * curveCoef;
-                gameSpeed.Speed = Mathf.Clamp(gameSpeed.Speed, 0.1f, gameSpeed.DefaultStageMoveSpeed);
-                //進行方向が変化したら
-                if (lane.IsChangeDirection() == false)
-                {
-                    IsCurvePoint = false;
-                    gameSpeed.Initialize();
-                }
-                yield return new WaitForSeconds(Time.deltaTime);
-                continue;
-            }
-
-            eventTimer.UpdateTimer();
-            if (eventTimer.IsTime() == true)
-            {
-                break;
-            }
-            yield return new WaitForSeconds(Time.deltaTime);
-        }
-
-        //カメラを元の位置に
-        Camera.main.transform.parent = cameraParent;
-        Camera.main.transform.localPosition = localPosition;
-        Camera.main.transform.localEulerAngles = localEulerAngle;
-
-        coroutine = null;
-        eventTimer.Initialize();
-        stageManager.stageDeletable = true;
+        return eventCanvasObject.GetComponent<EventTextDisplay>();
     }
 
-    private IEnumerator GoalCoroutine(GameObject target, GameObject stageObject)
+    public GameObject SpawnStartStage()
     {
-        stageManager.stageDeletable = false;
-        playerModelObject.GetComponent<PlayerInput>().OnEventInitialize();
-        playerModelObject.GetComponent<PlayerStatus>().OnEventInitialize();
+        Vector3 startPosition = new Vector3(0.0f, 0.0f, -50.0f);
+        return Instantiate(startEventStagePrefab, startPosition, Quaternion.identity);
+    }
 
-        //カメラ追跡停止
-        Camera.main.transform.parent = stageObject.transform;
-        Timer timer = new Timer(1.5f);
-        while (true)
-        {
-            Camera.main.transform.LookAt(target.transform);
-            timer.UpdateTimer();
-            yield return new WaitForSeconds(Time.deltaTime);
-            if (timer.IsTime() == true)
-            {
-                break;
-            }
-        }
-
-        changeRelay.Next();
-        coroutine = null;
+    public void DestroyObject(GameObject gameObject)
+    {
+        Destroy(gameObject);
     }
 }

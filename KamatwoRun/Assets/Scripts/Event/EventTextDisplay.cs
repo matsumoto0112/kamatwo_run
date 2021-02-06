@@ -14,8 +14,30 @@ public class EventTextDisplay : MonoBehaviour
 
     public void Initialize()
     {
-        frameImage.color = new Color(frameImage.color.r, frameImage.color.g, frameImage.color.b, 0.0f);
+        Color color = frameImage.color;
+        color.a = 0.0f;
+        frameImage.color = color;
         text.text = "";
+    }
+
+    public void ChangeAlpha()
+    {
+        //透明度が1以下なら
+        if (frameImage.color.a < 1.0f)
+        {
+            Color color = frameImage.color;
+            color.a = Mathf.Clamp01(color.a + Time.deltaTime);
+            frameImage.color = color;
+        }
+    }
+
+    /// <summary>
+    /// アルファ値が位置以上か
+    /// </summary>
+    /// <returns></returns>
+    public bool IsAlpha()
+    {
+        return frameImage.color.a >= 1.0f;
     }
 
     public void SetFrameAlpha(float alpha)
@@ -25,11 +47,11 @@ public class EventTextDisplay : MonoBehaviour
 
     public void FirstText()
     {
-        if(GameDataStore.Instance.PlayedMode == PlayMode.Weekday)
+        if (GameDataStore.Instance.PlayedMode == PlayMode.Weekday)
         {
             text.text = eventTextDataTable.GetEventTextData().weekDayFirstText;
         }
-        else if(GameDataStore.Instance.PlayedMode == PlayMode.Holiday)
+        else if (GameDataStore.Instance.PlayedMode == PlayMode.Holiday)
         {
             text.text = eventTextDataTable.GetEventTextData().holiDayFirstText;
         }

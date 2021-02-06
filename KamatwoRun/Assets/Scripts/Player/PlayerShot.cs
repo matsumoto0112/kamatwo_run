@@ -25,9 +25,4 @@ public class PlayerShot : CharacterComponent
     {
         return dumplingSkin.IsShot;
     }
-
-    public void ShotEnd()
-    {
-        dumplingSkin.OnEnd();
-    }
 }

@@ -2439,6 +2439,7 @@ MonoBehaviour:
   smokeParticle: {fileID: 5403719418611104855, guid: 917075973db64574e892dee37538e2de, type: 3}
   dumplingTexture: {fileID: 2800000, guid: 36f6d563f93feed459797fef968a9309, type: 3}
   wrappTexture: {fileID: 2800000, guid: 3263d1eb32944d34992bab6396eda32a, type: 3}
+  rb: {fileID: 8295542350083248068}
   shotPower: 10
 --- !u!65 &6303902998758027802
 BoxCollider:

@@ -23,7 +23,6 @@ public class LanePositions : MonoBehaviour
         }
         entranceDirection = Vector3.zero;
         modelObject = transform.parent.GetChild(0).gameObject;
-        //Camera.main.transform.parent = transform;
         subStageObject = null;
         curveTimer = new Timer();
     }
@@ -57,8 +56,8 @@ public class LanePositions : MonoBehaviour
     /// <param name="subStage"></param>
     public bool CurveToChangeLanePosition()
     {
-        //進む方向が変わったら
-        if (entranceDirection == subStageObject.GetForegroundDirection(transform.parent.GetChild(0).position))
+        //進む方向が同じなら
+        if (IsChangeDirection() == true)
         {
             return false;
         }
@@ -98,8 +97,16 @@ public class LanePositions : MonoBehaviour
                     transform.localPosition -= new Vector3(2.0f, 0.0f, 0.0f);
                 break;
         }
-        subStageObject = null;
         return true;
+    }
+
+    /// <summary>
+    /// 進行方向が同じかどうか
+    /// </summary>
+    /// <returns></returns>
+    public bool IsChangeDirection()
+    {
+        return entranceDirection == subStageObject.GetForegroundDirection(modelObject.transform.position);
     }
 
     /// <summary>
@@ -172,9 +179,9 @@ public class LanePositions : MonoBehaviour
         {
             return new Vector3(0.0f, 0.0f, tiltNum);
         }
-        //W->E
+        //W->S
         else if (subStageObject.EntranceType == GatewayType.West &&
-             subStageObject.ExitType == GatewayType.East)
+             subStageObject.ExitType == GatewayType.South)
         {
             return new Vector3(0.0f, 0.0f, -tiltNum);
         }

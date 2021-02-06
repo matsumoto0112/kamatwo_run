@@ -21,22 +21,8 @@ public class PlayerShot : CharacterComponent
         dumplingSkin.OnCreate();
     }
 
-    /// <summary>
-    /// è’ìÀîªíË
-    /// </summary>
-    /// <returns></returns>
-    public bool IsHit()
-    {
-        return dumplingSkin.IsHit;
-    }
-
     public bool IsShot()
     {
         return dumplingSkin.IsShot;
-    }
-
-    public void ShotEnd()
-    {
-        dumplingSkin.OnEnd();
     }
 }

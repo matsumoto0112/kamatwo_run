@@ -94,6 +94,7 @@ public class PlayerStatus : CharacterComponent
         if(IsDead() == true)
         {
             GameDataStore.Instance.Score = Score;
+            GameDataStore.Instance.GameEndedType = GameEndType.Goal;
             animator.applyRootMotion = false;
             animator.SetTrigger("Dead");
         }

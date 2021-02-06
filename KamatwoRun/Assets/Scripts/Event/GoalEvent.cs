@@ -39,6 +39,7 @@ public class GoalEvent : BaseEvent
         timer.Initialize();
 
         GameDataStore.Instance.Score = playerModelObject.GetComponent<PlayerStatus>().Score;
+        GameDataStore.Instance.GameEndedType = GameEndType.Goal;
 
         //ƒvƒŒƒCƒ„[‚Ìó‘Ô‚ğ‰Šú‰»
         playerInput.OnEventInitialize();

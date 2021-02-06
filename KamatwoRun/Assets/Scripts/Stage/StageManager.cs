@@ -121,7 +121,19 @@ public class StageManager : MonoBehaviour
 
             //新しく追加する
             SpawnNextSubStage();
-            if (!goalGenerated && spawnedSubStageNum == stageParameter.stageGoalWaveNum)
+
+            //ゴールの生成する条件を満たしているかどうかの判定式
+            System.Func<bool> IsFlaggedGenerateGoal = () =>
+            {
+                //すでに生成済みなら再度生成はしない
+                if (goalGenerated) return false;
+                //プレイモードがエンドレスならゴールは生成されない
+                if (GameDataStore.Instance.PlayedMode == PlayMode.Holiday) return false;
+                //生成済みステージ数がゴール生成に必要なウェーブ数と一致しているときに、次のゴールを生成する
+                return spawnedSubStageNum == stageParameter.stageGoalWaveNum;
+            };
+
+            if (IsFlaggedGenerateGoal())
             {
                 ReserveNextSubstageShapeType(SubStageShapeType.Goal);
             }

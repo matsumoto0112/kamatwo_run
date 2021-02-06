@@ -18,27 +18,26 @@ public class RankingBoard : MonoBehaviour
 {
     [SerializeField, Header("ランキングの種類")]
     private RankingType type;
-    [SerializeField, Header("モード名を表示するテキスト")]
-    private Text modeText;
     [SerializeField]
     private List<Text> startPoints;
+    [SerializeField]
+    private Image holidayBoard;
+    [SerializeField]
+    private Image weekdayBoard;
 
-    private void Start()
+    public void Init()
     {
-        //セーブ処理をしてプレイデータをアップロードしておく
-        //セーブ後にはデータがリセットされるため、複数回呼んでもデータが破壊されることはない
-        GameDataStore.Instance.SaveGameData();
-        RankingData data; if (type == RankingType.PlayedGameMode)
+        RankingData data;
+        if (type == RankingType.PlayedGameMode)
         {
 
             data = GameDataStore.Instance.GetSavedRankingData();
-            modeText.text = GameDataStore.Instance.PlayedMode.PlayModeText();
         }
         else
         {
             PlayMode mode = type == RankingType.Weekday ? PlayMode.Weekday : PlayMode.Holiday;
             data = GameDataStore.Instance.GetSavedRankingData(mode);
-            modeText.text = mode.PlayModeText();
+            SetBoardVisibility(mode);
         }
 
         Assert.IsTrue(data.playerDatas.Length == startPoints.Count, "リザルトの要素数とUIの要素数が一致しません");
@@ -46,6 +45,30 @@ public class RankingBoard : MonoBehaviour
         for (int i = 0; i < data.playerDatas.Length; i++)
         {
             startPoints[i].text = $"{ data.playerDatas[i].score}";
+        }
+    }
+
+    public void HighlightRanking(int ranking)
+    {
+        ranking = ranking - 1;
+        if (ranking < 0 || ranking >= startPoints.Count) return;
+        startPoints[ranking].color = Color.red;
+    }
+
+    public void SetBoardVisibility(PlayMode playmode)
+    {
+        switch (playmode)
+        {
+            case PlayMode.Weekday:
+                weekdayBoard.enabled = true;
+                holidayBoard.enabled = false;
+                break;
+            case PlayMode.Holiday:
+                weekdayBoard.enabled = false;
+                holidayBoard.enabled = true;
+                break;
+            default:
+                break;
         }
     }
 }

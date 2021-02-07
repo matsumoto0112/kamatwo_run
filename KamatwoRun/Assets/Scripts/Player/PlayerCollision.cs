@@ -60,12 +60,17 @@ public class PlayerCollision : CharacterComponent
         }
 
         //カーブオブジェクト又はゴールしたら
-        if (other.GetComponent<CurveCameraEvent>() != null ||
-            other.GetComponent<GoalSubStage>() != null)
+        if (other.GetComponent<CurveCameraEvent>() != null)
         {
             playerInput.OnEventInitialize();
             playerStatus.OnEventInitialize();
             eventManager.CurveEvent(other.gameObject);
+        }
+        else if(other.GetComponent<GoalSubStage>() != null)
+        {
+            playerInput.OnEventInitialize();
+            playerStatus.OnEventInitialize();
+            eventManager.GoalEvent(other.gameObject);
         }
 
         //ダメージを受けている途中なら

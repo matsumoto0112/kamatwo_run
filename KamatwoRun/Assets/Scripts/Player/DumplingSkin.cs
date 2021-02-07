@@ -29,6 +29,8 @@ public class DumplingSkin : MonoBehaviour
     [SerializeField]
     private Transform modelTransform = null;
     [SerializeField]
+    private GameObject bigEatParticle = null;
+    [SerializeField]
     private GameObject smokeParticle = null;
     [SerializeField]
     private Texture dumplingTexture = null;
@@ -39,11 +41,13 @@ public class DumplingSkin : MonoBehaviour
     [SerializeField]
     private float shotPower = 10.0f;
 
+    private Timer shotTime;
+    private Timer stopShotObjectTime;
+    private PlayerStatus playerStatus = null;
+
     private float initialPosY = 0.0f;
-    private IEnumerator shotCoroutine = null;
-    private IEnumerator backCoroutine = null;
     //投擲オブジェクトの状態
-    public ThrowingItemType ThrowType { get; private set; } = ThrowingItemType.None;
+    public ThrowingItemType ThrowType;
 
     public int WrappableObjectScore { get; private set; }
 
@@ -62,100 +66,109 @@ public class DumplingSkin : MonoBehaviour
 
         ThrowType = ThrowingItemType.None;
 
-        shotCoroutine = null;
-        backCoroutine = null;
         initialPosY = transform.position.y;
+
+        shotTime = new Timer();
+        stopShotObjectTime = new Timer();
+        playerStatus = modelTransform.GetComponent<PlayerStatus>();
     }
 
     private void Update()
     {
-        //投擲していない状態または
-        //敵オブジェクトに衝突していたら
-        if (ThrowType == ThrowingItemType.None ||
-            ThrowType == ThrowingItemType.HitWrappableObject)
+        switch (ThrowType)
         {
-            return;
-        }
-
-        transform.eulerAngles += new Vector3(0, 5, 0);
-    }
-
-    /// <summary>
-    /// 発射処理
-    /// </summary>
-    /// <returns></returns>
-    private IEnumerator ShotCoroutine()
-    {
-        //モデルを横に傾ける
-        transform.localEulerAngles = new Vector3(90.0f, 0.0f, 0.0f);
-        Timer shotTime = new Timer();
-        Timer stopShotObjectTime = new Timer();
-
-        //正面移動
-        while (true)
-        {
-            if (stopShotObjectTime.IsTime() == true ||
-                ThrowType == ThrowingItemType.HitObstacle ||
-                ThrowType == ThrowingItemType.HitWrappableObject)
-            {
-                rb.velocity = Vector3.zero;
+            case ThrowingItemType.HitWrappableObject:
+                HitWrappableEvent();
                 break;
-            }
-
-            if (shotTime.IsTime() == true)
-            {
-                stopShotObjectTime.UpdateTimer();
-                rb.velocity = Vector3.zero;
-            }
-            else
-            {
-                rb.velocity = modelTransform.forward.normalized * shotPower;
-                shotTime.UpdateTimer();
-            }
-            yield return new WaitForSeconds(Time.deltaTime);
+            case ThrowingItemType.HitObstacle:
+            case ThrowingItemType.NoHit:
+                transform.eulerAngles += new Vector3(0, 5, 0);
+                ObjectBackEvent();
+                break;
+            case ThrowingItemType.Shot:
+                transform.eulerAngles += new Vector3(0, 5, 0);
+                ShotEvent();
+                break;
+            case ThrowingItemType.None:
+                break;
         }
-        if (ThrowType == ThrowingItemType.HitWrappableObject)
-        {
-            yield return new WaitForSeconds(1.0f);
-        }
-        else
-        {
-            ThrowType = ThrowingItemType.NoHit;
-        }
-        backCoroutine = SkinBackCoroutine();
-        yield return StartCoroutine(backCoroutine);
     }
 
-    /// <summary>
-    /// 投げたものをもとの場所に戻す
-    /// </summary>
-    /// <returns></returns>
-    private IEnumerator SkinBackCoroutine()
+    private void HitWrappableEvent()
     {
-        Vector3 vel = Vector3.zero;
-        while (true)
-        {          
+        //一定時間停止
+        stopShotObjectTime.UpdateTimer();
+        if (stopShotObjectTime.IsTime() == true)
+        {
+            Vector3 vel = Vector3.zero;
             //方向取得
             vel = (modelTransform.position + new Vector3(0.0f, 0.5f, 0.0f) - transform.position).normalized;
             rb.velocity = vel * shotPower;
-            yield return new WaitForSeconds(Time.deltaTime);
+            if (DistanceCheck() == true)
+            {
+                Destroy(Instantiate(bigEatParticle, modelTransform.position + Vector3.up, Quaternion.identity), 2.0f);
+                playerStatus.AddScore(WrappableObjectScore);
+                OnEnd();
+            }
         }
     }
 
     /// <summary>
-    /// 等速移動
+    /// 発射時のイベント
     /// </summary>
-    /// <param name="ct">現在時間</param>
-    /// <param name="et">終了時間</param>
-    /// <param name="start">初めの数値</param>
-    /// <param name="end">終了数値</param>
-    /// <returns></returns>
-    public float Linear(float ct, float et, float start, float end)
+    private void ShotEvent()
     {
-        if (ct > et)
-            return end;
-        end -= start;
-        return end * ct / et + start;
+        //停止時間を過ぎたら
+        if (stopShotObjectTime.IsTime() == true)
+        {
+            rb.velocity = Vector3.zero;
+            ThrowType = ThrowingItemType.NoHit;
+        }
+
+        //投擲時間が終わったら
+        if (shotTime.IsTime() == true)
+        {
+            stopShotObjectTime.UpdateTimer();
+            rb.velocity = Vector3.zero;
+        }
+        //投擲中
+        else
+        {
+            rb.velocity = modelTransform.forward.normalized * shotPower;
+            shotTime.UpdateTimer();
+        }
+    }
+
+    /// <summary>
+    /// 何も当たらなかったら
+    /// </summary>
+    private void ObjectBackEvent()
+    {
+        Vector3 vel = Vector3.zero;
+        //方向取得
+        vel = (modelTransform.position + new Vector3(0.0f, 0.5f, 0.0f) - transform.position).normalized;
+        rb.velocity = vel * shotPower;
+
+        //距離判定
+        if (DistanceCheck() == true)
+        {
+            OnEnd();
+        }
+    }
+
+    /// <summary>
+    /// プレイヤーモデルと投擲物との距離を調べる
+    /// </summary>
+    /// <returns></returns>
+    private bool DistanceCheck()
+    {
+        //プレイヤーモデルと投擲物との距離
+        float distance = Vector3.Distance(modelTransform.position, transform.position);
+        if (distance <= 2.0f)
+        {
+            return true;
+        }
+        return false;
     }
 
     /// <summary>
@@ -165,13 +178,15 @@ public class DumplingSkin : MonoBehaviour
     {
         meshRenderer.enabled = true;
         boxCollider.enabled = true;
-        ThrowType = ThrowingItemType.Shot;
         WrappableObjectScore = 0;
         Vector3 position = modelTransform.position;
         position.y = initialPosY;
         transform.position = position;
-        shotCoroutine = ShotCoroutine();
-        StartCoroutine(shotCoroutine);
+        //モデルを横に傾ける
+        transform.localEulerAngles = new Vector3(90.0f, 0.0f, 0.0f);
+        shotTime.Initialize();
+        stopShotObjectTime.Initialize();
+        ThrowType = ThrowingItemType.Shot;
     }
 
     /// <summary>
@@ -181,6 +196,8 @@ public class DumplingSkin : MonoBehaviour
     {
         dumplingSkinRenderer.material.SetTexture("_MainTex", wrappTexture);
         transform.eulerAngles = modelTransform.eulerAngles;
+        stopShotObjectTime.Initialize();
+        rb.velocity = Vector3.zero;
         ThrowType = ThrowingItemType.HitWrappableObject;
     }
 
@@ -192,13 +209,9 @@ public class DumplingSkin : MonoBehaviour
         dumplingSkinRenderer.material.SetTexture("_MainTex", dumplingTexture);
         meshRenderer.enabled = false;
         boxCollider.enabled = false;
-        ThrowType = ThrowingItemType.None;
-        StopCoroutine(shotCoroutine);
-        shotCoroutine = null;
-        StopCoroutine(backCoroutine);
-        backCoroutine = null;
         WrappableObjectScore = 0;
         rb.velocity = Vector3.zero;
+        ThrowType = ThrowingItemType.None;
     }
 
     /// <summary>

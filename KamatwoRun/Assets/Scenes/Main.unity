@@ -1170,6 +1170,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 2800462315915622533, guid: 841a19bd5af0d994880837c151d3ada1, type: 3}
+      propertyPath: bigEatParticle
+      value: 
+      objectReference: {fileID: 546831132679514381, guid: c651f9e0c72c46447a6816ab845cb61b, type: 3}
     - target: {fileID: 5022571423239434809, guid: 841a19bd5af0d994880837c151d3ada1, type: 3}
       propertyPath: jumpSEName
       value: SE_Jump 1

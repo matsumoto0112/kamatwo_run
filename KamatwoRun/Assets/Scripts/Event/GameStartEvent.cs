@@ -12,7 +12,7 @@ public class GameStartEvent : BaseEvent
         EndSecondEvent,
     }
 
-    private EventTextDisplay eventTextDisplay = null;
+    private EventCanvas eventTextDisplay = null;
 
     private Vector3 initPlayerPosition = Vector3.zero;
     private Vector3 initPlayerAngle = Vector3.zero;
@@ -30,7 +30,7 @@ public class GameStartEvent : BaseEvent
     public GameStartEvent(GameObject playerModelObject,EventManager eventManager)
         : base(playerModelObject,eventManager)
     {
-        eventTextDisplay = eventManager.GetEventTextDisplay();
+        eventTextDisplay = eventManager.GetEventCanvas();
         startStage = null;
         timer = new Timer(2.0f);
     }
@@ -44,7 +44,7 @@ public class GameStartEvent : BaseEvent
         IsEnd = false;
         timer.Initialize();
         type = EventProgressType.StartFirstEvent;
-        eventTextDisplay.Initialize();
+        eventTextDisplay.GameStartEventInitialize();
 
         eventManager.ChangeCanvasActive(false);
 
@@ -103,7 +103,7 @@ public class GameStartEvent : BaseEvent
             return false;
         }
 
-        eventTextDisplay.Initialize();
+        eventTextDisplay.GameStartEventInitialize();
 
         Camera.main.transform.parent = null;
         //プレイヤー更新の情報

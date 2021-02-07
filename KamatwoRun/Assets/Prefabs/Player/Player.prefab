@@ -566,7 +566,6 @@ GameObject:
   - component: {fileID: 3315752493375504000}
   - component: {fileID: 5022571423239434809}
   - component: {fileID: 1269120837}
-  - component: {fileID: 747171597}
   m_Layer: 0
   m_Name: Kamatwo
   m_TagString: Untagged
@@ -691,7 +690,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   smallEatParticle: {fileID: 4086205503890563166, guid: 6a03b33ab1a6dfc4f89800a3f61234c6, type: 3}
-  bigEatParticle: {fileID: 546831132679514381, guid: c651f9e0c72c46447a6816ab845cb61b, type: 3}
+  eatSEName: SE_EatGyouza 1
+  hitSEName: SE_Shock 1
 --- !u!114 &3315752493375504000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -716,6 +716,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07eb3ddfeb85d99478516afcc73e50d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  jumpSEName: SE_Jump 1
+  shotSEName: SE_ThrowGyoza
 --- !u!114 &1269120837
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -728,20 +730,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8833e47aa8481ed459cfe80dd816aae2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &747171597
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1677660428683551752}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b506bb41c94353d438b3eca189cad1f8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sceneName: ResultScene
-  fade: {fileID: 0}
 --- !u!1 &1940843571717048532
 GameObject:
   m_ObjectHideFlags: 0
@@ -900,7 +888,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ba979f567acbc74b88fe8f521e98312, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameSpeed: {fileID: 0}
+  eventManager: {fileID: 0}
+  soundManager: {fileID: 0}
 --- !u!1 &1984212307895425586
 GameObject:
   m_ObjectHideFlags: 0
@@ -2437,11 +2426,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   modelTransform: {fileID: 2018720845955464882}
+  bigEatParticle: {fileID: 546831132679514381, guid: c651f9e0c72c46447a6816ab845cb61b, type: 3}
   smokeParticle: {fileID: 5403719418611104855, guid: 917075973db64574e892dee37538e2de, type: 3}
   dumplingTexture: {fileID: 2800000, guid: 36f6d563f93feed459797fef968a9309, type: 3}
   wrappTexture: {fileID: 2800000, guid: 3263d1eb32944d34992bab6396eda32a, type: 3}
   rb: {fileID: 8295542350083248068}
   shotPower: 10
+  eatSEName: SE_EatGyouza 1
+  wrapSEName: SE_ChangeGyoza 1
 --- !u!65 &6303902998758027802
 BoxCollider:
   m_ObjectHideFlags: 0

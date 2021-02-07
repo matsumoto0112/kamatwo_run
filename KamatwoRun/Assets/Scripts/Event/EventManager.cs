@@ -7,6 +7,7 @@ public enum EventType
 {
     None,
     GameStart,
+    GameOver,
     Curve,
     Goal,
 }
@@ -55,9 +56,11 @@ public class EventManager : MonoBehaviour
     {
         eventList = new Dictionary<EventType, BaseEvent>();
         eventList.Add(EventType.GameStart, new GameStartEvent(playerModelObject,this));
+        eventList.Add(EventType.GameOver, new GameOverEvent(playerModelObject, this));
         eventList.Add(EventType.Curve, new CurveEvent(playerModelObject,this));
         eventList.Add(EventType.Goal, new GoalEvent(playerModelObject,this));
 
+        GetEventCanvas().Initialize();
         eventType = EventType.GameStart;
         eventList[eventType].OnInitialize();
     }
@@ -111,9 +114,15 @@ public class EventManager : MonoBehaviour
         eventList[eventType].OnInitialize();
     }
 
-    public EventTextDisplay GetEventTextDisplay()
+    public void GameOverEvent()
     {
-        return eventCanvasObject.GetComponent<EventTextDisplay>();
+        eventType = EventType.GameOver;
+        eventList[eventType].OnInitialize();
+    }
+
+    public EventCanvas GetEventCanvas()
+    {
+        return eventCanvasObject.GetComponent<EventCanvas>();
     }
 
     public GameObject SpawnStartStage()

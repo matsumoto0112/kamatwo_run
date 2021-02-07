@@ -347,6 +347,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5296cc574d2cdf848875d213eae530b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  eventManager: {fileID: 0}
   stageParameter: {fileID: 11400000, guid: b6a389dc0f68e4648a089d8e62d60045, type: 2}
   startPosition: {fileID: 2629263179423566878}
   endPosition: {fileID: 4793936894737856198}
@@ -468,6 +469,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hpDisplay: {fileID: 7123507723446566007}
   loadMapController: {fileID: 545632838904152350}
+  eventManager: {fileID: 0}
   scoreText: {fileID: 7374077692229578110}
 --- !u!1 &7374077692229578107
 GameObject:

@@ -5,8 +5,6 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     [SerializeField]
-    private GameSpeed gameSpeed = null;
-    [SerializeField]
     private EventManager eventManager = null;
     [SerializeField]
     private SoundManager soundManager = null;
@@ -23,11 +21,6 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if(gameSpeed == null)
-        {
-            Debug.Log("GameSpeed‚ªƒZƒbƒg‚³‚ê‚Ä‚¢‚Ü‚¹‚ñ.Find‚ÅŒŸõ‚µ‚Ü‚·");
-            gameSpeed = GameObject.Find("StageManager").GetComponent<GameSpeed>();
-        }
         componentList = new List<ICharacterComponent>();
         ICharacterComponent[] array = GetComponentsInChildren<ICharacterComponent>();
         foreach(var c in array)
@@ -50,7 +43,6 @@ public class Player : MonoBehaviour
     {
         if(playerStatus.IsDead() == true)
         {
-            gameSpeed.Speed = 0.0f;
             return;
         }
 

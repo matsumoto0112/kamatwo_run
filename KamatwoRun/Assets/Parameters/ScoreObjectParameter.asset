@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: ScoreObjectParameter
   m_EditorClassIdentifier: Assembly-CSharp::ScoreObjectInfo
   type: 2
-  score: 100
+  score: 50

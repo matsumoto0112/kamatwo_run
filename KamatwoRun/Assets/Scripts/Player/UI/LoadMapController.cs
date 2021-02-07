@@ -31,7 +31,7 @@ public class LoadMapController : MonoBehaviour
         //ゴールするのに必要なウェーブ数
         maxWaveCount = stageParameter.stageGoalWaveNum;
         playerIcon.rectTransform.localPosition = startPosition.localPosition;
-        distance = endPosition.position.y - startPosition.position.y;
+        distance = Mathf.Abs(endPosition.localPosition.y - startPosition.localPosition.y);
     }
 
     public void OnUpdate()
@@ -45,6 +45,7 @@ public class LoadMapController : MonoBehaviour
         float coef = GameDataStore.Instance.WaveCount / (maxWaveCount * 1.0f);
         float y = (distance * coef) - (distance / 2.0f);
         y = Mathf.Clamp(y, startPosition.localPosition.y, endPosition.localPosition.y);
+        Debug.Log(y);
         playerIcon.transform.localPosition = new Vector3(playerIcon.transform.localPosition.x, y, playerIcon.transform.localPosition.z);
     }
 }

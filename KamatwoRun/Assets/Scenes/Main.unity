@@ -1192,7 +1192,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5022571423239434809, guid: 841a19bd5af0d994880837c151d3ada1, type: 3}
       propertyPath: shotSEName
-      value: SE_Shock 1
+      value: SE_ThrowGyoza
       objectReference: {fileID: 0}
     - target: {fileID: 5022571423239434809, guid: 841a19bd5af0d994880837c151d3ada1, type: 3}
       propertyPath: soundManager

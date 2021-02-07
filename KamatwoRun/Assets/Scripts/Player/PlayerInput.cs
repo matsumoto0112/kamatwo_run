@@ -51,12 +51,10 @@ public class PlayerInput : CharacterComponent
         else if (IsJumpInput() == true)
         {
             commandType = CommandType.JUMP;
-            soundManager.PlaySE(jumpSEName);
         }
         else if (IsShotInput() == true)
         {
             commandType = CommandType.SHOT;
-            soundManager.PlaySE(shotSEName);
         }
 
         //コマンド入力があったら
@@ -74,6 +72,16 @@ public class PlayerInput : CharacterComponent
             commandList[commandType].EventInitialize();
             commandType = CommandType.NONE;
         }
+    }
+
+    public void PlayJumpSE()
+    {
+        soundManager.PlaySE(jumpSEName);
+    }
+
+    public void PlayShotSE()
+    {
+        soundManager.PlaySE(shotSEName);
     }
 
     #region Input

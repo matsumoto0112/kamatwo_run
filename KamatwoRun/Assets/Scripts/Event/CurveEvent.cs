@@ -51,6 +51,7 @@ public class CurveEvent : BaseEvent
         //カメラ情報の更新
         Camera.main.transform.parent = eventManager.StageObject.transform;
         Camera.main.transform.position = eventManager.StageObject.GetComponent<CurveCameraEvent>().EventCameraPosition;
+        playerMove.CurveToOffsetPosition();
     }
 
     /// <summary>
@@ -70,7 +71,6 @@ public class CurveEvent : BaseEvent
             //進行方向が変化したら
             if (lanePositions.IsChangeDirection() == false)
             {
-                playerMove.CurveToOffsetPosition();
                 eventManager.IsCurvePoint = false;
                 gameSpeed.Initialize();
             }

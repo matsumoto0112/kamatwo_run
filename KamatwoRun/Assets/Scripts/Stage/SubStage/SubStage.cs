@@ -58,6 +58,10 @@ public class SubStage : MonoBehaviour
     private DirectionChecker directionChecker;
     private StageObjectSpawner spawner;
 
+    [SerializeField]
+    private float deleteDistance = 50.0f;
+    private GameObject player;
+
     /// <summary>
     /// カメラの範囲内かどうか
     /// </summary>
@@ -77,6 +81,12 @@ public class SubStage : MonoBehaviour
             {
                 if (CheckInScreen(transform.position + offset)) { return true; }
             }
+
+            Vector3 a = this.transform.position;
+            Vector3 b = player.transform.position;
+            a.y = 0.0f;
+            b.y = 0.0f;
+            if (Vector3.Distance(a, b) <= deleteDistance) { return true; }
             return false;
         }
     }
@@ -97,6 +107,11 @@ public class SubStage : MonoBehaviour
 
         Assert.IsNotNull(spawner, "Spawnerが取得できませんでした");
         Assert.IsNotNull(boxCollider, "BoxColliderがアタッチされていません");
+    }
+
+    private void Start()
+    {
+        player = GameObject.FindGameObjectWithTag("Player");
     }
 
     /// <summary>

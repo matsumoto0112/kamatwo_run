@@ -88,7 +88,7 @@ public class StageManager : MonoBehaviour
         }
 
         //事前作成ステージ数
-        const int preSpawnSubStageNum = 3;
+        const int preSpawnSubStageNum = 5;
         for (int i = 0; i < preSpawnSubStageNum; i++)
         {
             SpawnNextSubStage();

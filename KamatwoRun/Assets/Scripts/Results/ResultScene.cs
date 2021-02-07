@@ -18,11 +18,16 @@ public class ResultScene : MonoBehaviour
 
     [SerializeField, TextArea()]
     private string[] comments;
+    [SerializeField]
+    private AnimationClip[] animList;
 
     [SerializeField]
     private SoundManager soundManager;
     [SerializeField, AudioSelect(SoundType.BGM)]
     private string bgmName;
+
+    [SerializeField]
+    private Animation anim;
 
     private void Start()
     {
@@ -75,34 +80,38 @@ public class ResultScene : MonoBehaviour
         rankingBoard.HighlightRanking(ranking);
         rankingBoard.SetBoardVisibility(playedMode);
 
+        int index = -1;
         //感想表示
         if (playedMode == PlayMode.Weekday)
         {
             //平日
             if (gameEndType == GameEndType.Goal)
             {
-                comment.text = comments[0];
+                index = 0;
             }
             else
             {
-                comment.text = comments[1];
+                index = 1;
             }
         }
         else
         {
             if (score < 10000)
             {
-                comment.text = comments[2];
+                index = 2;
             }
             else if (score < 20000)
             {
-                comment.text = comments[3];
+                index = 3;
             }
             else
             {
-                comment.text = comments[4];
+                index = 4;
             }
         }
+
+        comment.text = comments[index];
+        anim.Play(animList[index].name);
 
         //もうこのプレイのデータは必要ないのでリセットする
         GameDataStore.Instance.ResetPlayDatas();

@@ -247,7 +247,7 @@ public class StageManager : MonoBehaviour
             }
         }
 
-        Debug.Log("調べたい座標が生成済みのステージ内にありません");
+        Debug.Log($"調べたい座標が生成済みのステージ内にありません。調べる座標は{checkPosition}です。");
         return Vector3.back;
     }
 

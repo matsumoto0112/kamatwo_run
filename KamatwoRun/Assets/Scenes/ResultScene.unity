@@ -842,8 +842,15 @@ MonoBehaviour:
   - "\u3000\u8DB3\u308A\u306A\u3044\u3067\u30C8\u30A5\uFF5E\r\n\u3000\u3000\u3082\u3063\u3068\u98DF\u3079\u305F\u304B\u3063\u305F\u3067\u30C8\u30A5\u2026"
   - "\u3000\u305F\u304F\u3055\u3093\u98DF\u3079\u305F\u3067\u30C8\u30A5\uFF5E\r\n\u3000\u3000\u304A\u306A\u304B\u3044\u3063\u3071\u3044\u3067\u6E80\u8DB3\u3067\u30C8\u30A5\uFF5E"
   - "\u3000\u307E\u3093\u3077\u304F\u3067\u30C8\u30A5\uFF5E\r\n\u3000\u3000\u5927\u6E80\u8DB3\u306E\u3044\u3044\u4F11\u65E5\u3060\u3063\u305F\u3067\u30C8\u30A5\uFF5E"
+  animList:
+  - {fileID: 7400000, guid: 66a020ded109d6a48ad317aaf3bca8fd, type: 2}
+  - {fileID: 7400000, guid: 687f6f8b3b3116247ade4c48d79ed93d, type: 2}
+  - {fileID: 7400000, guid: 687f6f8b3b3116247ade4c48d79ed93d, type: 2}
+  - {fileID: 7400000, guid: 3ac8e6b2938b054488bc38a103c769ac, type: 2}
+  - {fileID: 7400000, guid: edf54b3402197cf45a6562a24104c3e4, type: 2}
   soundManager: {fileID: 2052042192}
   bgmName: BGM_Result 1
+  anim: {fileID: 1560965828}
 --- !u!4 &1218965916
 Transform:
   m_ObjectHideFlags: 0
@@ -858,6 +865,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!111 &1560965828 stripped
+Animation:
+  m_CorrespondingSourceObject: {fileID: 3698442089680403523, guid: 1fa06fc72717d4f4dafcdb9ce96c764b, type: 3}
+  m_PrefabInstance: {fileID: 3698442089127001558}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1626333079 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7224956758116372316, guid: fdaa99f617b27a7459d2ce8d3505d71a, type: 3}
@@ -1181,6 +1193,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3698442089680403523, guid: 1fa06fc72717d4f4dafcdb9ce96c764b, type: 3}
+      propertyPath: m_Animations.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3698442089680403523, guid: 1fa06fc72717d4f4dafcdb9ce96c764b, type: 3}
+      propertyPath: m_Animations.Array.data[3]
+      value: 
+      objectReference: {fileID: 7400000, guid: 66a020ded109d6a48ad317aaf3bca8fd, type: 2}
     - target: {fileID: 3808136538652834735, guid: 1fa06fc72717d4f4dafcdb9ce96c764b, type: 3}
       propertyPath: m_RootOrder
       value: 4

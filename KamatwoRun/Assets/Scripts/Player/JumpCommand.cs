@@ -6,6 +6,7 @@ public class JumpCommand : CommandBase
 {
     private PlayerMove playerMove = null;
     private PlayerParameter playerParameter = null;
+    private ParticleSystem smokeParticle = null;
 
     private Vector3 currentPosition = Vector3.zero;
     private Timer timer;
@@ -20,6 +21,7 @@ public class JumpCommand : CommandBase
     {
         playerMove = character.CharacterTransform.GetComponent<PlayerMove>();
         playerParameter = character.CharacterTransform.GetComponent<PlayerParameter>();
+        smokeParticle = character.CharacterTransform.GetComponentInChildren<ParticleSystem>();
     }
 
     public override void Initialize()
@@ -30,6 +32,7 @@ public class JumpCommand : CommandBase
         timer = new Timer(playerMove.CulcMaxArrivalTime(-GRAVITY * playerParameter.parameter.coefJumpSpeed, HEIGHT));
         flightTimer = new Timer(playerParameter.parameter.flightTime);
         isFlight = true;
+        smokeParticle.Stop();
     }
 
     public override void Execution()
@@ -54,6 +57,7 @@ public class JumpCommand : CommandBase
         if (timer.IsTime(2.0f) == true)
         {
             playerMove.transform.position = currentPosition;
+            smokeParticle.Play();
             isEnd = true;
         }
     }
@@ -62,6 +66,7 @@ public class JumpCommand : CommandBase
     {
         base.EventInitialize();
         playerMove.transform.position = currentPosition;
+        smokeParticle.Play();
     }
 
     public override bool IsEnd()

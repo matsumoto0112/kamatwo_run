@@ -6,9 +6,9 @@ using UnityEngine;
 
 public class PlayerMove : CharacterComponent
 {
-    public LaneLocationType LocationType { get; private set; }
-
     private LanePositions lanePositions = null;
+
+    public LaneLocationType LocationType { get; private set; }
 
     public override void OnCreate()
     {

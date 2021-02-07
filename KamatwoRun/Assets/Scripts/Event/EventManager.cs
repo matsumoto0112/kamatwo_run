@@ -24,6 +24,10 @@ public class EventManager : MonoBehaviour
     private GameObject eventCanvasObject = null;
     [SerializeField]
     private GameObject playerModelObject = null;
+    [SerializeField]
+    private SoundManager soundManager = null;
+    [SerializeField,AudioSelect(SoundType.BGM)]
+    private string bgmName = "";
 
     private EventType eventType = EventType.None;
     private Dictionary<EventType, BaseEvent> eventList;
@@ -54,6 +58,7 @@ public class EventManager : MonoBehaviour
 
     private void Start()
     {
+        soundManager.PlayBGM(bgmName);
         eventList = new Dictionary<EventType, BaseEvent>();
         eventList.Add(EventType.GameStart, new GameStartEvent(playerModelObject,this));
         eventList.Add(EventType.GameOver, new GameOverEvent(playerModelObject, this));

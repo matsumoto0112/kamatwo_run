@@ -114,10 +114,27 @@ public class StageManager : MonoBehaviour
         Vector3 scrollDirection = GetForegroundDirection(player.transform.position);
         if (prevScrolledDirection != scrollDirection)
         {
-            subStages[0].transform.position = Vector3.zero;
-            for (int i = 1; i < subStages.Count; i++)
+            int index = -1;
+            for (int i = 0; i < subStages.Count; i++)
+            {
+                if (subStages[i].IsInArea(player.transform.position))
+                {
+                    index = i;
+                }
+            }
+            if (index == -1)
+            {
+                Debug.LogError("Playerのいるサブステージが取得できませんでした。");
+            }
+
+            subStages[index].transform.position = Vector3.zero;
+            for (int i = index + 1; i < subStages.Count; i++)
             {
                 subStages[i].transform.position = subStages[i - 1].transform.position + SubStageOffset(subStages[i - 1].ExitType);
+            }
+            for (int i = index - 1; i >= 0; i--)
+            {
+                subStages[i].transform.position = subStages[i + 1].transform.position + SubStageOffset(subStages[i + 1].EntranceType);
             }
         }
 

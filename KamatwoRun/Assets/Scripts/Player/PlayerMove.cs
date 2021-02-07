@@ -101,4 +101,20 @@ public class PlayerMove : CharacterComponent
     {
         return lanePositions.LanePositionList[(int)LocationType].position;
     }
+
+    public void CurveToOffsetPosition()
+    {
+        if (LocationType == LaneLocationType.LEFT_SIDE)
+        {
+            transform.position = new Vector3(-2, 0.5f, 0);
+        }
+        else if (LocationType == LaneLocationType.MIDDLE)
+        {
+            transform.position = new Vector3(0, 0.5f, 0);
+        }
+        else if (LocationType == LaneLocationType.RIGHT_SIDE)
+        {
+            transform.position = new Vector3(2, 0.5f, 0);
+        }
+    }
 }

@@ -9,8 +9,6 @@ public class PlayerCollision : CharacterComponent
 {
     [SerializeField]
     private GameObject smallEatParticle = null;
-    [SerializeField]
-    private GameObject bigEatParticle = null;
 
     private EventManager eventManager = null;
     private PlayerStatus playerStatus = null;
@@ -40,25 +38,6 @@ public class PlayerCollision : CharacterComponent
             playerStatus.AddScore(scoreObject.ScoreInfo.score);
             scoreObject.DestroySelf();
         }
-        //包んだ餃子を取得したら
-        else if (other.gameObject.GetComponentToNullCheck(out DumplingSkin dumplingSkin) == true)
-        {
-            //敵オブジェクトに衝突していた状態なら
-            if (dumplingSkin.ThrowType == ThrowingItemType.HitWrappableObject)
-            {
-                GameObject particle = Instantiate(bigEatParticle, transform.position + Vector3.up, Quaternion.identity);
-                Destroy(particle, 1.5f);
-                playerStatus.AddScore(dumplingSkin.WrappableObjectScore);
-            }
-            else if(dumplingSkin.ThrowType == ThrowingItemType.None || 
-                dumplingSkin.ThrowType == ThrowingItemType.Shot)
-            {
-                return;
-            }
-
-            dumplingSkin.OnEnd();
-        }
-
         //カーブオブジェクト又はゴールしたら
         if (other.GetComponent<CurveCameraEvent>() != null)
         {

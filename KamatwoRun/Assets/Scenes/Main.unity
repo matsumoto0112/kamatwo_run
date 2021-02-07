@@ -1175,6 +1175,14 @@ PrefabInstance:
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 2800462315915622533, guid: 841a19bd5af0d994880837c151d3ada1, type: 3}
+      propertyPath: eatSEName
+      value: SE_EatGyouza 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2800462315915622533, guid: 841a19bd5af0d994880837c151d3ada1, type: 3}
+      propertyPath: wrapSEName
+      value: SE_ChangeGyoza 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2800462315915622533, guid: 841a19bd5af0d994880837c151d3ada1, type: 3}
       propertyPath: bigEatParticle
       value: 
       objectReference: {fileID: 546831132679514381, guid: c651f9e0c72c46447a6816ab845cb61b, type: 3}
@@ -1190,6 +1198,14 @@ PrefabInstance:
       propertyPath: soundManager
       value: 
       objectReference: {fileID: 743070712}
+    - target: {fileID: 8242751027897723768, guid: 841a19bd5af0d994880837c151d3ada1, type: 3}
+      propertyPath: eatSEName
+      value: SE_EatGyouza 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8242751027897723768, guid: 841a19bd5af0d994880837c151d3ada1, type: 3}
+      propertyPath: hitSEName
+      value: SE_Shock 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 841a19bd5af0d994880837c151d3ada1, type: 3}
 --- !u!1 &1523368357

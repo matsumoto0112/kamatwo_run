@@ -31,6 +31,7 @@ public class EventCanvas : MonoBehaviour
         GameStartEventInitialize();
         GoalEventInitialize();
         GameOverEventInitialize();
+        Debug.Log(GameDataStore.Instance.PlayedMode);
     }
 
     #region GameStartEvent
@@ -151,64 +152,4 @@ public class EventCanvas : MonoBehaviour
 
         return end * (ct * ct * ((s + 1.0f) * ct + s) + 1.0f) + start;
     }
-
-    /// <summary>
-    /// ìÒèÊ
-    /// </summary>
-    /// <param name="t"></param>
-    /// <returns></returns>
-    private float Quad(float t) => t * t;
-
-    public float BounceIn(float ct, float et, float start, float end)
-    {
-        if (ct > et)
-            return end;
-
-        end -= start;
-        return end - BounceOut(et - ct, et, 0.0f, end) + start;
-    }
-
-    public float BounceOut(float ct, float et, float start, float end)
-    {
-        if (ct > et)
-            return end;
-
-        end -= start;
-        ct /= et;
-
-        const float d1 = 2.75f;
-        const float n1 = 7.5625f;
-
-        if (ct < 1.0f / d1)
-        {
-            return end * (n1 * Quad(ct)) + start;
-        }
-        else if (ct < 2.0f / d1)
-        {
-            ct -= 1.5f / d1;
-            return end * (n1 * Quad(ct) + 0.75f) + start;
-        }
-        else if (ct < 2.5f / d1)
-        {
-            ct -= 2.25f / d1;
-            return end * (n1 * Quad(ct) + 0.9375f) + start;
-        }
-        else
-        {
-            ct -= 2.625f / d1;
-            return end * (n1 * Quad(ct) + 0.984375f) + start;
-        }
-    }
-
-    public float BounceInOut(float ct, float et, float start, float end)
-    {
-        if (ct > et)
-            return end;
-
-        if (ct < et / 2.0f)
-            return BounceIn(ct * 2.0f, et, 0.0f, end - start) * 0.5f + start;
-        else
-            return BounceOut(ct * 2.0f - et, et, 0.0f, end - start) * 0.5f + start + (end - start) * 0.5f;
-    }
-
 }

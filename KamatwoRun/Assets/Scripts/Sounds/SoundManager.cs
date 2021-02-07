@@ -69,13 +69,13 @@ public class SoundManager : MonoBehaviour
 
     private void Update()
     {
-        if (!fadeFlag)
-            return;
-        bgmSource.volume -= Time.deltaTime * 2.0f;
-        if (bgmSource.volume <= 0)
-        {
-            FadeEndBGM();
-        }
+        //if (!fadeFlag)
+        //    return;
+        //bgmSource.volume -= Time.deltaTime * 2.0f;
+        //if (bgmSource.volume <= 0)
+        //{
+        //    FadeEndBGM();
+        //}
     }
 
     public void PlayBGM(string bgmName)

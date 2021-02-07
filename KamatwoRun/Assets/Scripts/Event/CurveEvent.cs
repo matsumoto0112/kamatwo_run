@@ -15,7 +15,9 @@ public class CurveEvent : BaseEvent
     private Transform cameraParent = null;
     private Vector3 initCameraPosition = Vector3.zero;
     private Vector3 initCameraAngle = Vector3.zero;
+    private Vector3 initPlayerPosition = Vector3.zero;
 
+    private Timer middleCheckTimer;
     private Timer timer;
 
     private const float CURVE_COEF = 15f;
@@ -32,6 +34,7 @@ public class CurveEvent : BaseEvent
         lanePositions = laneObject.GetComponent<LanePositions>();
         gameSpeed = eventManager.GameSpeed;
         timer = new Timer(1.8f);
+        middleCheckTimer = new Timer(0.5f);
     }
 
     /// <summary>
@@ -42,6 +45,7 @@ public class CurveEvent : BaseEvent
         base.OnInitialize();
         IsEnd = false;
         timer.Initialize();
+        middleCheckTimer.Initialize();
 
         //カメラの情報保存
         cameraParent = Camera.main.transform.parent;
@@ -51,7 +55,8 @@ public class CurveEvent : BaseEvent
         //カメラ情報の更新
         Camera.main.transform.parent = eventManager.StageObject.transform;
         Camera.main.transform.position = eventManager.StageObject.GetComponent<CurveCameraEvent>().EventCameraPosition + Vector3.up;
-        playerMove.CurveToOffsetPosition();
+
+        initPlayerPosition = playerModelObject.transform.position;
     }
 
     /// <summary>
@@ -62,6 +67,19 @@ public class CurveEvent : BaseEvent
         base.OnUpdate();
         //カメラをプレイヤーに向ける
         Camera.main.transform.LookAt(playerModelObject.transform);
+
+        //チェックポイントに到達しておらず、進行方向が変化していないなら
+        if((eventManager.IsCurvePoint == false && 
+            lanePositions.IsChangeDirection() == true) || 
+            middleCheckTimer.IsTime() == false)
+        {
+            middleCheckTimer.UpdateTimer();
+            playerMove.OffsetPosition(initPlayerPosition, middleCheckTimer.CurrentTime / middleCheckTimer.LimitTime);
+            if(middleCheckTimer.IsTime() == true)
+            {
+                playerModelObject.transform.position = playerMove.NextMovePosition();
+            }
+        }
 
         //体を傾けるポイントに到達したら
         if (eventManager.IsCurvePoint == true)

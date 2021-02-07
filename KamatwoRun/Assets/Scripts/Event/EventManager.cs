@@ -58,6 +58,7 @@ public class EventManager : MonoBehaviour
 
     private void Start()
     {
+        soundManager.FadeOutBGM();
         soundManager.PlayBGM(bgmName);
         eventList = new Dictionary<EventType, BaseEvent>();
         eventList.Add(EventType.GameStart, new GameStartEvent(playerModelObject,this));

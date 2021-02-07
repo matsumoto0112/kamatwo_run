@@ -102,9 +102,9 @@ public class PlayerMove : CharacterComponent
         return lanePositions.LanePositionList[(int)LocationType].position;
     }
 
-    public void CurveToOffsetPosition()
+    public void OffsetPosition(Vector3 currentPosition,float t)
     {
         LocationType = LaneLocationType.MIDDLE;
-        transform.position = NextMovePosition();
+        Move(currentPosition, t);
     }
 }

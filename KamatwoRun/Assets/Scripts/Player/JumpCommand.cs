@@ -6,6 +6,7 @@ public class JumpCommand : CommandBase
 {
     private PlayerMove playerMove = null;
     private PlayerParameter playerParameter = null;
+    private PlayerInput playerInput = null;
     private ParticleSystem smokeParticle = null;
 
     private Vector3 currentPosition = Vector3.zero;
@@ -21,6 +22,7 @@ public class JumpCommand : CommandBase
     {
         playerMove = character.CharacterTransform.GetComponent<PlayerMove>();
         playerParameter = character.CharacterTransform.GetComponent<PlayerParameter>();
+        playerInput = character.CharacterTransform.GetComponent<PlayerInput>();
         smokeParticle = character.CharacterTransform.GetComponentInChildren<ParticleSystem>();
     }
 
@@ -33,6 +35,7 @@ public class JumpCommand : CommandBase
         flightTimer = new Timer(playerParameter.parameter.flightTime);
         isFlight = true;
         smokeParticle.Stop();
+        playerInput.PlayJumpSE();
     }
 
     public override void Execution()

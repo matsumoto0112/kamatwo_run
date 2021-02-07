@@ -9,7 +9,12 @@ public class PlayerCollision : CharacterComponent
 {
     [SerializeField]
     private GameObject smallEatParticle = null;
+    [SerializeField, AudioSelect(SoundType.SE)]
+    private string eatSEName = "";
+    [SerializeField, AudioSelect(SoundType.SE)]
+    private string hitSEName = "";
 
+    private SoundManager soundManager = null;
     private EventManager eventManager = null;
     private PlayerStatus playerStatus = null;
     private PlayerInput playerInput = null;
@@ -20,6 +25,7 @@ public class PlayerCollision : CharacterComponent
         playerStatus = GetComponent<PlayerStatus>();
         playerInput = GetComponent<PlayerInput>();
         eventManager = Parent.GetComponent<Player>().EventManager;
+        soundManager = Parent.GetComponent<Player>().SoundManager;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -33,6 +39,7 @@ public class PlayerCollision : CharacterComponent
         //スコアオブジェクトに衝突したら
         if (other.gameObject.GetComponentToNullCheck(out ScoreObject scoreObject) == true)
         {
+            soundManager.PlaySE(eatSEName);
             GameObject particle = Instantiate(smallEatParticle, transform.position + Vector3.up, Quaternion.identity);
             Destroy(particle, 1.5f);
             playerStatus.AddScore(scoreObject.ScoreInfo.score);
@@ -60,6 +67,7 @@ public class PlayerCollision : CharacterComponent
 
         if (other.GetComponent<Obstacle>() != null || other.GetComponent<WrappableObject>() != null)
         {
+            soundManager.PlaySE(hitSEName);
             playerStatus.Damage();
         }
     }

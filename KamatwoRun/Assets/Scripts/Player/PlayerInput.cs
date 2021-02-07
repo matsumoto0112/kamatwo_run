@@ -5,17 +5,18 @@ using System;
 
 public class PlayerInput : CharacterComponent
 {
-    [SerializeField]
-    private SoundManager soundManager = null;
     [SerializeField, AudioSelect(SoundType.SE)]
     private string jumpSEName = "";
     [SerializeField, AudioSelect(SoundType.SE)]
     private string shotSEName = "";
+
+    private SoundManager soundManager = null;
     private Dictionary<CommandType, CommandBase> commandList;
     private CommandType commandType = CommandType.NONE;
 
     public override void OnCreate()
     {
+        soundManager = Parent.GetComponent<Player>().SoundManager;
         commandType = CommandType.NONE;
         //コマンドリスト登録
         commandList = new Dictionary<CommandType, CommandBase>();

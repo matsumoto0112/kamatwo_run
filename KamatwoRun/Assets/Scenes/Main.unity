@@ -1122,6 +1122,10 @@ PrefabInstance:
       propertyPath: eventManager
       value: 
       objectReference: {fileID: 1890000642}
+    - target: {fileID: 2043932344, guid: 841a19bd5af0d994880837c151d3ada1, type: 3}
+      propertyPath: soundManager
+      value: 
+      objectReference: {fileID: 743070712}
     - target: {fileID: 1984212307574710952, guid: 841a19bd5af0d994880837c151d3ada1, type: 3}
       propertyPath: m_RootOrder
       value: 6

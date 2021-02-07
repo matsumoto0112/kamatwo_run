@@ -60,6 +60,8 @@ public class StageManager : MonoBehaviour
     //サブステージの正方形の一辺の長さ
     private static readonly float SubStageUnit = 50.0f;
 
+    private Vector3 prevScrolledDirection;
+
     /// <summary>
     /// ステージを削除できる状態か
     /// </summary>
@@ -99,6 +101,10 @@ public class StageManager : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            Debug.Log(player.transform.position);
+        }
         //スタートイベント中だったら
         if (eventManager.StartEventFlag == false)
         {
@@ -106,6 +112,17 @@ public class StageManager : MonoBehaviour
         }
 
         Vector3 scrollDirection = GetForegroundDirection(player.transform.position);
+        if (prevScrolledDirection != scrollDirection)
+        {
+            subStages[0].transform.position = Vector3.zero;
+            for (int i = 1; i < subStages.Count; i++)
+            {
+                subStages[i].transform.position = subStages[i - 1].transform.position + SubStageOffset(subStages[i - 1].ExitType);
+            }
+        }
+
+        prevScrolledDirection = scrollDirection;
+        scrollDirection = scrollDirection.normalized;
         float speed = gameSpeed.Speed * Time.deltaTime;
         foreach (var st in subStages)
         {
@@ -247,8 +264,8 @@ public class StageManager : MonoBehaviour
             }
         }
 
-        Debug.Log($"調べたい座標が生成済みのステージ内にありません。調べる座標は{checkPosition}です。");
-        return Vector3.back;
+        Debug.Log($"調べたい座標が生成済みのステージ内にありません。");
+        return subStages[0].GetForegroundDirection(checkPosition);
     }
 
     /// <summary>

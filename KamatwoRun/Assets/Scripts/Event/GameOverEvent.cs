@@ -31,6 +31,17 @@ public class GameOverEvent : BaseEvent
         eventEndTimer.Initialize();
         GameDataStore.Instance.Score = playerModelObject.GetComponent<PlayerStatus>().Score;
         GameDataStore.Instance.GameEndedType = GameEndType.GameOver;
+
+        if(playerModelObject.GetComponentToNullCheck(out PlayerInput playerInput)  == true)
+        {
+            //ƒWƒƒƒ“ƒv’†‚ÉŽ€–S‚µ‚½‚ç
+            if(playerInput.CommandType == CommandType.JUMP)
+            {
+                Vector3 position = playerModelObject.transform.localPosition;
+                position.y = 0.5f;
+                playerModelObject.transform.localPosition = position;
+            }
+        }
     }
 
     public override void OnUpdate()

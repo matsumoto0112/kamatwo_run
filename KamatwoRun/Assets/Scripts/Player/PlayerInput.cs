@@ -12,12 +12,12 @@ public class PlayerInput : CharacterComponent
 
     private SoundManager soundManager = null;
     private Dictionary<CommandType, CommandBase> commandList;
-    private CommandType commandType = CommandType.NONE;
+    public CommandType CommandType { get; private set; } = CommandType.NONE;
 
     public override void OnCreate()
     {
         soundManager = Parent.GetComponent<Player>().SoundManager;
-        commandType = CommandType.NONE;
+        CommandType = CommandType.NONE;
         //コマンドリスト登録
         commandList = new Dictionary<CommandType, CommandBase>();
         commandList.Add(CommandType.LEFT_MOVE, new LeftSideMoveCommand(this));
@@ -29,48 +29,48 @@ public class PlayerInput : CharacterComponent
     public override void OnUpdate()
     {
         //コマンド実行
-        if (commandType != CommandType.NONE)
+        if (CommandType != CommandType.NONE)
         {
-            commandList[commandType].Execution();
+            commandList[CommandType].Execution();
             //コマンド終了検知
-            if (commandList[commandType].IsEnd() == true)
+            if (commandList[CommandType].IsEnd() == true)
             {
-                commandType = CommandType.NONE;
+                CommandType = CommandType.NONE;
             }
             return;
         }
 
         if (IsLeftMoveInput() == true)
         {
-            commandType = CommandType.LEFT_MOVE;
+            CommandType = CommandType.LEFT_MOVE;
         }
         else if (IsRightMoveInput() == true)
         {
-            commandType = CommandType.RIGHT_MOVE;
+            CommandType = CommandType.RIGHT_MOVE;
         }
         else if (IsJumpInput() == true)
         {
-            commandType = CommandType.JUMP;
+            CommandType = CommandType.JUMP;
         }
         else if (IsShotInput() == true)
         {
-            commandType = CommandType.SHOT;
+            CommandType = CommandType.SHOT;
         }
 
         //コマンド入力があったら
-        if (commandType != CommandType.NONE)
+        if (CommandType != CommandType.NONE)
         {
-            commandList[commandType].Initialize();
+            commandList[CommandType].Initialize();
         }
     }
 
     public void OnEventInitialize()
     {
         //コマンドが実行中だったら
-        if(commandType != CommandType.NONE)
+        if(CommandType != CommandType.NONE)
         {
-            commandList[commandType].EventInitialize();
-            commandType = CommandType.NONE;
+            commandList[CommandType].EventInitialize();
+            CommandType = CommandType.NONE;
         }
     }
 

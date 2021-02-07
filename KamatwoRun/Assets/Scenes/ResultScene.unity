@@ -850,7 +850,7 @@ MonoBehaviour:
   - {fileID: 7400000, guid: edf54b3402197cf45a6562a24104c3e4, type: 2}
   soundManager: {fileID: 2052042192}
   bgmName: BGM_Result 1
-  decisionSeName: SE_ChangeGyoza 1
+  decisionSeName: SE_Cancelbutton 1
   anim: {fileID: 1560965828}
 --- !u!4 &1218965916
 Transform:

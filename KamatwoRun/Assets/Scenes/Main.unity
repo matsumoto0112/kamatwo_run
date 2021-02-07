@@ -1264,6 +1264,30 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1523368361}
     m_Modifications:
+    - target: {fileID: 2311189541612222887, guid: 9441874abeac60e42aa46f30f8f46100, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 1133.1201
+      objectReference: {fileID: 0}
+    - target: {fileID: 2311189541612222887, guid: 9441874abeac60e42aa46f30f8f46100, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 638.4499
+      objectReference: {fileID: 0}
+    - target: {fileID: 2311189541612222887, guid: 9441874abeac60e42aa46f30f8f46100, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2311189541612222887, guid: 9441874abeac60e42aa46f30f8f46100, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2311189541612222887, guid: 9441874abeac60e42aa46f30f8f46100, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2311189541612222937, guid: 9441874abeac60e42aa46f30f8f46100, type: 3}
+      propertyPath: m_Color.a
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2311189541979177616, guid: 9441874abeac60e42aa46f30f8f46100, type: 3}
       propertyPath: m_Name
       value: FadeManager
@@ -1274,15 +1298,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2311189541979177617, guid: 9441874abeac60e42aa46f30f8f46100, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 192.92116
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2311189541979177617, guid: 9441874abeac60e42aa46f30f8f46100, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 148.29167
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2311189541979177617, guid: 9441874abeac60e42aa46f30f8f46100, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -139.4266
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2311189541979177617, guid: 9441874abeac60e42aa46f30f8f46100, type: 3}
       propertyPath: m_LocalRotation.w

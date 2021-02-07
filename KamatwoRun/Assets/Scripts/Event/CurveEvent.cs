@@ -7,6 +7,7 @@ using UnityEngine;
 /// </summary>
 public class CurveEvent : BaseEvent
 {
+    private PlayerMove playerMove = null;
     private LanePositions lanePositions = null;
 
     private GameSpeed gameSpeed = null;
@@ -26,6 +27,7 @@ public class CurveEvent : BaseEvent
     public CurveEvent(GameObject playerModelObject, EventManager eventManager)
         : base(playerModelObject,eventManager)
     {
+        playerMove = playerModelObject.GetComponent<PlayerMove>();
         GameObject laneObject = this.playerModelObject.GetComponentInParent<Player>().LaneObject;
         lanePositions = laneObject.GetComponent<LanePositions>();
         gameSpeed = eventManager.GameSpeed;
@@ -68,6 +70,7 @@ public class CurveEvent : BaseEvent
             //êiçsï˚å¸Ç™ïœâªÇµÇΩÇÁ
             if(lanePositions.IsChangeDirection() == false)
             {
+                playerMove.CurveToOffsetPosition();
                 eventManager.IsCurvePoint = false;
                 gameSpeed.Initialize();
             }

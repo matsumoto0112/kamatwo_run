@@ -25,7 +25,7 @@ public class CurveEvent : BaseEvent
     /// </summary>
     /// <param name="playerModelObject"></param>
     public CurveEvent(GameObject playerModelObject, EventManager eventManager)
-        : base(playerModelObject,eventManager)
+        : base(playerModelObject, eventManager)
     {
         playerMove = playerModelObject.GetComponent<PlayerMove>();
         GameObject laneObject = this.playerModelObject.GetComponentInParent<Player>().LaneObject;
@@ -63,12 +63,12 @@ public class CurveEvent : BaseEvent
         Camera.main.transform.LookAt(playerModelObject.transform);
 
         //体を傾けるポイントに到達したら
-        if(eventManager.IsCurvePoint == true)
+        if (eventManager.IsCurvePoint == true)
         {
             gameSpeed.Speed -= Time.deltaTime * CURVE_COEF;
             gameSpeed.Speed = Mathf.Clamp(gameSpeed.Speed, 5.0f, gameSpeed.DefaultStageMoveSpeed);
             //進行方向が変化したら
-            if(lanePositions.IsChangeDirection() == false)
+            if (lanePositions.IsChangeDirection() == false)
             {
                 playerMove.CurveToOffsetPosition();
                 eventManager.IsCurvePoint = false;
@@ -78,7 +78,7 @@ public class CurveEvent : BaseEvent
         }
 
         timer.UpdateTimer();
-        if(timer.IsTime() == true)
+        if (timer.IsTime() == true)
         {
             IsEnd = true;
         }
@@ -90,7 +90,7 @@ public class CurveEvent : BaseEvent
     /// <returns></returns>
     public override bool OnEnd()
     {
-        if(IsEnd == false)
+        if (IsEnd == false)
         {
             return false;
         }

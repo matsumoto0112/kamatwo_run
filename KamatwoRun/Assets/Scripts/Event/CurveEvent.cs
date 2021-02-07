@@ -31,7 +31,7 @@ public class CurveEvent : BaseEvent
         GameObject laneObject = this.playerModelObject.GetComponentInParent<Player>().LaneObject;
         lanePositions = laneObject.GetComponent<LanePositions>();
         gameSpeed = eventManager.GameSpeed;
-        timer = new Timer(2.0f);
+        timer = new Timer(1.8f);
     }
 
     /// <summary>
@@ -50,7 +50,7 @@ public class CurveEvent : BaseEvent
 
         //ƒJƒƒ‰î•ñ‚ÌXV
         Camera.main.transform.parent = eventManager.StageObject.transform;
-        Camera.main.transform.position = eventManager.StageObject.GetComponent<CurveCameraEvent>().EventCameraPosition;
+        Camera.main.transform.position = eventManager.StageObject.GetComponent<CurveCameraEvent>().EventCameraPosition + Vector3.up;
         playerMove.CurveToOffsetPosition();
     }
 

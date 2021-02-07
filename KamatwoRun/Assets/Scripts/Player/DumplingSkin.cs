@@ -171,7 +171,7 @@ public class DumplingSkin : MonoBehaviour
     {
         //プレイヤーモデルと投擲物との距離
         float distance = Vector3.Distance(modelTransform.position, transform.position);
-        if (distance <= 2.0f)
+        if (distance <= 1.0f)
         {
             return true;
         }
@@ -263,8 +263,8 @@ public class DumplingSkin : MonoBehaviour
             wrappableObject.DestroySelf();
             //エフェクト作成
             GameObject particle = Instantiate(smokeParticle, transform.position, Quaternion.identity);
-            particle.transform.parent = transform;
-            Destroy(particle, 1.5f);
+            particle.transform.localEulerAngles = new Vector3(-90.0f, 0.0f, 0.0f);
+            particle.GetComponent<FollowObject>().Initialize(this);
         }
         //障害物に衝突したら
         else if (other.gameObject.GetComponentToNullCheck(out Obstacle obstacle) == true)

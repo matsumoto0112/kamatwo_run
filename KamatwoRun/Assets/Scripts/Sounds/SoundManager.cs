@@ -9,7 +9,7 @@ public class SoundManager : MonoBehaviour
     [SerializeField]
     private AudioSource seSource = null;
 
-    private const float MAX_BGM_VOLUME = 0.7f;
+    private const float MAX_BGM_VOLUME = 0.4f;
     private const float MAX_SE_VOLUME = 0.7f;
 
     //BGM,SEのリスト
@@ -123,5 +123,15 @@ public class SoundManager : MonoBehaviour
     public void PlaySE(string seName)
     {
         seSource.PlayOneShot(se[seName]);
+    }
+
+    /// <summary>
+    /// SEの再生時間を取得
+    /// </summary>
+    /// <param name="seName"></param>
+    /// <returns></returns>
+    public float GetSELength(string seName)
+    {
+        return se[seName].length;
     }
 }

@@ -13,6 +13,8 @@ public class PlayerCollision : CharacterComponent
     private string eatSEName = "";
     [SerializeField, AudioSelect(SoundType.SE)]
     private string hitSEName = "";
+    [SerializeField, AudioSelect(SoundType.SE)]
+    private string goalSEName = "";
 
     private SoundManager soundManager = null;
     private EventManager eventManager = null;
@@ -54,6 +56,7 @@ public class PlayerCollision : CharacterComponent
         }
         else if(other.GetComponent<GoalSubStage>() != null)
         {
+            soundManager.PlaySE(goalSEName);
             playerInput.OnEventInitialize();
             playerStatus.OnEventInitialize();
             eventManager.GoalEvent(other.gameObject);

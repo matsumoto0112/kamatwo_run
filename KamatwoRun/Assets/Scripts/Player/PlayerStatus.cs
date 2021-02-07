@@ -6,6 +6,10 @@ public class PlayerStatus : CharacterComponent
 {
     [SerializeField]
     private GameObject playerMeshObject = null;
+    [SerializeField,AudioSelect(SoundType.SE)]
+    private string scoreSEName = "";
+
+    private SoundManager soundManager = null;
     private PlayerParameter playerParameter = null;
     private Timer blinkingTimer;    //“_–ÅŽžŠÔŒv‘ª
     private Timer invincibleTimer;  //–³“GŽžŠÔŒv‘ª
@@ -20,6 +24,7 @@ public class PlayerStatus : CharacterComponent
     public override void OnCreate()
     {
         base.OnCreate();
+        soundManager = Parent.GetComponent<Player>().SoundManager;
         playerParameter = GetComponent<PlayerParameter>();
         blinkingTimer = new Timer(0.1f);
         invincibleTimer = new Timer(playerParameter.parameter.invincibleTime);
@@ -75,6 +80,7 @@ public class PlayerStatus : CharacterComponent
     /// <param name="score"></param>
     public void AddScore(int score)
     {
+        soundManager.PlaySE(scoreSEName);
         this.Score += score;
     }
 

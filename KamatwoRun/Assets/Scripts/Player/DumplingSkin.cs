@@ -40,14 +40,19 @@ public class DumplingSkin : MonoBehaviour
     private Rigidbody rb = null;
     [SerializeField]
     private float shotPower = 10.0f;
+    [SerializeField,AudioSelect(SoundType.SE)]
+    private string eatSEName = "";
+    [SerializeField,AudioSelect(SoundType.SE)]
+    private string wrapSEName = "";
 
+    private SoundManager soundManager = null;
     private Timer shotTime;
     private Timer stopShotObjectTime;
     private PlayerStatus playerStatus = null;
 
     private float initialPosY = 0.0f;
     //投擲オブジェクトの状態
-    public ThrowingItemType ThrowType;
+    public ThrowingItemType ThrowType { get; private set; } = ThrowingItemType.None;
 
     public int WrappableObjectScore { get; private set; }
 
@@ -71,6 +76,7 @@ public class DumplingSkin : MonoBehaviour
         shotTime = new Timer();
         stopShotObjectTime = new Timer();
         playerStatus = modelTransform.GetComponent<PlayerStatus>();
+        soundManager = GetComponentInParent<Player>().SoundManager;
     }
 
     private void Update()
@@ -106,6 +112,7 @@ public class DumplingSkin : MonoBehaviour
             rb.velocity = vel * shotPower;
             if (DistanceCheck() == true)
             {
+                soundManager.PlaySE(eatSEName);
                 Destroy(Instantiate(bigEatParticle, modelTransform.position + Vector3.up, Quaternion.identity), 2.0f);
                 playerStatus.AddScore(WrappableObjectScore);
                 OnEnd();
@@ -199,6 +206,7 @@ public class DumplingSkin : MonoBehaviour
         stopShotObjectTime.Initialize();
         rb.velocity = Vector3.zero;
         ThrowType = ThrowingItemType.HitWrappableObject;
+        soundManager.PlaySE(wrapSEName);
     }
 
     /// <summary>

@@ -8,6 +8,8 @@ public class Player : MonoBehaviour
     private GameSpeed gameSpeed = null;
     [SerializeField]
     private EventManager eventManager = null;
+    [SerializeField]
+    private SoundManager soundManager = null;
 
     private List<ICharacterComponent> componentList;
     private PlayerStatus playerStatus = null;
@@ -16,6 +18,7 @@ public class Player : MonoBehaviour
     public GameObject LaneObject { get; private set; } = null;
     public GameObject DumplingObject { get; private set; } = null;
     public EventManager EventManager => eventManager;
+    public SoundManager SoundManager => soundManager;
 
     // Start is called before the first frame update
     void Start()

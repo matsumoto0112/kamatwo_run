@@ -25,6 +25,8 @@ public class ResultScene : MonoBehaviour
     private SoundManager soundManager;
     [SerializeField, AudioSelect(SoundType.BGM)]
     private string bgmName;
+    [SerializeField, AudioSelect(SoundType.SE)]
+    private string decisionSeName;
 
     [SerializeField]
     private Animation anim;
@@ -121,6 +123,7 @@ public class ResultScene : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
+            soundManager.PlaySE(decisionSeName);
             SceneManager.LoadScene("Title");
         }
     }

@@ -93,10 +93,9 @@ public class PlayerStatus : CharacterComponent
         //死亡時にデータ保存とアニメーション再生
         if(IsDead() == true)
         {
-            GameDataStore.Instance.Score = Score;
-            GameDataStore.Instance.GameEndedType = GameEndType.GameOver;
             animator.applyRootMotion = false;
             animator.SetTrigger("Dead");
+            Parent.GetComponent<Player>().EventManager.GameOverEvent();
         }
     }
 

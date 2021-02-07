@@ -990,17 +990,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9deca6e10dd9f0f468f9e1bcf4ae9794, type: 3}
---- !u!114 &1283789040 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 997964865609371510, guid: 9deca6e10dd9f0f468f9e1bcf4ae9794, type: 3}
-  m_PrefabInstance: {fileID: 1283789039}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1283789041}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0a62173ecdd160d479ca1f506cb71535, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1283789041 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1861093861398921962, guid: 9deca6e10dd9f0f468f9e1bcf4ae9794, type: 3}
@@ -1110,14 +1099,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 747171597, guid: 841a19bd5af0d994880837c151d3ada1, type: 3}
-      propertyPath: fade
-      value: 
-      objectReference: {fileID: 1185673025}
-    - target: {fileID: 2043932344, guid: 841a19bd5af0d994880837c151d3ada1, type: 3}
-      propertyPath: gameSpeed
-      value: 
-      objectReference: {fileID: 1283789040}
     - target: {fileID: 2043932344, guid: 841a19bd5af0d994880837c151d3ada1, type: 3}
       propertyPath: eventManager
       value: 
@@ -1173,38 +1154,6 @@ PrefabInstance:
     - target: {fileID: 1984212307574710953, guid: 841a19bd5af0d994880837c151d3ada1, type: 3}
       propertyPath: m_Name
       value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 2800462315915622533, guid: 841a19bd5af0d994880837c151d3ada1, type: 3}
-      propertyPath: eatSEName
-      value: SE_EatGyouza 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2800462315915622533, guid: 841a19bd5af0d994880837c151d3ada1, type: 3}
-      propertyPath: wrapSEName
-      value: SE_ChangeGyoza 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2800462315915622533, guid: 841a19bd5af0d994880837c151d3ada1, type: 3}
-      propertyPath: bigEatParticle
-      value: 
-      objectReference: {fileID: 546831132679514381, guid: c651f9e0c72c46447a6816ab845cb61b, type: 3}
-    - target: {fileID: 5022571423239434809, guid: 841a19bd5af0d994880837c151d3ada1, type: 3}
-      propertyPath: jumpSEName
-      value: SE_Jump 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5022571423239434809, guid: 841a19bd5af0d994880837c151d3ada1, type: 3}
-      propertyPath: shotSEName
-      value: SE_ThrowGyoza
-      objectReference: {fileID: 0}
-    - target: {fileID: 5022571423239434809, guid: 841a19bd5af0d994880837c151d3ada1, type: 3}
-      propertyPath: soundManager
-      value: 
-      objectReference: {fileID: 743070712}
-    - target: {fileID: 8242751027897723768, guid: 841a19bd5af0d994880837c151d3ada1, type: 3}
-      propertyPath: eatSEName
-      value: SE_EatGyouza 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8242751027897723768, guid: 841a19bd5af0d994880837c151d3ada1, type: 3}
-      propertyPath: hitSEName
-      value: SE_Shock 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 841a19bd5af0d994880837c151d3ada1, type: 3}

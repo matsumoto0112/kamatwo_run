@@ -5,6 +5,12 @@ using System;
 
 public class PlayerInput : CharacterComponent
 {
+    [SerializeField]
+    private SoundManager soundManager = null;
+    [SerializeField, AudioSelect(SoundType.SE)]
+    private string jumpSEName = "";
+    [SerializeField, AudioSelect(SoundType.SE)]
+    private string shotSEName = "";
     private Dictionary<CommandType, CommandBase> commandList;
     private CommandType commandType = CommandType.NONE;
 
@@ -44,12 +50,12 @@ public class PlayerInput : CharacterComponent
         else if (IsJumpInput() == true)
         {
             commandType = CommandType.JUMP;
-            AudioManager.Instance.PlaySE(2);
+            soundManager.PlaySE(jumpSEName);
         }
         else if (IsShotInput() == true)
         {
             commandType = CommandType.SHOT;
-            AudioManager.Instance.PlaySE(5);
+            soundManager.PlaySE(shotSEName);
         }
 
         //コマンド入力があったら

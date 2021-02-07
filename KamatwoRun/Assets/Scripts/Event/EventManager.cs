@@ -58,7 +58,6 @@ public class EventManager : MonoBehaviour
         eventList.Add(EventType.Curve, new CurveEvent(playerModelObject,this));
         eventList.Add(EventType.Goal, new GoalEvent(playerModelObject,this));
 
-        StageManager.stageDeletable = false;
         eventType = EventType.GameStart;
         eventList[eventType].OnInitialize();
     }
@@ -67,6 +66,7 @@ public class EventManager : MonoBehaviour
     {
         if(eventType != EventType.None)
         {
+            StageManager.stageDeletable = false;
             eventList[eventType].OnUpdate();
             if(eventList[eventType].OnEnd() == true)
             {
@@ -99,7 +99,6 @@ public class EventManager : MonoBehaviour
     /// <param name="subStageObject"></param>
     public void CurveEvent(GameObject stageObject)
     {
-        StageManager.stageDeletable = false;
         StageObject = stageObject;
         eventType = EventType.Curve;
         eventList[eventType].OnInitialize();
@@ -107,7 +106,6 @@ public class EventManager : MonoBehaviour
 
     public void GoalEvent(GameObject stageObject)
     {
-        StageManager.stageDeletable = false;
         StageObject = stageObject;
         eventType = EventType.Goal;
         eventList[eventType].OnInitialize();

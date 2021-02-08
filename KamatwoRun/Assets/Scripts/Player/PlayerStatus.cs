@@ -101,6 +101,7 @@ public class PlayerStatus : CharacterComponent
         {
             animator.applyRootMotion = false;
             animator.SetTrigger("Dead");
+            GetComponentInChildren<ParticleSystem>().Stop();
             Parent.GetComponent<Player>().EventManager.GameOverEvent();
         }
     }

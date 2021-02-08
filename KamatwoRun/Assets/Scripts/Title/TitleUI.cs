@@ -36,6 +36,7 @@ public class TitleUI : MonoBehaviour
 
     [SerializeField]
     private TitleScene dispatcher;
+    private bool initialEnable = true;
 
     private void Awake()
     {
@@ -46,10 +47,10 @@ public class TitleUI : MonoBehaviour
     {
         soundManager.FadeOutBGM();
         soundManager.PlayBGM(bgmName);
-        Selection(currentSelectIndex);
+        Selection(currentSelectIndex, false);
     }
 
-    private void Selection(int index)
+    private void Selection(int index, bool sePlay = true)
     {
         Assert.IsTrue(0 <= index && index < descMessage.Length);
         if (isRunningCoroutine)
@@ -72,7 +73,10 @@ public class TitleUI : MonoBehaviour
         afterSelectImages[index].enabled = true;
 
         imageBoldCoroutine = StartCoroutine(ImageBold(afterSelectImages[index]));
-        soundManager.PlaySE(selectSeName);
+        if (sePlay)
+        {
+            soundManager.PlaySE(selectSeName);
+        }
     }
 
     private void Update()
@@ -123,7 +127,8 @@ public class TitleUI : MonoBehaviour
 
     private void OnEnable()
     {
-        Selection(currentSelectIndex);
+        Selection(currentSelectIndex, !initialEnable);
+        initialEnable = false;
     }
 
     private void OnDisable()

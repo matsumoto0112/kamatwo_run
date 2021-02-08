@@ -42,7 +42,8 @@ public class PlayerCollision : CharacterComponent
         if (other.gameObject.GetComponentToNullCheck(out ScoreObject scoreObject) == true)
         {
             soundManager.PlaySE(eatSEName);
-            GameObject particle = Instantiate(smallEatParticle, transform.position + Vector3.up, Quaternion.identity);
+            Vector3 position = transform.position + Vector3.up + (transform.forward * 1.2f);
+            GameObject particle = Instantiate(smallEatParticle, position, Quaternion.identity);
             Destroy(particle, 1.5f);
             playerStatus.AddScore(scoreObject.ScoreInfo.score);
             scoreObject.DestroySelf();

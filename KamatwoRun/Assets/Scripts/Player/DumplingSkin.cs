@@ -113,7 +113,9 @@ public class DumplingSkin : MonoBehaviour
             if (DistanceCheck() == true)
             {
                 soundManager.PlaySE(eatSEName);
-                Destroy(Instantiate(bigEatParticle, modelTransform.position + Vector3.up, Quaternion.identity), 2.0f);
+                Vector3 position = modelTransform.position + Vector3.up + (modelTransform.forward * 1.2f);
+                GameObject particle = Instantiate(bigEatParticle,position, Quaternion.identity);
+                Destroy(particle, 2.0f);
                 playerStatus.AddScore(WrappableObjectScore);
                 OnEnd();
             }

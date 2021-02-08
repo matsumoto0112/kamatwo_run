@@ -95,7 +95,7 @@ public class StageManager : MonoBehaviour
         }
 
         reserveNextStageType = null;
-
+        NormalizeGameSpeed();
         Assert.IsNotNull(playerStatus, "PlayerStatusが取得できませんでした");
     }
 
@@ -297,5 +297,13 @@ public class StageManager : MonoBehaviour
         if (goalGenerated) return;
 
         reserveNextStageType = type;
+    }
+
+    /// <summary>
+    /// ゲームスピードを正常化する
+    /// </summary>
+    public void NormalizeGameSpeed()
+    {
+        gameSpeed.UpdateGameSpeed(stageParameter.GetGameSpeed(currentWavePhase));
     }
 }

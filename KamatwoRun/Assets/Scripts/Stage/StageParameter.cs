@@ -11,6 +11,7 @@ public struct WaveInfo
 {
     public int scoreThreshold;
     public SpawnObjectsParameter spawnParameter;
+    public float gameSpeed;
 }
 
 [CreateAssetMenu(menuName = "Parameters/Stage")]
@@ -92,6 +93,19 @@ public class StageParameter : ScriptableObject
         else
         {
             return step.spawnParameter;
+        }
+    }
+
+    public float GetGameSpeed(int phase)
+    {
+        //è‡’lƒŠƒXƒg“à‚ÌŽž
+        if (phase < thresholds.Count)
+        {
+            return thresholds[phase].gameSpeed;
+        }
+        else
+        {
+            return step.gameSpeed;
         }
     }
 }

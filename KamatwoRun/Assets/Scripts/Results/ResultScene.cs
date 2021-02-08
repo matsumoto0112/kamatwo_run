@@ -30,6 +30,8 @@ public class ResultScene : MonoBehaviour
 
     [SerializeField]
     private Animation anim;
+    [SerializeField]
+    private Text scoreText;
 
     private void Start()
     {
@@ -81,6 +83,8 @@ public class ResultScene : MonoBehaviour
         rankingBoard.Init();
         rankingBoard.HighlightRanking(ranking);
         rankingBoard.SetBoardVisibility(playedMode);
+
+        scoreText.text = $"{score} “_";
 
         int index = -1;
         //Š´‘z•\Ž¦

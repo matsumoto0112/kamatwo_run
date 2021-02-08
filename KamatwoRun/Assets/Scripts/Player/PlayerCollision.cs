@@ -42,8 +42,9 @@ public class PlayerCollision : CharacterComponent
         if (other.gameObject.GetComponentToNullCheck(out ScoreObject scoreObject) == true)
         {
             soundManager.PlaySE(eatSEName);
-            Vector3 position = transform.position + Vector3.up + (transform.forward * 1.2f);
+            Vector3 position = transform.position + Vector3.up + transform.forward;
             GameObject particle = Instantiate(smallEatParticle, position, Quaternion.identity);
+            particle.transform.localEulerAngles = transform.localEulerAngles;
             Destroy(particle, 1.5f);
             playerStatus.AddScore(scoreObject.ScoreInfo.score);
             scoreObject.DestroySelf();
@@ -55,7 +56,7 @@ public class PlayerCollision : CharacterComponent
             playerStatus.OnEventInitialize();
             eventManager.CurveEvent(other.gameObject);
         }
-        else if(other.GetComponent<GoalSubStage>() != null)
+        else if (other.GetComponent<GoalSubStage>() != null)
         {
             soundManager.PlaySE(goalSEName);
             playerInput.OnEventInitialize();

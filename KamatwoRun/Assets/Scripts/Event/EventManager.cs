@@ -133,7 +133,7 @@ public class EventManager : MonoBehaviour
 
     public GameObject SpawnStartStage()
     {
-        Vector3 startPosition = new Vector3(0.0f, 0.0f, -50.0f);
+        Vector3 startPosition = new Vector3(0.0f, 0.0f, -75.0f);
         return Instantiate(startEventStagePrefab, startPosition, Quaternion.identity);
     }
 

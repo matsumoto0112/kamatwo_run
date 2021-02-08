@@ -18,9 +18,8 @@ public class CurveEvent : BaseEvent
     private Vector3 initPlayerPosition = Vector3.zero;
 
     private Timer middleCheckTimer;
-    private Timer timer;
 
-    private const float CURVE_COEF = 15f;
+    private  float curveCoef = 0.0f;
 
     /// <summary>
     ///コンストラクタ
@@ -33,7 +32,6 @@ public class CurveEvent : BaseEvent
         GameObject laneObject = this.playerModelObject.GetComponentInParent<Player>().LaneObject;
         lanePositions = laneObject.GetComponent<LanePositions>();
         gameSpeed = eventManager.GameSpeed;
-        timer = new Timer(1.8f);
         middleCheckTimer = new Timer(0.5f);
     }
 
@@ -44,7 +42,6 @@ public class CurveEvent : BaseEvent
     {
         base.OnInitialize();
         IsEnd = false;
-        timer.Initialize();
         middleCheckTimer.Initialize();
 
         //カメラの情報保存
@@ -57,6 +54,7 @@ public class CurveEvent : BaseEvent
         Camera.main.transform.position = eventManager.StageObject.GetComponent<CurveCameraEvent>().EventCameraPosition + Vector3.up;
 
         initPlayerPosition = playerModelObject.transform.position;
+        curveCoef = gameSpeed.Speed;
     }
 
     /// <summary>
@@ -84,19 +82,18 @@ public class CurveEvent : BaseEvent
         //体を傾けるポイントに到達したら
         if (eventManager.IsCurvePoint == true)
         {
-            gameSpeed.Speed -= Time.deltaTime * CURVE_COEF;
-            gameSpeed.Speed = Mathf.Clamp(gameSpeed.Speed, 5.0f, gameSpeed.DefaultStageMoveSpeed);
+            gameSpeed.Speed -= Time.deltaTime * curveCoef;
+            gameSpeed.Speed = Mathf.Clamp(gameSpeed.Speed, 8.0f, gameSpeed.DefaultStageMoveSpeed);
             //進行方向が変化したら
             if (lanePositions.IsChangeDirection() == false)
             {
                 eventManager.IsCurvePoint = false;
-                gameSpeed.Initialize();
+                eventManager.StageManager.NormalizeGameSpeed();
             }
             return;
         }
 
-        timer.UpdateTimer();
-        if (timer.IsTime() == true)
+        if(Camera.main.transform.localEulerAngles.x  >= 85.0f)
         {
             IsEnd = true;
         }

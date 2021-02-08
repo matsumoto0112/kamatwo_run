@@ -13,22 +13,22 @@ MonoBehaviour:
   m_Name: StageParameter
   m_EditorClassIdentifier: 
   thresholds:
-  - scoreThreshold: 300
+  - scoreThreshold: 100
     spawnParameter: {fileID: 11400000, guid: 0e36e322954e2804da8ed77d2935f3c0, type: 2}
-  - scoreThreshold: 1500
+  - scoreThreshold: 700
     spawnParameter: {fileID: 11400000, guid: 7949149cfd9e9d14e935a306328abb80, type: 2}
-  - scoreThreshold: 2500
+  - scoreThreshold: 1500
     spawnParameter: {fileID: 11400000, guid: 2afd200baa07a584d9bc7a8b4db36013, type: 2}
-  - scoreThreshold: 400
+  - scoreThreshold: 2000
     spawnParameter: {fileID: 11400000, guid: 35bf44b751a0e1a488d26c57d58d5b61, type: 2}
-  - scoreThreshold: 5000
+  - scoreThreshold: 3500
     spawnParameter: {fileID: 11400000, guid: f3fe70475c081584bbe06c78db63cf4e, type: 2}
-  - scoreThreshold: 7000
+  - scoreThreshold: 6500
     spawnParameter: {fileID: 11400000, guid: 14fc65e552d9e27499fbfd7d1f801b14, type: 2}
-  - scoreThreshold: 10000
+  - scoreThreshold: 9500
     spawnParameter: {fileID: 11400000, guid: e9d6b90f887cd02478e3748861d9b13c, type: 2}
   step:
-    scoreThreshold: 5000
+    scoreThreshold: 2000
     spawnParameter: {fileID: 11400000, guid: e9d6b90f887cd02478e3748861d9b13c, type: 2}
   laneNum: 3
   stageWidth: 6
@@ -37,4 +37,4 @@ MonoBehaviour:
   skyPosition_Y: 3
   wideObjectJudgeRadius: 3
   highObjectJudgeDistance: 3
-  stageGoalWaveNum: 50
+  stageGoalWaveNum: 25

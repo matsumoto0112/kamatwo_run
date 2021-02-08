@@ -34,11 +34,18 @@ public class TitleUI : MonoBehaviour
     private string decisionSeName;
     private bool itemSelectable = true;
 
+    [SerializeField]
+    private TitleScene dispatcher;
+
+    private void Awake()
+    {
+        defaultSelectableImageScale = afterSelectImages[0].rectTransform.localScale;
+    }
+
     private void Start()
     {
         soundManager.FadeOutBGM();
         soundManager.PlayBGM(bgmName);
-        defaultSelectableImageScale = afterSelectImages[0].rectTransform.localScale;
         Selection(currentSelectIndex);
     }
 
@@ -90,25 +97,42 @@ public class TitleUI : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             soundManager.PlaySE(decisionSeName);
-            itemSelectable = false;
             switch (currentSelectIndex)
             {
                 case 0:
                     GameDataStore.Instance.ResetPlayDatas();
                     GameDataStore.Instance.PlayedMode = PlayMode.Weekday;
                     SceneManager.LoadScene("Main");
+                    itemSelectable = false;
                     break;
                 case 1:
                     GameDataStore.Instance.ResetPlayDatas();
                     GameDataStore.Instance.PlayedMode = PlayMode.Holiday;
                     SceneManager.LoadScene("Main");
+                    itemSelectable = false;
+                    break;
+                case 2:
+                    dispatcher.SwapMode();
                     break;
                 default:
                     Application.Quit(0);
                     break;
             }
         }
+    }
 
+    private void OnEnable()
+    {
+        Selection(currentSelectIndex);
+    }
+
+    private void OnDisable()
+    {
+        if (isRunningCoroutine)
+        {
+            StopCoroutine(imageBoldCoroutine);
+            isRunningCoroutine = false;
+        }
     }
 
     private IEnumerator ImageBold(Image target)
@@ -122,7 +146,7 @@ public class TitleUI : MonoBehaviour
         {
             time += kSpeed * Time.deltaTime;
             float f = Mathf.Sin(time) * 0.5f + 0.5f;
-            add = new Vector3(f, f, f);
+            add = new Vector3(f, f, f) * 0.35f;
             target.rectTransform.localScale = defaultScale + add;
             yield return null;
         }

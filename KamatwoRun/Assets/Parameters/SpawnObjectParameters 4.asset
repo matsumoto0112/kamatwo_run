@@ -9,12 +9,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d6694a831a5d3074e969997dbf2cd6e0, type: 3}
-  m_Name: PlayerParameterDataTable
+  m_Script: {fileID: 11500000, guid: 180791759a04260419ee6dc766dd19ec, type: 3}
+  m_Name: SpawnObjectParameters 4
   m_EditorClassIdentifier: 
-  parameterData:
-    coefJumpSpeed: 2.5
-    timeToMove: 0.5
-    hp: 3
-    invincibleTime: 2
-    flightTime: 1
+  spawnObjects:
+  - type: 3
+    selectRate: 0.3
+  - type: 0
+    selectRate: 0.3
+  - type: 1
+    selectRate: 0.1
+  - type: 2
+    selectRate: 0.2
+  - type: 4
+    selectRate: 0.6

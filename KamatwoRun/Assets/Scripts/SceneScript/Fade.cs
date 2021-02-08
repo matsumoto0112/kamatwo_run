@@ -20,7 +20,7 @@ public class Fade : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        DontDestroyOnLoad(this);
+        //DontDestroyOnLoad(this);
         color = Color.black;
         //シーン遷移が完了した際にフェードインを開始するように設定
         SceneManager.sceneLoaded += fadeInStart;

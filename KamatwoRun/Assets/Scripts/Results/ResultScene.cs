@@ -102,11 +102,11 @@ public class ResultScene : MonoBehaviour
         }
         else
         {
-            if (score < 10000)
+            if (score < 3000)
             {
                 index = 2;
             }
-            else if (score < 20000)
+            else if (score < 6000)
             {
                 index = 3;
             }
